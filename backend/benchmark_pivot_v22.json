@@ -1,0 +1,427 @@
+{
+  "summary": {
+    "2": {
+      "baseline": 0.4462,
+      "optimized": 0.4263
+    },
+    "3": {
+      "baseline": 0.5717,
+      "optimized": 0.3993
+    },
+    "5": {
+      "baseline": 0.7852,
+      "optimized": 0.5256
+    },
+    "8": {
+      "baseline": 1.2713,
+      "optimized": 0.9898
+    },
+    "10": {
+      "baseline": 1.6689,
+      "optimized": 1.1665
+    }
+  },
+  "records": [
+    {
+      "size": 2,
+      "seed": 0,
+      "solver": "baseline",
+      "median_ms": 0.729219,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 0,
+      "solver": "optimized",
+      "median_ms": 0.513363,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 1,
+      "solver": "baseline",
+      "median_ms": 0.446183,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 1,
+      "solver": "optimized",
+      "median_ms": 0.366712,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 2,
+      "solver": "baseline",
+      "median_ms": 0.337818,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 2,
+      "solver": "optimized",
+      "median_ms": 0.361635,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 3,
+      "solver": "baseline",
+      "median_ms": 0.42453,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 3,
+      "solver": "optimized",
+      "median_ms": 0.426322,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 4,
+      "solver": "baseline",
+      "median_ms": 0.779505,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 2,
+      "seed": 4,
+      "solver": "optimized",
+      "median_ms": 0.526974,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 0,
+      "solver": "baseline",
+      "median_ms": 0.659604,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 0,
+      "solver": "optimized",
+      "median_ms": 0.334694,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 1,
+      "solver": "baseline",
+      "median_ms": 0.882129,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 1,
+      "solver": "optimized",
+      "median_ms": 0.420204,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 2,
+      "solver": "baseline",
+      "median_ms": 0.571731,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 2,
+      "solver": "optimized",
+      "median_ms": 0.474265,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 3,
+      "solver": "baseline",
+      "median_ms": 0.431641,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 3,
+      "solver": "optimized",
+      "median_ms": 0.367403,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 4,
+      "solver": "baseline",
+      "median_ms": 0.558762,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 3,
+      "seed": 4,
+      "solver": "optimized",
+      "median_ms": 0.399332,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 0,
+      "solver": "baseline",
+      "median_ms": 0.879836,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 0,
+      "solver": "optimized",
+      "median_ms": 0.688347,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 1,
+      "solver": "baseline",
+      "median_ms": 0.785173,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 1,
+      "solver": "optimized",
+      "median_ms": 0.655077,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 2,
+      "solver": "baseline",
+      "median_ms": 0.600605,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 2,
+      "solver": "optimized",
+      "median_ms": 0.393623,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 3,
+      "solver": "baseline",
+      "median_ms": 0.789679,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 3,
+      "solver": "optimized",
+      "median_ms": 0.459792,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 4,
+      "solver": "baseline",
+      "median_ms": 0.650901,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 5,
+      "seed": 4,
+      "solver": "optimized",
+      "median_ms": 0.525632,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 0,
+      "solver": "baseline",
+      "median_ms": 1.049231,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 0,
+      "solver": "optimized",
+      "median_ms": 0.803731,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 1,
+      "solver": "baseline",
+      "median_ms": 2.016989,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 1,
+      "solver": "optimized",
+      "median_ms": 1.197935,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 2,
+      "solver": "baseline",
+      "median_ms": 2.065793,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 2,
+      "solver": "optimized",
+      "median_ms": 1.38722,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 3,
+      "solver": "baseline",
+      "median_ms": 1.271335,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 3,
+      "solver": "optimized",
+      "median_ms": 0.889079,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 4,
+      "solver": "baseline",
+      "median_ms": 1.167008,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 8,
+      "seed": 4,
+      "solver": "optimized",
+      "median_ms": 0.989841,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 0,
+      "solver": "baseline",
+      "median_ms": 1.332878,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 0,
+      "solver": "optimized",
+      "median_ms": 0.931514,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 1,
+      "solver": "baseline",
+      "median_ms": 1.43399,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 1,
+      "solver": "optimized",
+      "median_ms": 0.905364,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 2,
+      "solver": "baseline",
+      "median_ms": 2.77426,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 2,
+      "solver": "optimized",
+      "median_ms": 2.13035,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 3,
+      "solver": "baseline",
+      "median_ms": 2.490673,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 3,
+      "solver": "optimized",
+      "median_ms": 1.714614,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 4,
+      "solver": "baseline",
+      "median_ms": 1.668855,
+      "valid_runs": 3,
+      "failures": 0
+    },
+    {
+      "size": 10,
+      "seed": 4,
+      "solver": "optimized",
+      "median_ms": 1.166477,
+      "valid_runs": 3,
+      "failures": 0
+    }
+  ],
+  "methodology": "5 seeded games per size; 3 repetitions; first 3 initial labels; no warmup; sequential baseline then optimized; exploratory"
+}

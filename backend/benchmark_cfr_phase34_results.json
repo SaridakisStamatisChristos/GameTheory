@@ -1,0 +1,46 @@
+{
+  "game": "matching_pennies",
+  "method": "alternating_cfr_plus",
+  "results": [
+    {
+      "iterations": 50,
+      "median_ms": 0.703382,
+      "min_ms": 0.698916,
+      "max_ms": 0.85684,
+      "exploitability": 0.0,
+      "repetitions": 3
+    },
+    {
+      "iterations": 100,
+      "median_ms": 1.31497,
+      "min_ms": 1.286366,
+      "max_ms": 1.390872,
+      "exploitability": 0.0,
+      "repetitions": 3
+    },
+    {
+      "iterations": 250,
+      "median_ms": 3.518596,
+      "min_ms": 3.204911,
+      "max_ms": 3.662569,
+      "exploitability": 0.0,
+      "repetitions": 3
+    },
+    {
+      "iterations": 500,
+      "median_ms": 6.776785,
+      "min_ms": 6.236484,
+      "max_ms": 7.115026,
+      "exploitability": 0.0,
+      "repetitions": 3
+    },
+    {
+      "iterations": 1000,
+      "median_ms": 13.678465,
+      "min_ms": 12.887151,
+      "max_ms": 14.235541,
+      "exploitability": 0.0,
+      "repetitions": 3
+    }
+  ]
+}

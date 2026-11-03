@@ -1,0 +1,638 @@
+{
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41"
+  },
+  "repeats": 5,
+  "warmups": 1,
+  "timing": "wall-clock perf_counter_ns, paired alternating order",
+  "validity": "independent unilateral-deviation Nash gap <= 1e-6",
+  "limitations": "Python wall-clock timings; no CPU affinity or isolated load; solver failures counted; not SOTA evidence.",
+  "cases": [
+    {
+      "case": "matching_pennies",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.381915,
+            "p10_ms": 0.3484768,
+            "p90_ms": 0.46083219999999997,
+            "min_ms": 0.335966,
+            "max_ms": 0.475967,
+            "mean_ms": 0.39984420000000004,
+            "std_ms": 0.05640301864882765
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.595027,
+            "p10_ms": 0.567072,
+            "p90_ms": 0.6178469999999999,
+            "min_ms": 0.551,
+            "max_ms": 0.619293,
+            "mean_ms": 0.5944356,
+            "std_ms": 0.027233848081018558
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "prisoners_dilemma",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.356177,
+            "p10_ms": 0.3123112,
+            "p90_ms": 0.4134348,
+            "min_ms": 0.307484,
+            "max_ms": 0.430148,
+            "mean_ms": 0.3603452,
+            "std_ms": 0.050332160699695774
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.523509,
+            "p10_ms": 0.4655576,
+            "p90_ms": 0.618885,
+            "min_ms": 0.445652,
+            "max_ms": 0.646695,
+            "mean_ms": 0.5376884,
+            "std_ms": 0.07729803634827989
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "constant_2x2",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 18.05966,
+            "p10_ms": 17.8195296,
+            "p90_ms": 18.4531682,
+            "min_ms": 17.804234,
+            "max_ms": 18.675487,
+            "mean_ms": 18.1003088,
+            "std_ms": 0.348926032479235
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.920126,
+            "p10_ms": 0.641116,
+            "p90_ms": 0.945783,
+            "min_ms": 0.641116,
+            "max_ms": 0.962801,
+            "mean_ms": 0.817083,
+            "std_ms": 0.1615743122219618
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "rectangular_2x3",
+      "shape": [
+        2,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.612633,
+            "p10_ms": 0.527447,
+            "p90_ms": 0.6523592,
+            "min_ms": 0.526133,
+            "max_ms": 0.654246,
+            "mean_ms": 0.5943918,
+            "std_ms": 0.06292105355681833
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.941619,
+            "p10_ms": 0.8683524,
+            "p90_ms": 0.9799985999999999,
+            "min_ms": 0.865464,
+            "max_ms": 1.000457,
+            "mean_ms": 0.9259071999999999,
+            "std_ms": 0.05665301005418861
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_2x2_0",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.351069,
+            "p10_ms": 0.3417872,
+            "p90_ms": 0.3684212,
+            "min_ms": 0.336848,
+            "max_ms": 0.377098,
+            "mean_ms": 0.3539234,
+            "std_ms": 0.014674172746700237
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.519012,
+            "p10_ms": 0.4774876,
+            "p90_ms": 0.5353627999999999,
+            "min_ms": 0.463158,
+            "max_ms": 0.542878,
+            "mean_ms": 0.509624,
+            "std_ms": 0.030313237768341394
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_2x2_1",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.355315,
+            "p10_ms": 0.32823420000000003,
+            "p90_ms": 0.3757062,
+            "min_ms": 0.312711,
+            "max_ms": 0.384219,
+            "mean_ms": 0.3533402,
+            "std_ms": 0.025997823739690198
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.562898,
+            "p10_ms": 0.5522538,
+            "p90_ms": 0.585873,
+            "min_ms": 0.545211,
+            "max_ms": 0.587375,
+            "mean_ms": 0.5683844,
+            "std_ms": 0.017254407097898203
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 2.7755575615628914e-17
+        }
+      }
+    },
+    {
+      "case": "random_2x2_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.350277,
+            "p10_ms": 0.31000279999999997,
+            "p90_ms": 0.3807918,
+            "min_ms": 0.309486,
+            "max_ms": 0.383007,
+            "mean_ms": 0.3462034,
+            "std_ms": 0.03518438347193254
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.500955,
+            "p10_ms": 0.46563160000000003,
+            "p90_ms": 0.5443462,
+            "min_ms": 0.462106,
+            "max_ms": 0.554065,
+            "mean_ms": 0.5035628,
+            "std_ms": 0.03882075472862423
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_3x3_0",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.145656,
+            "p10_ms": 1.103865,
+            "p90_ms": 1.4469238,
+            "min_ms": 1.077193,
+            "max_ms": 1.596585,
+            "mean_ms": 1.2371478000000002,
+            "std_ms": 0.2074054792783932
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.876751,
+            "p10_ms": 0.792472,
+            "p90_ms": 1.0549876,
+            "min_ms": 0.785694,
+            "max_ms": 1.109442,
+            "mean_ms": 0.9095663999999999,
+            "std_ms": 0.13404074279225703
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_3x3_1",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.121119,
+            "p10_ms": 1.0229298,
+            "p90_ms": 1.2238596,
+            "min_ms": 1.011585,
+            "max_ms": 1.290344,
+            "mean_ms": 1.1174256,
+            "std_ms": 0.10858702678405004
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 5.551115123125783e-17
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.997243,
+            "p10_ms": 0.9218712,
+            "p90_ms": 1.0516044,
+            "min_ms": 0.914428,
+            "max_ms": 1.054008,
+            "mean_ms": 0.9893428,
+            "std_ms": 0.06416236052936332
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 5.551115123125783e-17
+        }
+      }
+    },
+    {
+      "case": "random_3x3_2",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.151965,
+            "p10_ms": 1.0812256,
+            "p90_ms": 1.2798128,
+            "min_ms": 1.04173,
+            "max_ms": 1.352218,
+            "mean_ms": 1.1715173999999997,
+            "std_ms": 0.11274293006792041
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 0.822319,
+            "p10_ms": 0.7569009999999999,
+            "p90_ms": 0.8266476,
+            "min_ms": 0.754257,
+            "max_ms": 0.827016,
+            "mean_ms": 0.7981108,
+            "std_ms": 0.037131251651405475
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_4x4_0",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 3.809871,
+            "p10_ms": 3.4491708,
+            "p90_ms": 3.8282895999999997,
+            "min_ms": 3.347754,
+            "max_ms": 3.83669,
+            "mean_ms": 3.6822600000000003,
+            "std_ms": 0.2099916210197444
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 1.1102230246251565e-16
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.925862,
+            "p10_ms": 1.8826282,
+            "p90_ms": 2.1461376,
+            "min_ms": 1.882095,
+            "max_ms": 2.231522,
+            "mean_ms": 1.9881936,
+            "std_ms": 0.14681514231611123
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 1.1102230246251565e-16
+        }
+      }
+    },
+    {
+      "case": "random_4x4_1",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 3.678913,
+            "p10_ms": 3.5198432,
+            "p90_ms": 3.936603,
+            "min_ms": 3.492642,
+            "max_ms": 3.961989,
+            "mean_ms": 3.7185426,
+            "std_ms": 0.2056651966067667
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 2.7755575615628914e-17
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.483285,
+            "p10_ms": 1.3788159999999998,
+            "p90_ms": 1.6245448,
+            "min_ms": 1.370696,
+            "max_ms": 1.715614,
+            "mean_ms": 1.4897063999999998,
+            "std_ms": 0.13691768798186743
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 2.7755575615628914e-17
+        }
+      }
+    },
+    {
+      "case": "random_4x4_2",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 3.548636,
+            "p10_ms": 3.467368,
+            "p90_ms": 3.7436006,
+            "min_ms": 3.435536,
+            "max_ms": 3.758363,
+            "mean_ms": 3.5958215999999994,
+            "std_ms": 0.13841541526614737
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 2.0816681711721685e-17
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.509123,
+            "p10_ms": 1.4307518,
+            "p90_ms": 1.636606,
+            "min_ms": 1.420861,
+            "max_ms": 1.695314,
+            "mean_ms": 1.5238859999999999,
+            "std_ms": 0.10834926135650394
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 9.71445146547012e-17
+        }
+      }
+    },
+    {
+      "case": "random_5x5_0",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 12.439982,
+            "p10_ms": 12.002306599999999,
+            "p90_ms": 12.96766,
+            "min_ms": 11.948281,
+            "max_ms": 13.146318,
+            "mean_ms": 12.463519800000002,
+            "std_ms": 0.4828404610745671
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 2.657073,
+            "p10_ms": 2.5141816,
+            "p90_ms": 2.9592768,
+            "min_ms": 2.50925,
+            "max_ms": 3.042294,
+            "mean_ms": 2.7129894000000006,
+            "std_ms": 0.22613145233757284
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    },
+    {
+      "case": "random_5x5_1",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 12.134653,
+            "p10_ms": 11.742836800000001,
+            "p90_ms": 12.4880168,
+            "min_ms": 11.706858,
+            "max_ms": 12.609728,
+            "mean_ms": 12.1106988,
+            "std_ms": 0.3705228351514923
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 5.551115123125783e-17
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 2.854701,
+            "p10_ms": 2.7669373999999998,
+            "p90_ms": 3.1620146,
+            "min_ms": 2.764005,
+            "max_ms": 3.304169,
+            "mean_ms": 2.9285988,
+            "std_ms": 0.222903549301486
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 3.3306690738754696e-16
+        }
+      }
+    },
+    {
+      "case": "random_5x5_2",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "latency": {
+            "n": 5,
+            "median_ms": 12.065859,
+            "p10_ms": 11.4888154,
+            "p90_ms": 12.439362,
+            "min_ms": 11.402369,
+            "max_ms": 12.600304,
+            "mean_ms": 11.9769932,
+            "std_ms": 0.47538301664363203
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        },
+        "lemke_howson": {
+          "latency": {
+            "n": 5,
+            "median_ms": 1.805721,
+            "p10_ms": 1.7423354,
+            "p90_ms": 1.8605668,
+            "min_ms": 1.731439,
+            "max_ms": 1.879912,
+            "mean_ms": 1.8014602,
+            "std_ms": 0.05876072069588666
+          },
+          "valid_runs": 5,
+          "failed_or_no_equilibrium_runs": 0,
+          "best_nash_gap": 0.0
+        }
+      }
+    }
+  ]
+}

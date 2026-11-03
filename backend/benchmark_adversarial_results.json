@@ -1,0 +1,776 @@
+{
+  "seed": 20261103,
+  "random_per_size": 4,
+  "repeats": 1,
+  "records": [
+    {
+      "case": "constant_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 20.896299,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 107.954789,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 20.410217,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.77621,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.457299,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.536008,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.361285,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.636248,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_0",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.361455,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_0",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.510269,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_1",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.419732,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_1",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.458652,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.44471,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.596039,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_3",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "hybrid",
+      "median_ms": 0.515396,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_2_3",
+      "shape": [
+        2,
+        2
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.719715,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 107.059519,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.293489,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 105.17531,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.224415,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.61279,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.814097,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.122601,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.082601,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_0",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.109982,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_0",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.066297,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_1",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.092447,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_1",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.108791,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_2",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.050994,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_2",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 0.957583,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_3_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "hybrid",
+      "median_ms": 1.267771,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 4.440892098500626e-16
+    },
+    {
+      "case": "integer_3_3",
+      "shape": [
+        3,
+        3
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.02238,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 568.065535,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.794915,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 594.604988,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 4.071897,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 4.785271,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.682903,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 4.80479,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 2.7755575615628914e-17
+    },
+    {
+      "case": "zero_sum_4",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.273867,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 1.3877787807814457e-16
+    },
+    {
+      "case": "integer_4_0",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 5.583224,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_0",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.802436,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_1",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 4.695046,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_1",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.236441,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_2",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 5.311474,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_2",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.523172,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_3",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "hybrid",
+      "median_ms": 6.205381,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_4_3",
+      "shape": [
+        4,
+        4
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.995193,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 3391.981099,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "constant_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.586465,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 3466.171396,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "identical_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 3.248404,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 14.797836,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "coordination_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.790979,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "zero_sum_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 13.220971,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 2.7972416050126014e-17
+    },
+    {
+      "case": "zero_sum_5",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 3.23872,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 2.495833401061631e-16
+    },
+    {
+      "case": "integer_5_0",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 11.600549,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_0",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 1.931541,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_1",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 11.814982,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_1",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.725727,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_2",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 13.631559,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_2",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 3.077157,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_3",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "hybrid",
+      "median_ms": 13.055542,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    },
+    {
+      "case": "integer_5_3",
+      "shape": [
+        5,
+        5
+      ],
+      "solver": "lemke_howson",
+      "median_ms": 2.935573,
+      "valid_runs": 1,
+      "failures": [],
+      "best_gap": 0.0
+    }
+  ],
+  "limitations": "Local non-isolated Python timings; no independent SOTA claim."
+}

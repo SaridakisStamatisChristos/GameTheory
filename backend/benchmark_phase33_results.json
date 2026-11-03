@@ -1,0 +1,43 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "seed": 3302,
+  "max_initial_labels": 4,
+  "results": [
+    {
+      "size": 2,
+      "runs": 40,
+      "valid_runs": 40,
+      "median_ms": 0.656478,
+      "p90_ms": 0.8241731000000001
+    },
+    {
+      "size": 3,
+      "runs": 40,
+      "valid_runs": 40,
+      "median_ms": 0.752656,
+      "p90_ms": 0.9732481000000001
+    },
+    {
+      "size": 5,
+      "runs": 40,
+      "valid_runs": 40,
+      "median_ms": 0.9749695,
+      "p90_ms": 1.279031
+    },
+    {
+      "size": 8,
+      "runs": 40,
+      "valid_runs": 40,
+      "median_ms": 1.470299,
+      "p90_ms": 2.1274027
+    },
+    {
+      "size": 10,
+      "runs": 40,
+      "valid_runs": 40,
+      "median_ms": 2.0425225,
+      "p90_ms": 2.8846712
+    }
+  ]
+}

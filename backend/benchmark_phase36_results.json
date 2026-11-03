@@ -1,0 +1,84 @@
+{
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "results": [
+    {
+      "iterations": 100,
+      "solver": "reference",
+      "median_ms": 10.709083,
+      "times_ms": [
+        10.709083,
+        12.317637,
+        12.148316,
+        10.388548,
+        9.939732
+      ],
+      "exploitability": 0.0023888082022231263
+    },
+    {
+      "iterations": 100,
+      "solver": "compiled",
+      "median_ms": 9.178855,
+      "times_ms": [
+        8.802407,
+        9.178855,
+        8.787786,
+        9.659357,
+        9.193998
+      ],
+      "exploitability": 0.0023888082022231263
+    },
+    {
+      "iterations": 500,
+      "solver": "reference",
+      "median_ms": 52.544923,
+      "times_ms": [
+        52.544923,
+        55.08649,
+        55.680381,
+        49.823449,
+        51.535016
+      ],
+      "exploitability": 0.00034539369948720366
+    },
+    {
+      "iterations": 500,
+      "solver": "compiled",
+      "median_ms": 41.935439,
+      "times_ms": [
+        41.935439,
+        41.859104,
+        40.903508,
+        42.210765,
+        43.623579
+      ],
+      "exploitability": 0.00034539369948720366
+    },
+    {
+      "iterations": 2000,
+      "solver": "reference",
+      "median_ms": 210.984565,
+      "times_ms": [
+        211.287455,
+        210.984565,
+        214.938066,
+        203.48509,
+        210.160554
+      ],
+      "exploitability": 8.729723874731365e-05
+    },
+    {
+      "iterations": 2000,
+      "solver": "compiled",
+      "median_ms": 174.746904,
+      "times_ms": [
+        180.214948,
+        171.725595,
+        174.746904,
+        171.887736,
+        178.538893
+      ],
+      "exploitability": 8.729723874731365e-05
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+.............................................                            [100%]
+=============================== warnings summary ===============================
+test_reference_benchmark.py::test_hybrid_against_independent_nashpy_small_games
+  /opt/pyvenv/lib/python3.13/site-packages/nashpy/algorithms/support_enumeration.py:260: RuntimeWarning: 
+  An even number of (4) equilibria was returned. This
+  indicates that the game is degenerate. Consider using another algorithm
+  to investigate.
+                    
+    warnings.warn(warning, RuntimeWarning)
+
+test_reference_benchmark.py::test_hybrid_against_independent_nashpy_small_games
+  /opt/pyvenv/lib/python3.13/site-packages/nashpy/algorithms/support_enumeration.py:260: RuntimeWarning: 
+  An even number of (2) equilibria was returned. This
+  indicates that the game is degenerate. Consider using another algorithm
+  to investigate.
+                    
+    warnings.warn(warning, RuntimeWarning)
+
+test_reference_benchmark.py::test_hybrid_against_independent_nashpy_small_games
+  /opt/pyvenv/lib/python3.13/site-packages/nashpy/algorithms/support_enumeration.py:260: RuntimeWarning: 
+  An even number of (0) equilibria was returned. This
+  indicates that the game is degenerate. Consider using another algorithm
+  to investigate.
+                    
+    warnings.warn(warning, RuntimeWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+45 passed, 3 warnings in 4.99s

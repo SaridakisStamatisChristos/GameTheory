@@ -1,0 +1,408 @@
+{
+  "repeats": 5,
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "note": "Sequential warm-cache timings, no isolated CPU or statistical confidence intervals; not SOTA evidence.",
+  "cases": [
+    {
+      "case": "matching_pennies",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.504559,
+          "min_ms": 0.354774,
+          "max_ms": 0.773173,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.62506,
+          "min_ms": 0.527593,
+          "max_ms": 111.606808,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "prisoners_dilemma",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.508055,
+          "min_ms": 0.317628,
+          "max_ms": 0.549396,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.517328,
+          "min_ms": 0.434724,
+          "max_ms": 0.732872,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "constant_2x2",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 19.318845,
+          "min_ms": 18.27897,
+          "max_ms": 22.816717,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.579832,
+          "min_ms": 0.546833,
+          "max_ms": 0.971872,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "rectangular_2x3",
+      "shape": [
+        2,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.530047,
+          "min_ms": 0.520493,
+          "max_ms": 0.705672,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.925072,
+          "min_ms": 0.860194,
+          "max_ms": 1.025083,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_2x2_0",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.328354,
+          "min_ms": 0.293491,
+          "max_ms": 0.435124,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.51193,
+          "min_ms": 0.455866,
+          "max_ms": 0.549987,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_2x2_1",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.322025,
+          "min_ms": 0.303557,
+          "max_ms": 0.459982,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.546092,
+          "min_ms": 0.517869,
+          "max_ms": 0.627645,
+          "best_nash_gap": 2.7755575615628914e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_2x2_2",
+      "shape": [
+        2,
+        2
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 0.317307,
+          "min_ms": 0.29235,
+          "max_ms": 0.35907,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.500803,
+          "min_ms": 0.442806,
+          "max_ms": 0.525871,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_3x3_0",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 1.085884,
+          "min_ms": 1.045553,
+          "max_ms": 1.411864,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.749839,
+          "min_ms": 0.700705,
+          "max_ms": 0.88423,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_3x3_1",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 1.014827,
+          "min_ms": 0.996178,
+          "max_ms": 1.224683,
+          "best_nash_gap": 5.551115123125783e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.923279,
+          "min_ms": 0.895617,
+          "max_ms": 1.048808,
+          "best_nash_gap": 5.551115123125783e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_3x3_2",
+      "shape": [
+        3,
+        3
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 1.105092,
+          "min_ms": 1.042528,
+          "max_ms": 1.839628,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 0.738761,
+          "min_ms": 0.720905,
+          "max_ms": 0.923289,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_4x4_0",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 3.813187,
+          "min_ms": 3.439765,
+          "max_ms": 4.307301,
+          "best_nash_gap": 1.1102230246251565e-16,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 2.197987,
+          "min_ms": 2.023254,
+          "max_ms": 2.364177,
+          "best_nash_gap": 1.1102230246251565e-16,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_4x4_1",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 3.401988,
+          "min_ms": 3.374367,
+          "max_ms": 3.546605,
+          "best_nash_gap": 2.7755575615628914e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 1.38286,
+          "min_ms": 1.359265,
+          "max_ms": 1.5489,
+          "best_nash_gap": 2.7755575615628914e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_4x4_2",
+      "shape": [
+        4,
+        4
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 3.544863,
+          "min_ms": 3.439946,
+          "max_ms": 3.565073,
+          "best_nash_gap": 2.0816681711721685e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 1.432425,
+          "min_ms": 1.357272,
+          "max_ms": 1.569481,
+          "best_nash_gap": 9.71445146547012e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_5x5_0",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 12.233184,
+          "min_ms": 11.752901,
+          "max_ms": 12.852076,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 2.795846,
+          "min_ms": 2.453522,
+          "max_ms": 3.218642,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_5x5_1",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 12.36336,
+          "min_ms": 12.019563,
+          "max_ms": 13.454592,
+          "best_nash_gap": 5.551115123125783e-17,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 2.865792,
+          "min_ms": 2.605259,
+          "max_ms": 3.235939,
+          "best_nash_gap": 3.3306690738754696e-16,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    },
+    {
+      "case": "random_5x5_2",
+      "shape": [
+        5,
+        5
+      ],
+      "solvers": {
+        "hybrid": {
+          "median_ms": 11.680403,
+          "min_ms": 11.556667,
+          "max_ms": 12.363871,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        },
+        "lemke_howson": {
+          "median_ms": 1.704324,
+          "min_ms": 1.62859,
+          "max_ms": 1.912057,
+          "best_nash_gap": 0.0,
+          "failed_pivots_or_runs": 0,
+          "valid_equilibrium_found": true
+        }
+      }
+    }
+  ]
+}

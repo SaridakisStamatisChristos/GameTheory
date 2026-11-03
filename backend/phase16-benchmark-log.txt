@@ -1,0 +1,17 @@
+cases 16
+matching_pennies hybrid=0.505ms lemke_howson=0.625ms
+prisoners_dilemma hybrid=0.508ms lemke_howson=0.517ms
+constant_2x2 hybrid=19.319ms lemke_howson=0.580ms
+rectangular_2x3 hybrid=0.530ms lemke_howson=0.925ms
+random_2x2_0 hybrid=0.328ms lemke_howson=0.512ms
+random_2x2_1 hybrid=0.322ms lemke_howson=0.546ms
+random_2x2_2 hybrid=0.317ms lemke_howson=0.501ms
+random_3x3_0 hybrid=1.086ms lemke_howson=0.750ms
+random_3x3_1 hybrid=1.015ms lemke_howson=0.923ms
+random_3x3_2 hybrid=1.105ms lemke_howson=0.739ms
+random_4x4_0 hybrid=3.813ms lemke_howson=2.198ms
+random_4x4_1 hybrid=3.402ms lemke_howson=1.383ms
+random_4x4_2 hybrid=3.545ms lemke_howson=1.432ms
+random_5x5_0 hybrid=12.233ms lemke_howson=2.796ms
+random_5x5_1 hybrid=12.363ms lemke_howson=2.866ms
+random_5x5_2 hybrid=11.680ms lemke_howson=1.704ms

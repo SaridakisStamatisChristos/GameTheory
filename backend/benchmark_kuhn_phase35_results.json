@@ -1,0 +1,33 @@
+{
+  "game": "kuhn_poker",
+  "nodes": 55,
+  "results": [
+    {
+      "iterations": 100,
+      "repeats": 3,
+      "median_ms": 11.790788,
+      "p90_ms": 12.423276,
+      "exploitability": 0.0023888082022231263,
+      "value": -0.05558400654926937,
+      "value_error": 2.8450993713818873e-05
+    },
+    {
+      "iterations": 500,
+      "repeats": 3,
+      "median_ms": 52.706829,
+      "p90_ms": 55.136911,
+      "exploitability": 0.00034539369948720366,
+      "value": -0.055556822503938785,
+      "value_error": 1.2669483832328243e-06
+    },
+    {
+      "iterations": 2000,
+      "repeats": 3,
+      "median_ms": 202.025528,
+      "p90_ms": 208.093512,
+      "exploitability": 8.729723874731365e-05,
+      "value": -0.05555564474217167,
+      "value_error": 8.918661612011825e-08
+    }
+  ]
+}

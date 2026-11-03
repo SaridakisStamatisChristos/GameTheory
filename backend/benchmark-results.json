@@ -1,0 +1,237 @@
+{
+  "seed": 1729,
+  "iterations": 1000,
+  "records": [
+    {
+      "case": "prisoners_dilemma",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 0.446522,
+      "p95_ms": 0.6278486,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "prisoners_dilemma",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 20.166226,
+      "p95_ms": 23.7368788,
+      "worst_nash_gap": 0.0007683474854307537,
+      "failures": []
+    },
+    {
+      "case": "matching_pennies",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 0.368765,
+      "p95_ms": 0.4135175,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "matching_pennies",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 16.657174,
+      "p95_ms": 17.1694333,
+      "worst_nash_gap": 0.02617419615567825,
+      "failures": []
+    },
+    {
+      "case": "matching_pennies",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 2.492662,
+      "p95_ms": 4.1869606,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "rock_paper_scissors",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 1.233237,
+      "p95_ms": 1.4731599,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "rock_paper_scissors",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 15.703228,
+      "p95_ms": 16.0482583,
+      "worst_nash_gap": 0.029897110643048688,
+      "failures": []
+    },
+    {
+      "case": "rock_paper_scissors",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 2.401265,
+      "p95_ms": 2.8522676,
+      "worst_nash_gap": 1.1102230246251565e-16,
+      "failures": []
+    },
+    {
+      "case": "degenerate_constant",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 12,
+      "median_ms": 0.512191,
+      "p95_ms": 0.5311378,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "degenerate_constant",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 17.573394,
+      "p95_ms": 18.2675199,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "degenerate_constant",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 2.167273,
+      "p95_ms": 2.9350306,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_2",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 0.410809,
+      "p95_ms": 0.447151,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_2",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 17.114833,
+      "p95_ms": 17.7763393,
+      "worst_nash_gap": 0.0007519873811902,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_2",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 2.161664,
+      "p95_ms": 2.2945328,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_3",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 1.664566,
+      "p95_ms": 2.2563961,
+      "worst_nash_gap": 0.0,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_3",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 16.456552,
+      "p95_ms": 17.8748107,
+      "worst_nash_gap": 0.01884570332926544,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_3",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 1.864317,
+      "p95_ms": 2.5398741,
+      "worst_nash_gap": 5.551115123125783e-17,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_5",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 14.490402,
+      "p95_ms": 14.8890732,
+      "worst_nash_gap": 8.326672684688674e-17,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_5",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 16.866729,
+      "p95_ms": 17.023322699999998,
+      "worst_nash_gap": 0.028610983711068683,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_5",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 1.922994,
+      "p95_ms": 2.4234012,
+      "worst_nash_gap": 1.3877787807814457e-16,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_10",
+      "algorithm": "support",
+      "repeats": 3,
+      "solutions": 0,
+      "median_ms": 3123.698042,
+      "p95_ms": 3181.2340295,
+      "worst_nash_gap": null,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_10",
+      "algorithm": "approximate",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 16.244949,
+      "p95_ms": 18.0703344,
+      "worst_nash_gap": 0.030567705560985856,
+      "failures": []
+    },
+    {
+      "case": "random_zero_sum_10",
+      "algorithm": "zero_sum_lp",
+      "repeats": 3,
+      "solutions": 3,
+      "median_ms": 2.061206,
+      "p95_ms": 2.7791378,
+      "worst_nash_gap": 8.326672684688674e-17,
+      "failures": []
+    }
+  ],
+  "note": "Timings include Python solver overhead and are environment-specific. Support enumeration is incomplete for degenerate games."
+}

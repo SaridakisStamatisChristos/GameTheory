@@ -1,0 +1,87 @@
+{
+  "seed": 1729,
+  "repeats": 3,
+  "results": [
+    {
+      "case": "constant_2x3",
+      "algorithm": "legacy",
+      "median_ms": 0.589228,
+      "p95_ms": 0.9370888,
+      "equilibria": 6,
+      "max_gap": 0.0
+    },
+    {
+      "case": "constant_2x3",
+      "algorithm": "support_lp",
+      "median_ms": 43.493649,
+      "p95_ms": 47.5677609,
+      "equilibria": 21,
+      "max_gap": 0.0
+    },
+    {
+      "case": "matching_pennies",
+      "algorithm": "legacy",
+      "median_ms": 0.426793,
+      "p95_ms": 0.4340407,
+      "equilibria": 1,
+      "max_gap": 0.0
+    },
+    {
+      "case": "matching_pennies",
+      "algorithm": "support_lp",
+      "median_ms": 12.46922,
+      "p95_ms": 13.3312967,
+      "equilibria": 1,
+      "max_gap": 0.0
+    },
+    {
+      "case": "random_general_2",
+      "algorithm": "legacy",
+      "median_ms": 0.374284,
+      "p95_ms": 0.4026223,
+      "equilibria": 1,
+      "max_gap": 0.0
+    },
+    {
+      "case": "random_general_2",
+      "algorithm": "support_lp",
+      "median_ms": 10.18665,
+      "p95_ms": 10.6074405,
+      "equilibria": 1,
+      "max_gap": 0.0
+    },
+    {
+      "case": "random_general_3",
+      "algorithm": "legacy",
+      "median_ms": 1.103583,
+      "p95_ms": 1.1327511,
+      "equilibria": 1,
+      "max_gap": 5.551115123125783e-17
+    },
+    {
+      "case": "random_general_3",
+      "algorithm": "support_lp",
+      "median_ms": 53.606788,
+      "p95_ms": 53.6363341,
+      "equilibria": 1,
+      "max_gap": 5.551115123125783e-17
+    },
+    {
+      "case": "random_general_4",
+      "algorithm": "legacy",
+      "median_ms": 3.965026,
+      "p95_ms": 3.9720288999999998,
+      "equilibria": 1,
+      "max_gap": 6.938893903907228e-17
+    },
+    {
+      "case": "random_general_4",
+      "algorithm": "support_lp",
+      "median_ms": 273.745837,
+      "p95_ms": 288.9709309,
+      "equilibria": 1,
+      "max_gap": 0.0
+    }
+  ],
+  "caveat": "Small local samples; not a SOTA performance comparison."
+}
