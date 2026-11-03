@@ -1,136 +1,222 @@
-> **Current repair release: v38 (2026-11-03).** Read [PHASE38.md](PHASE38.md) for correctness fixes, model changes, request/solver budgets and limitations. Run the API bound to `127.0.0.1`; remote clients require `GAME_LAB_API_TOKEN` with bearer authorization. A numerical support enumeration result is **not** proof of complete Nash enumeration. The backend test suite passes locally; the frontend production build and remote CI are not verified in this archive. This is a trusted-local research/educational laboratory, not a public multi-tenant service.
+<div align="center">
 
 # Game Theory Lab
 
-A runnable React + FastAPI full-stack game theory analysis studio.
+**A local-first computational laboratory for strategic reasoning.**
 
-## Features
-- Editable bimatrix normal-form games and four example games
-- Pure-strategy Nash equilibrium enumeration
-- Strict pure-strategy dominance detection
-- Interior 2×2 mixed Nash equilibrium when nondegenerate
-- General finite two-player zero-sum minimax solver (linear programming, up to 20×20)
-- API input validation, API docs, backend tests
+Explore equilibria, incentives, learning dynamics, and imperfect-information games through an interactive React interface and a research-oriented Python API.
 
-## Run
+[![Verification](https://github.com/SaridakisStamatisChristos/GameTheory/actions/workflows/verification.yml/badge.svg)](https://github.com/SaridakisStamatisChristos/GameTheory/actions/workflows/verification.yml)
+![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
+![Frontend](https://img.shields.io/badge/React-Vite-646CFF?logo=react&logoColor=white)
+![Release](https://img.shields.io/badge/research%20release-v38-336B65)
 
-Requires Python 3.10+ and Node 20+.
+[Quick start](#quick-start) · [What you can explore](#what-you-can-explore) · [API](#api-at-a-glance) · [Verification](#verification-and-benchmarks) · [Limitations](#research-integrity-and-limitations)
 
-Terminal 1:
+</div>
+
+---
+
+## Why Game Theory Lab?
+
+Game theory becomes more useful when you can **change a payoff, run a solver, and inspect the incentive to deviate**. Game Theory Lab brings several complementary methods into one workspace: analytic calculations, linear programming, support enumeration, iterative learning, counterfactual regret minimization, and numerical certificates.
+
+The project is designed for **personal research, education, and experimentation**—not as a hosted multi-user SaaS product. It emphasizes inspectable algorithms, reproducible experiments, and honest reporting of approximation and solver limits.
+
+## What you can explore
+
+| Research area | Available capabilities |
+|---|---|
+| **Normal-form games** | Editable two-player payoff matrices; pure Nash equilibria; strict pure-strategy dominance; analytic 2×2 equilibria |
+| **Mixed Nash equilibria** | Support enumeration, support-pair LP, hybrid solving, and two independent Lemke–Howson implementations |
+| **Approximate equilibria** | Restarted fictitious-play search with independently evaluated unilateral-regret (`ε`) diagnostics |
+| **Zero-sum games** | Linear-programming minimax strategies with duality-gap checks |
+| **Correlated equilibrium** | Obedience-constrained LP and checks of incentive violations in original payoff units |
+| **Evolutionary games** | Replicator-dynamics trajectories, including preservation of initially absent strategies |
+| **Extensive-form games** | Backward induction for finite perfect-information games; vanilla CFR and CFR+ for finite two-player zero-sum imperfect-information trees |
+| **Bayesian games** | State-observable policy evaluation and separate private-type pure-policy deviation analysis |
+| **Repeated games** | Discounted payoff simulation for specified periodic strategy sequences |
+| **Experiments** | Local SQLite experiment saving and retrieval, with storage quotas |
+| **Research evidence** | Backend regression and adversarial tests, numerical-certificate checks, and reproducible benchmark scripts |
+
+### The interactive studio
+
+The browser interface currently includes:
+
+- An editable payoff matrix and four familiar games: **Prisoner's Dilemma**, **Matching Pennies**, **Battle of the Sexes**, and **Rock–Paper–Scissors**.
+- One-click analysis of pure Nash equilibria, strict dominance, mixed-support candidates, minimax strategies, approximate Nash profiles, correlated equilibrium, and evolutionary dynamics.
+- Mixed-strategy probability displays, numerical regret/gap diagnostics, a simple evolution chart, and an experiment-save action.
+- An editable JSON tree workspace for **CFR+**, with average strategies and exploitability diagnostics.
+
+Some more specialized algorithms are available **through the API rather than the browser UI**.
+
+## Quick start
+
+**Recommended development environment:** Python 3.13, Node.js 22, and Git. The Python dependencies include FastAPI, NumPy, SciPy, Pydantic, pytest, and HTTPX.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/SaridakisStamatisChristos/GameTheory.git
+cd GameTheory
+```
+
+### 2. Start the backend
+
+Open a terminal:
+
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload
+source .venv/bin/activate   # Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt -c constraints-audit-v38.txt
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Terminal 2:
+The API is served at **http://127.0.0.1:8000**.
+
+- Interactive API reference: **http://127.0.0.1:8000/docs**
+- Health check: **http://127.0.0.1:8000/api/health**
+
+### 3. Start the frontend
+
+In a **second** terminal, from the repository root:
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Visit http://localhost:5173. API docs: http://localhost:8000/docs.
+Open **http://localhost:5173**. Vite proxies `/api` requests to the backend on port 8000.
 
-## Tests
+> **Dependency reproducibility note:** `frontend/package-lock.json` is not yet committed. `npm install` resolves dependency versions at installation time; a locked `npm ci` workflow and independently verified production frontend build remain future gates.
+
+## Your first experiment
+
+1. Open the browser and select **Matching pennies**.
+2. Run **Analyze Nash equilibria**: the game has no pure-strategy equilibrium, but does have an interior mixed equilibrium.
+3. Run **Solve zero-sum game** to inspect minimax strategies and the reported duality gap.
+4. Change a payoff and see how best responses and equilibrium predictions change.
+5. Try the **CFR+** example in the lower panel to examine average behavioral strategies and exploitability in a small imperfect-information tree.
+
+You can also call the API directly:
+
 ```bash
-cd backend
-pytest -q
+curl -sS http://127.0.0.1:8000/api/health
+
+curl -sS -X POST http://127.0.0.1:8000/api/analyze \
+  -H 'Content-Type: application/json' \
+  -d '{"row_payoffs":[[1,-1],[-1,1]],"col_payoffs":[[-1,1],[1,-1]]}'
 ```
 
-## Scope
-This is a functional MVP, not a complete game-theory research platform. It does not yet compute all mixed Nash equilibria in general bimatrix games, extensive-form subgame-perfect equilibria, Bayesian games, evolutionary dynamics, repeated games, or multiplayer games. The zero-sum solver assumes the second player's payoffs equal the negation of the first player's payoffs; the frontend enforces this constraint. No persistent database or user accounts are included.
+The second request analyzes Matching Pennies, with separate row-player and column-player payoff matrices.
 
-## Phase 2 extensions
-- `POST /api/equilibria`: verified equal-size support enumeration (up to support size 4); incomplete for degenerate games.
-- `POST /api/evolution`: simplex-preserving exponential replicator dynamics, with trajectory data.
-- Frontend controls and evolutionary trajectory chart.
+## API at a glance
 
-## Phase 3: extensive-form and repeated games
+FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1:8000/docs) when the server is running.
 
-### Backward induction
-`POST /api/tree/backward-induction` with a root ID and nodes. Nonterminal nodes specify `player` (zero-indexed) and `children`; terminal nodes specify `payoffs`. Supports 2–8 players and at most 500 nodes. All nodes must be reachable. Returns one pure subgame-perfect equilibrium selection with deterministic first-child tie-breaking, plus all optimal children at each decision node. Only perfect-information finite trees are supported.
+| Endpoint | Purpose |
+|---|---|
+| `POST /api/analyze` | Pure Nash, strict pure dominance, interior 2×2 mixed equilibrium |
+| `POST /api/equilibria/analytic-2x2` | Analytic 2×2 equilibrium geometry |
+| `POST /api/equilibria/support-lp` | Support-pair LP search with explicit unresolved/completeness diagnostics |
+| `POST /api/equilibria/hybrid` | Fast support search combined with optional LP exploration |
+| `POST /api/equilibria/lemke-howson` | Lemke–Howson equilibrium method |
+| `POST /api/equilibria/independent-lemke-howson` | Independent Lemke–Howson implementation |
+| `POST /api/equilibria/approximate` | Heuristic approximate Nash search and `ε` certificate |
+| `POST /api/zero-sum` | Minimax LP and numerical duality-gap diagnostics |
+| `POST /api/correlated-equilibrium` | Numerical correlated-equilibrium candidate and obedience checks |
+| `POST /api/evolution` | Replicator dynamics |
+| `POST /api/tree/backward-induction` | Finite perfect-information backward induction |
+| `POST /api/repeated/simulate` | Specified repeated-strategy payoff simulation |
+| `POST /api/imperfect-information/cfr` | Vanilla CFR for finite zero-sum trees |
+| `POST /api/imperfect-information/cfr-plus` | CFR+ and bounded exact pure best-response evaluation |
+| `POST /api/bayesian/evaluate` | Common-observed-state policy evaluation |
+| `POST /api/bayesian/private-evaluate` | Private-type pure-policy evaluation and conditional deviations |
+| `POST /api/experiments`, `GET /api/experiments` | Save and list local experiments |
+| `GET /api/experiments/{experiment_id}` | Retrieve a saved experiment |
 
-### Repeated games
-`POST /api/repeated/simulate` with `row_payoffs`, `col_payoffs`, `row_strategy`, `col_strategy`, `rounds`, and `discount`. Strategy lists are repeated periodically. The API reports discounted cumulative payoffs; it does not claim strategic equilibrium. Traces are returned for up to 200 rounds.
+**Important distinctions:** A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
 
-### Test
-From `backend`, run `python -m pytest -q` (10 tests passing in the development environment). Frontend production build and deployment remain unverified.
+## Verification and benchmarks
 
-## Phase 4: correlated equilibria, public-state games, persistence
-- `POST /api/correlated-equilibrium`: computes welfare-maximizing correlated equilibrium using LP obedience constraints and returns numerical violation.
-- `POST /api/bayesian/evaluate`: evaluates state-contingent pure actions when both players observe the state. **Not** a private-information Bayesian Nash solver.
-- `POST /api/experiments`, `GET /api/experiments`, `GET /api/experiments/{id}`: SQLite persistence; set `GAME_LAB_DB` for database location.
-- Frontend includes correlated-equilibrium action and save experiment action.
-- Tests: 15 backend tests passed in the development environment. Frontend build remains unverified due to npm installation timeout.
+Run from the backend directory after installing dependencies:
 
-### Security and deployment limitations
-Experiment APIs have no authentication and no multi-user isolation. Do not expose this build to the public internet without adding authentication, rate limits, request-size limits, migration management, and a production deployment configuration. General mixed-equilibrium support enumeration remains incomplete for degenerate games; no claim of global SOTA is made.
+```bash
+cd backend
+python -m compileall -q .
+python -m pytest -q -W error
+```
 
-## Phase 5: private-information Bayesian games
-`POST /api/bayesian/private-evaluate` accepts `joint_prior[type_row][type_col]`, payoff tensors `[type_row][type_col][action_row][action_col]`, and pure policies (one action per private type). It returns expected payoffs and per-type prior-weighted unilateral deviation gains. This verifies a *specified pure Bayesian Nash equilibrium*, not enumeration of all Bayesian equilibria or mixed Bayesian strategies. Zero-probability types are treated as unconstrained. Input dimensions and finite probabilities are validated.
+The v38 repair campaign recorded **143 backend tests passing locally**, including regression cases for previously discovered numerical and game-theoretic failures. The [GitHub Actions workflow](.github/workflows/verification.yml) runs backend verification and attempts a frontend build on pushes and pull requests; the badge at the top reflects the workflow's own status, not a claim of independent certification.
 
-### Evidence and remaining gaps
-17 backend pytest tests passed locally on 2026-11-03. Frontend build and browser integration have not been verified. General degenerate Nash enumeration, imperfect-information extensive-form games, mixed Bayesian equilibrium solving, benchmarks, and production deployment remain open. SOTA status is **not** claimed.
+A reproducible benchmark entry point is included:
 
-## Phase 6 — Approximate Nash profiles
+```bash
+cd backend
+python benchmark_algorithms.py --seed 1729 --repeats 5 --iterations 1000 --output benchmark-results.json
+```
 
-`POST /api/equilibria/approximate` accepts `row_payoffs`, `col_payoffs`,
-`iterations` (100–200000), `restarts` (1–64), and `seed`.
-Returns the best observed empirical strategy profile and a verified unilateral
-regret certificate (`epsilon`) in original payoff units. Simultaneous fictitious
-play is a heuristic for general-sum games and does **not** guarantee convergence.
+Benchmark timings depend on the machine and configuration. Treat committed benchmark JSON files as **historical experimental artifacts**, not universal speed or state-of-the-art claims.
 
-Verification: `cd backend && pytest -q` — 21 tests passed on 2026-11-03.
-Frontend production build and independent solver benchmarks remain outstanding.
+For the change-by-change verification and outstanding obligations, see **[PHASE38.md](PHASE38.md)**. Earlier `PHASE*.md` files preserve the project's development history.
 
-## Phase 7: Approximate Nash UI
-The frontend now exposes the `/api/equilibria/approximate` endpoint with adjustable iterations, restarts and seed. It displays both mixed strategies, expected payoffs, and an independently calculated maximum unilateral-deviation gain (epsilon) in the original payoff units. The method is heuristic and does not guarantee convergence in general-sum games.
+## Project layout
 
-## Phase 8: Imperfect-information CFR
-`POST /api/imperfect-information/cfr` accepts a rooted finite extensive-form tree with terminal `payoff` (row-player utility), chance nodes (`player: "chance"`, `actions`, `probabilities`), and player nodes (`player: 0` or `1`, `infoset`, `actions`). All nodes must be reachable and acyclic; nodes sharing an information set must have identical actions and player. Use unique node IDs. The model assumes zero-sum utilities and perfect recall; it does not automatically verify perfect recall or calculate exploitability. Full-tree vanilla CFR is intended for small games; the `iterations` maximum is 20,000. The solver returns average behavioral strategies and their expected row payoff. Example matching-pennies convergence is covered by tests.
+```text
+GameTheory/
+├── backend/
+│   ├── main.py                  # FastAPI routes and input validation
+│   ├── analytic_2x2.py          # Exact-input 2×2 reasoning
+│   ├── support_lp.py            # Support-based LP solving
+│   ├── lemke_howson.py          # Pivot-based mixed-equilibrium solver
+│   ├── independent_lh.py        # Independent Lemke–Howson path
+│   ├── approximate.py           # Approximate Nash search
+│   ├── cfr.py / cfr_plus.py     # Imperfect-information solvers
+│   ├── research.py              # Correlated equilibrium and experiments
+│   ├── api_guard.py             # Local-service request/work budgets
+│   ├── benchmark_*.py           # Reproducible experiment scripts
+│   └── test_*.py                # Regression and adversarial tests
+├── frontend/
+│   ├── src/main.jsx             # Interactive research studio
+│   ├── src/style.css            # UI styles
+│   └── vite.config.js           # Local API proxy
+├── .github/workflows/
+│   └── verification.yml         # Verification workflow
+└── PHASE38.md                   # Release evidence and known limitations
+```
 
-## Phase 9: CFR+ and bounded exact exploitability
+## Local-first operation
 
-`POST /api/imperfect-information/cfr-plus` accepts the same tree format as the CFR endpoint, plus `max_br_profiles` (default 100000). It performs alternating regret-matching+ updates and linear averaging, validates tree structure and own-action perfect recall, and computes an exact pure best response for each player when the number of pure information-set policies fits the requested bound. `exploitability` is the sum of both unilateral improvement opportunities in player-zero payoff units; `certificate_status` explicitly reports when computation was skipped. The algorithm assumes finite two-player zero-sum games and perfect recall. Validation checks own-action recall but does not constitute a complete formal proof of perfect recall for arbitrary representations. Larger games need sequence-form best responses, sampling, and performance benchmarking.
+By default, launch Uvicorn bound to `127.0.0.1`. The service implements request-size, rate, solver-work, concurrency, and local experiment-storage budgets. If `GAME_LAB_API_TOKEN` is configured, remote API requests require a bearer token; experiment routes require it even locally. These controls support a **trusted local research service**, not a secure public multi-user deployment.
 
-Run backend checks with `cd backend && python -m pytest -q`.
+The optional SQLite database defaults to `backend/game_lab.sqlite3` when the server is launched from `backend`; it is ignored by Git. Set `GAME_LAB_DB` to choose a different location.
 
-## CFR+ web laboratory (v11)
+## Research integrity and limitations
 
-The frontend now exposes the CFR+ solver through an editable JSON game-tree editor. The bundled Matching Pennies example includes a shared information set for the second player. The result panel displays average behavioral strategies, expected payoff, and the exact-tree best-response exploitability gap. The backend enforces perfect recall, finite terminal payoffs, and a rooted tree.
+Game Theory Lab is a **research workbench, not an all-games equilibrium oracle**.
 
-Start the API with `cd backend && uvicorn main:app --reload`; start the frontend with `cd frontend && npm install && npm run dev`. The Vite dev server proxies `/api` to port 8000.
+- General finite bimatrix equilibrium enumeration is **not proven complete**, especially for degenerate or ill-conditioned cases. Support-LP results distinguish explored support pairs from unresolved feasible supports.
+- Correlated-equilibrium output is a **numerically certified candidate** within stated tolerances. The welfare objective uses separately normalized player utilities rather than raw-payoff social welfare.
+- Approximate Nash methods are **heuristic**; a measured unilateral-regret gap does not imply universal convergence.
+- CFR/CFR+ models require **two-player, zero-sum, perfect-recall** games. Certificate availability and cost depend on game representation and size.
+- The local backend test result does **not** certify the frontend production build, remote CI, arbitrary large games, formal correctness, or performance superiority.
 
-**Scope:** CFR+ is for finite, two-player zero-sum perfect-recall trees; it is not a general multi-player or general-sum solver. This release does not establish SOTA benchmark performance.
+See [PHASE38.md](PHASE38.md) for the exact resource budgets, numerical contracts, and remaining verification gates.
 
-## Phase 14: Hybrid Nash solver and reproducible benchmark
+## Roadmap
 
-`POST /api/equilibria/hybrid` accepts the usual payoff matrices plus `max_pairs`,
-`fast_support`, and `exhaustive`. Fast-path output is **not exhaustive**. Identical
-payoff rows/columns for both players trigger LP fallback when within budget;
-this heuristic does not detect every form of degeneracy. `exhaustive=true` runs
-all support pairs within the budget, returning one representative per feasible
-support pair, **not** the full continuum of equilibria.
+Future work focuses on **algorithm quality before infrastructure**: harder differential-test oracles; more degenerate-game handling; numerical sensitivity analysis; stronger exploitability and solution certificates; broader game classes; credible performance baselines; and a reproducible frontend build with a committed lockfile.
 
-Run from `backend/`: `python -m pytest -q` and `python benchmark_hybrid.py`.
-The recorded measurements are in `backend/benchmark_hybrid_results.json`.
-They are local wall-clock measurements, not cross-library SOTA evidence.
+## Licensing
 
-## Phase 15: independent equilibrium comparison
+This repository currently has **no `LICENSE` file**. Public availability of source code does not, by itself, grant permission to reuse or redistribute it. Contact the repository owner for licensing arrangements.
 
-From `backend/`, install optional benchmark dependency `pip install nashpy==0.0.43`, then run `python reference_benchmark.py --output benchmark_reference.json`. The deterministic 16-game campaign measures the hybrid solver against Nashpy support enumeration and independently computes Nash gaps. Nashpy support enumeration is not a completeness oracle; it can return no equilibria for some games. Run `pytest -q` for regression tests. The frontend is unchanged.
+---
 
-## Phase 16: Lemke–Howson comparison
+<div align="center">
 
-An optional Nashpy-backed Lemke–Howson pivot-path adapter is available at
-`POST /api/equilibria/lemke-howson`. Install `nashpy==0.0.43` for this endpoint.
-Results are checked for simplex validity and independent Nash gap. Degenerate
-pivot failures are returned as diagnostics. The solver is not exhaustive.
+**Game Theory Lab** · Built for studying strategies, not just displaying answers.
 
-From `backend/`, run `pytest -q` and `python benchmark_lemke.py` to reproduce
-`benchmark_lemke_results.json`. The benchmark compares hybrid and Lemke–Howson
-on deterministic games with five repetitions and records solver failures.
-Neither runtime measurements nor passing tests establish SOTA performance.
+</div>
