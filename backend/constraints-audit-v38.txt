@@ -1,7 +1,9 @@
-# Versions actually executed with Python 3.13.5 during the local v38 audit.
-# Constraint pins apply to the first-level runtime dependencies; transitive
-# dependencies remain environment-dependent until a full lock is generated.
+# Version set exercised by the v38 audit and GitHub CI.
+# First-level libraries plus the Starlette/AnyIO compatibility boundary.
+# Not a full transitive lock; pip check and CI regression suite guard updates.
 fastapi==0.128.2
+starlette==0.50.0
+anyio==4.16.0
 uvicorn==0.48.0
 numpy==2.3.5
 scipy==1.17.0
