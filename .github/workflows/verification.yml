@@ -23,14 +23,15 @@ jobs:
           python -m pip install -r backend/requirements.txt -c backend/constraints-audit-v38.txt
           python -m pip install -c backend/constraints-audit-v38.txt nashpy==0.0.43 pytest-cov==7.0.0
       - name: Verify dependency consistency
-        run: python -m pip check
+        run: |
+          python -m pip check
+          python -m pip freeze
       - name: Compile source
         run: python -m compileall -q backend
       - name: Full strict-warning regression and adversarial suite
         working-directory: backend
-        # pytest.ini enables warnings-as-errors with a message-specific
-        # exception for the known Starlette 0.50 / AnyIO 4.16 warning.
-        run: python -m pytest -q
+        # No warning exceptions: CI fails on ALL unexpected warnings.
+        run: python -m pytest -q -W error
 
   frontend:
     runs-on: ubuntu-latest

@@ -1,7 +1,9 @@
-fastapi>=0.115,<1
+fastapi>=0.159.1,<1
 uvicorn>=0.30,<1
 numpy>=2,<3
 scipy>=1.14,<2
 pydantic>=2,<3
 pytest>=8,<10
 httpx>=0.27,<1
+# Starlette 1.x TestClient uses HTTPX2; keep legacy HTTPX for benchmarks.
+httpx2>=2.16,<3
