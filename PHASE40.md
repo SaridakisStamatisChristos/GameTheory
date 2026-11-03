@@ -32,3 +32,11 @@ Python 3.13.5 and the local v38-compatible dependencies: **251 passed**, **1,173
 - 100% coverage demonstrates that defined control-flow paths executed; it does not prove exhaustiveness of numerical input values, global Nash enumeration, solver convergence, formal correctness, UI/browser behavior, or code performance relative to published algorithms.
 - Dependency-specific warnings in the old local FastAPI/Starlette environment required a local warning-ignore switch. The GitHub CI has the upgraded dependencies and retains **all warnings as errors**, without exceptions.
 - Deliberately invalid/mock responses are used only to exercise verification boundaries; no coverage threshold is met by disabling tests or catching every exception indiscriminately.
+
+## GitHub CI verification
+
+- [Run #14](https://github.com/SaridakisStamatisChristos/GameTheory/actions/runs/41721995475) completed successfully for commit `58d7bfa6d726d924cc104b84e9d87c58838c0c4e` on the test branch.
+- Python 3.13.17, strict `-W error`: **251 passed in 32.13s**.
+- Core backend statements **1173/1173 = 100%**; branches **458/458 = 100%**. No uncovered executable lines or decision outcomes within the declared scope.
+- Vite locked frontend build: **PASS**. Full browser/API integration remains a separate unverified gate.
+- The workflow uploads both JSON and XML coverage evidence.

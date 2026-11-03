@@ -146,10 +146,10 @@ Run from the backend directory after installing dependencies. The repository's `
 ```bash
 cd backend
 python -m compileall -q .
-python -m pytest -q -W error
+python -m pytest -q -W error --cov=. --cov-config=.coveragerc --cov-branch --cov-report=term-missing --cov-fail-under=99
 ```
 
-**143 backend tests passed** both in the v38 repair campaign and in GitHub Actions after the CI compatibility fix. `backend/pytest.ini` treats **all warnings as errors**; FastAPI 0.159.1, Starlette 1.7.0, and HTTPX2 2.16.0 replace the deprecated upstream integration rather than suppressing its warning. The [GitHub Actions workflow](.github/workflows/verification.yml) verifies dependency consistency, compiles Python, runs the full backend suite, and builds the React/Vite frontend with locked npm dependencies.
+**251 backend tests passed in GitHub Actions #14**, including 108 new adversarial and failure-path cases. The instrumented audit reports **100.00% statement coverage (1,173/1,173)** and **100.00% branch coverage (458/458)** across 18 core backend modules. The [CI workflow](.github/workflows/verification.yml) enforces at least 99% combined coverage, runs with warnings as errors, checks dependency consistency, and builds the React/Vite frontend from its npm lockfile. Test files, benchmark scripts and historical baselines are excluded explicitly from the backend coverage denominator.
 
 A reproducible benchmark entry point is included:
 
@@ -203,7 +203,7 @@ Game Theory Lab is a **research workbench, not an all-games equilibrium oracle**
 - CFR/CFR+ models require **two-player, zero-sum, perfect-recall** games. Certificate availability and cost depend on game representation and size.
 - Passing backend tests and the CI frontend build do **not** establish browser-level end-to-end behavior, arbitrary large-game correctness, formal verification, or comparative performance superiority.
 
-See [PHASE38.md](PHASE38.md) for the exact resource budgets, numerical contracts, and remaining verification gates.
+See [PHASE38.md](PHASE38.md) for resource and numerical contracts, and [PHASE40.md](PHASE40.md) for the test-hardening campaign and coverage scope.
 
 ## Roadmap
 
