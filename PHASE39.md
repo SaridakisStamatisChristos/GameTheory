@@ -14,7 +14,7 @@ The previous CI repair suppressed one Starlette/AnyIO deprecation. Starlette 1.7
 
 ## Verification
 
-CI confirmation is required before adoption. Latest base branch was CI green at Game Theory Lab core verification #5 (143 backend tests), but that evidence **does not apply** to this upgraded candidate until the new commit's CI runs. Frontend is unchanged.
+GitHub Actions #7 passed on upgrade candidate `83ac01b`: **143/143 backend tests passed** with `python -m pytest -q -W error` and no warning filter, `pip check` passed, and the Vite frontend production build passed. The full 33-package version snapshot is now committed for reproducibility. The revised snapshot commit must pass CI independently before merging to `main`.
 
 ## Sources
 

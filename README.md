@@ -141,15 +141,15 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 
 ## Verification and benchmarks
 
-Run from the backend directory after installing dependencies. The repository's `pytest.ini` enforces warnings-as-errors except for a documented, message-specific upstream compatibility warning:
+Run from the backend directory after installing dependencies. The repository's `pytest.ini` enforces **warnings-as-errors with no exemptions**:
 
 ```bash
 cd backend
 python -m compileall -q .
-python -m pytest -q
+python -m pytest -q -W error
 ```
 
-**143 backend tests passed** both in the v38 repair campaign and in GitHub Actions after the CI compatibility fix. `backend/pytest.ini` treats unexpected warnings as errors and narrowly allows one known upstream Starlette/AnyIO deprecation. The [GitHub Actions workflow](.github/workflows/verification.yml) verifies dependency consistency, compiles Python, runs the full backend suite, and builds the React/Vite frontend with locked npm dependencies.
+**143 backend tests passed** both in the v38 repair campaign and in GitHub Actions after the CI compatibility fix. `backend/pytest.ini` treats **all warnings as errors**; FastAPI 0.159.1, Starlette 1.7.0, and HTTPX2 2.16.0 replace the deprecated upstream integration rather than suppressing its warning. The [GitHub Actions workflow](.github/workflows/verification.yml) verifies dependency consistency, compiles Python, runs the full backend suite, and builds the React/Vite frontend with locked npm dependencies.
 
 A reproducible benchmark entry point is included:
 
