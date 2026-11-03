@@ -1,0 +1,13 @@
+[run]
+branch = True
+source = .
+omit =
+    test_*.py
+    benchmark_*.py
+    *_baseline.py
+    reference_benchmark.py
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 2

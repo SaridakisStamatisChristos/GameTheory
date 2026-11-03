@@ -32,7 +32,7 @@ def solve_cfr(req: CFRRequest):
                 probs=node.get('probabilities',{})
                 if set(probs)!=set(actions) or any(not isinstance(v,(int,float)) or not isfinite(v) or v<0 for v in probs.values()) or abs(sum(probs.values())-1)>1e-8:
                     raise HTTPException(422,'Invalid chance probabilities')
-            elif player in (0,1):
+            elif type(player) is int and player in (0,1):
                 info=node.get('infoset')
                 if not isinstance(info,str) or not info: raise HTTPException(422,'Missing information set')
                 if info in info_actions and (info_actions[info]!=tuple(actions) or info_player[info]!=player):

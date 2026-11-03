@@ -28,10 +28,20 @@ jobs:
           python -m pip freeze
       - name: Compile source
         run: python -m compileall -q backend
-      - name: Full strict-warning regression and adversarial suite
+      - name: Full strict-warning suite with statement and branch coverage
         working-directory: backend
-        # No warning exceptions: CI fails on ALL unexpected warnings.
-        run: python -m pytest -q -W error
+        run: |
+          python -m pytest -q -W error --cov=. --cov-config=.coveragerc --cov-branch --cov-report=term-missing --cov-report=json:coverage-audit.json --cov-report=xml:coverage-audit.xml --cov-fail-under=99
+      - name: Publish coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-v40-coverage
+          path: |
+            backend/coverage-audit.json
+            backend/coverage-audit.xml
+          retention-days: 14
+          if-no-files-found: warn
 
   frontend:
     runs-on: ubuntu-latest
