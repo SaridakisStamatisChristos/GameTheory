@@ -1,12 +1,34 @@
-# Version set exercised by the v38 audit and GitHub CI.
-# First-level libraries plus the Starlette/AnyIO compatibility boundary.
-# Not a full transitive lock; pip check and CI regression suite guard updates.
-fastapi==0.128.2
-starlette==0.50.0
+# Full version-pinned Python dependency resolution observed on GitHub Actions #3.
+# Platform: GitHub-hosted Ubuntu, Python 3.13.17, 2026-11-03.
+# This is a version constraint snapshot (not an artifact/hash lockfile).
+# FastAPI 0.128.2 / Starlette 0.50.0 rely on an AnyIO alias deprecated in 4.15+;
+# backend/pytest.ini narrowly filters that one upstream warning until an upgrade.
+annotated-doc==0.0.5
+annotated-types==0.8.0
 anyio==4.16.0
-uvicorn==0.48.0
-numpy==2.3.5
-scipy==1.17.0
-pydantic==2.13.5
-pytest==9.0.2
+certifi==2026.10.23
+click==8.5.0
+coverage==7.17.1
+deprecated==3.0.1
+fastapi==0.128.2
+h11==0.16.0
+httpcore==1.0.9
 httpx==0.28.1
+idna==3.20
+iniconfig==2.3.1
+nashpy==0.0.43
+networkx==3.7
+numpy==2.3.5
+packaging==26.3
+pluggy==1.7.0
+pydantic==2.13.5
+pydantic-core==2.46.5
+pygments==2.21.0
+pytest==9.0.2
+pytest-cov==7.0.0
+scipy==1.17.0
+starlette==0.50.0
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+uvicorn==0.48.0
+wrapt==2.5.2

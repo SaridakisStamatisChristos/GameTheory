@@ -84,13 +84,13 @@ In a **second** terminal, from the repository root:
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
 Open **http://localhost:5173**. Vite proxies `/api` requests to the backend on port 8000.
 
-> **Dependency reproducibility note:** `frontend/package-lock.json` is not yet committed. `npm install` resolves dependency versions at installation time; a locked `npm ci` workflow and independently verified production frontend build remain future gates.
+> **Dependency reproducibility:** `frontend/package-lock.json` is committed from a successful GitHub Actions dependency resolution. The workflow uses `npm ci`, and the Vite production bundle has passed CI. Browser/API end-to-end behavior remains a separate verification target.
 
 ## Your first experiment
 
@@ -141,15 +141,15 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 
 ## Verification and benchmarks
 
-Run from the backend directory after installing dependencies:
+Run from the backend directory after installing dependencies. The repository's `pytest.ini` enforces warnings-as-errors except for a documented, message-specific upstream compatibility warning:
 
 ```bash
 cd backend
 python -m compileall -q .
-python -m pytest -q -W error
+python -m pytest -q
 ```
 
-The v38 repair campaign recorded **143 backend tests passing locally**, including regression cases for previously discovered numerical and game-theoretic failures. The [GitHub Actions workflow](.github/workflows/verification.yml) runs backend verification and attempts a frontend build on pushes and pull requests; the badge at the top reflects the workflow's own status, not a claim of independent certification.
+**143 backend tests passed** both in the v38 repair campaign and in GitHub Actions after the CI compatibility fix. `backend/pytest.ini` treats unexpected warnings as errors and narrowly allows one known upstream Starlette/AnyIO deprecation. The [GitHub Actions workflow](.github/workflows/verification.yml) verifies dependency consistency, compiles Python, runs the full backend suite, and builds the React/Vite frontend with locked npm dependencies.
 
 A reproducible benchmark entry point is included:
 
@@ -201,13 +201,13 @@ Game Theory Lab is a **research workbench, not an all-games equilibrium oracle**
 - Correlated-equilibrium output is a **numerically certified candidate** within stated tolerances. The welfare objective uses separately normalized player utilities rather than raw-payoff social welfare.
 - Approximate Nash methods are **heuristic**; a measured unilateral-regret gap does not imply universal convergence.
 - CFR/CFR+ models require **two-player, zero-sum, perfect-recall** games. Certificate availability and cost depend on game representation and size.
-- The local backend test result does **not** certify the frontend production build, remote CI, arbitrary large games, formal correctness, or performance superiority.
+- Passing backend tests and the CI frontend build do **not** establish browser-level end-to-end behavior, arbitrary large-game correctness, formal verification, or comparative performance superiority.
 
 See [PHASE38.md](PHASE38.md) for the exact resource budgets, numerical contracts, and remaining verification gates.
 
 ## Roadmap
 
-Future work focuses on **algorithm quality before infrastructure**: harder differential-test oracles; more degenerate-game handling; numerical sensitivity analysis; stronger exploitability and solution certificates; broader game classes; credible performance baselines; and a reproducible frontend build with a committed lockfile.
+Future work focuses on **algorithm quality before infrastructure**: harder differential-test oracles; more degenerate-game handling; numerical sensitivity analysis; stronger exploitability and solution certificates; broader game classes; credible performance baselines; and browser-level integration testing.
 
 ## Licensing
 
