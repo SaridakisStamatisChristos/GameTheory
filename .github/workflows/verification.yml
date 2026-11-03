@@ -53,6 +53,12 @@ jobs:
           path: frontend/package-lock.json
           retention-days: 3
           if-no-files-found: error
+      - name: Emit resolved lockfile for GitHub import (temporary)
+        working-directory: frontend
+        run: |
+          echo GTL_LOCK_BEGIN_v38
+          cat package-lock.json
+          echo GTL_LOCK_END_v38
       - name: Build frontend
         working-directory: frontend
         run: npm run build
