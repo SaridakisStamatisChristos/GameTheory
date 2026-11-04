@@ -119,7 +119,7 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 | Endpoint | Purpose |
 |---|---|
 | `POST /api/analyze` | Pure Nash, strict pure dominance, interior 2×2 mixed equilibrium |
-| `POST /api/equilibria/analytic-2x2` | Analytic 2×2 equilibrium geometry |
+| `POST /api/equilibria/analytic-2x2` | Exact-rational complete 2×2 Nash-set geometry (points, segments, rectangles) and representative profiles |
 | `POST /api/equilibria/support-lp` | Support-pair LP search with explicit unresolved/completeness diagnostics |
 | `POST /api/equilibria/hybrid` | Fast support search combined with optional LP exploration |
 | `POST /api/equilibria/lemke-howson` | Lemke–Howson equilibrium method |
@@ -137,6 +137,8 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 | `POST /api/experiments`, `GET /api/experiments` | Save and list local experiments |
 | `GET /api/experiments/{experiment_id}` | Retrieve a saved experiment |
 
+**2×2 completeness:** The `equilibrium_components` response field represents the entire 2×2 Nash set as a union of closed probability rectangles, including degenerate line and surface equilibria. Its `*_bounds_exact` fields are rational strings. The legacy `equilibria` list is still representative only (`complete: false`); `geometry_complete: true` applies solely to the new geometry. Exactness is relative to the decimal strings of validated float64 payoffs, not arbitrary-precision original JSON literals.
+
 **Important distinctions:** A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
 
 ## Verification and benchmarks
@@ -149,7 +151,7 @@ python -m compileall -q .
 python -m pytest -q -W error --cov=. --cov-config=.coveragerc --cov-branch --cov-report=term-missing --cov-fail-under=99
 ```
 
-**251 backend tests passed in GitHub Actions #14**, including 108 new adversarial and failure-path cases. The instrumented audit reports **100.00% statement coverage (1,173/1,173)** and **100.00% branch coverage (458/458)** across 18 core backend modules. The [CI workflow](.github/workflows/verification.yml) enforces at least 99% combined coverage, runs with warnings as errors, checks dependency consistency, and builds the React/Vite frontend from its npm lockfile. Test files, benchmark scripts and historical baselines are excluded explicitly from the backend coverage denominator.
+The [CI workflow](.github/workflows/verification.yml) runs the backend regression, adversarial and exact-game differential suites; enforces at least **99% measured combined statement/branch coverage** under warnings-as-errors; checks dependency consistency; and builds the React/Vite frontend from the committed npm lockfile. The earlier v40 baseline measured 100% over 18 modules; the current report is the authority for coverage after subsequent changes. Test files, benchmark scripts and historical baselines are excluded from the denominator.
 
 A reproducible benchmark entry point is included:
 

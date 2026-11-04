@@ -22,12 +22,12 @@ npm ci --no-audit --no-fund
 npm run build
 ```
 
-The CI workflow runs these checks on pushes and pull requests. The measured suite currently contains 251 tests. The instrumented measurement previously observed **100% statement and branch coverage** over the configured 18 core backend Python modules. CI enforces at least **99% combined coverage**. The denominator excludes tests, standalone benchmarks, historical baselines and benchmark drivers. It does **not** measure real-browser behavior or prove all input combinations correct.
+The CI workflow runs these checks on pushes and pull requests. The earlier v40 audit established a baseline of **251 passing tests** and **100% statement and branch coverage** over 18 core modules. The current CI run is the authority for the enlarged suite and scope. CI enforces at least **99% combined coverage**. The denominator excludes tests, standalone benchmarks, historical baselines and benchmark drivers. It does **not** measure real-browser behavior or prove all input combinations correct.
 
 ## Numerical meaning of results
 
 - **Pure and mixed Nash.** Returned profiles are checked against best responses where the solver provides such certification. General finite bimatrix equilibrium *enumeration* is not proven complete, especially under degeneracy or severe conditioning.
-- **2×2 analysis.** Interior mixed strategy calculations use rational indifference derived from decimal payoffs where applicable; this does not confer exact arithmetic on all downstream calculations.
+- **2×2 analysis.** The analytic endpoint now supplies `equilibrium_components`, an exact-rational finite union of points, segments, and rectangles that covers the complete Nash set even for degenerate 2×2 games. Its legacy `equilibria` list contains representative points only. Exactness applies to the decimal strings of validated float64 input payoffs, not the original arbitrary-precision JSON text or all downstream floating-point payoff diagnostics.
 - **Support-LP and hybrid methods.** Exploring all support pairs under a budget is not proof that all feasible supports or equilibria were resolved. Numerical LP feasibility and global completeness are distinct.
 - **Correlated equilibrium.** Output is a numerical candidate checked against original-payoff unilateral obedience deviations, plus per-player-normalized residuals. Its welfare objective uses the sum of **individually normalized** player utilities, not necessarily raw utilitarian welfare.
 - **Zero-sum minimax.** Payoffs are centered/scaled before LP optimization and the reported certificate includes independent primal/dual diagnostics; numerical tolerances still apply.

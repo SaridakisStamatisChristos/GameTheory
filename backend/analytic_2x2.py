@@ -1,12 +1,13 @@
 """Exact rational 2x2 best-response geometry for finite decimal payoff inputs.
 
-A finite game has at least one Nash equilibrium; representative intersections
-of the players' best-response correspondences are returned.  For degenerate
-cases, the continuous equilibrium sets are not exhaustively described.
+The finite equilibria list preserves representative points for compatibility.
+A separate exact-rational geometry field characterizes the entire equilibrium
+set, including degenerate continuous families.
 """
 from fractions import Fraction
 import numpy as np
 from safe_numeric import expected_payoffs
+from exact_2x2_geometry import complete_nash_geometry
 
 
 def solve_2x2(a,b,tol=1e-9):
@@ -42,5 +43,11 @@ def solve_2x2(a,b,tol=1e-9):
             found.append({'row_probabilities':xf,'col_probabilities':yf,
                           'expected_payoffs':expected_payoffs(a,b,xf,yf),
                           'nash_gap':0.,'certificate':'exact rational input 2x2 best responses'})
-    return {'equilibria':found,'method':'analytic_2x2',
-            'complete':False,'note':'Exact rational representative 2x2 solutions; continuous equilibrium families are not fully represented.'}
+    components=complete_nash_geometry(aa,bb)
+    return {'equilibria':found,'equilibrium_components':components,
+            'geometry_complete':True,'method':'analytic_2x2',
+            'complete':False,
+            'note':'The finite equilibria list contains representative points, not the continuum. '
+                   'The equilibrium_components union exactly characterizes the entire Nash set '
+                   'of the decimal strings of the validated float64 input payoffs. '
+                   'Probability interval endpoints are supplied as exact rational strings.'}
