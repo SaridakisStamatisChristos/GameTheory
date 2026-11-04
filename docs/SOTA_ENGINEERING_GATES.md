@@ -190,3 +190,19 @@ claims. Next gates: independent Gambit general-sum cases, OpenSpiel's
 zero-sum and extensive-form comparison on matched models, and larger
 statistical performance samples including measured resource usage.
 See `docs/GAMBIT_COMPARISON_V52.md`.
+
+## v53: independent OpenSpiel LP validation
+
+A separate `external-openspiel` CI job uses OpenSpiel 2.0.2's
+actual CVXPY/ECOS numerical zero-sum LP. It reuses all 16 Gambit
+v52 fixtures plus three larger/rectangular games. It verifies
+independent unilateral-regret and value-gap certificates in original
+game payoff units and records exact fixture hashes and timing vectors.
+One intentionally translated payoff model is strategically equivalent
+to the exact-rational reference, but *not identical numerical input*.
+Therefore no speed superiority or global SOTA claim follows.
+
+OpenSpiel is not installed into the core environment. The actual
+external engine acceptance test is separately mandatory and is
+excluded only from the application-statement coverage denominator,
+not from CI acceptance. See `docs/OPENSPIEL_COMPARISON_V53.md`.

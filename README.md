@@ -283,3 +283,14 @@ exact game-value agreement, and archives the complete paired sample
 record. Refer to `docs/GAMBIT_COMPARISON_V52.md` and the
 `external-gambit` workflow artifact. This is a correctness/compatibility
 benchmark—not evidence of cross-engine SOTA runtime.
+
+### OpenSpiel numerical LP cross-check (v53)
+
+The independent `external-openspiel` CI job executes OpenSpiel's
+zero-sum matrix-game LP through CVXPY/ECOS and independently checks
+strategies against the existing exact minimax value. This uses the
+16 Gambit v52 fixtures plus 3 rectangular/large cases; numerical
+acceptance is bounded by explicitly recorded original-payoff
+tolerances. Evidence is archived for reproducibility. See
+`docs/OPENSPIEL_COMPARISON_V53.md`. This is a correctness
+comparison, **not** a general-SOTA or cross-engine speedup claim.
