@@ -105,9 +105,9 @@ def compare_case(gbt, name, a, repetitions):
                     for i in range(a.shape[0]) for j in range(a.shape[1]))):
             raise AssertionError('Gambit input round trip changed exact payoff values')
         answer = gbt.nash.lp_solve(game, rational=True, use_strategic=True)
-        if not answer.equilibria:
+        profile = answer.equilibrium
+        if profile is None:
             raise AssertionError('Gambit exact LP returned no equilibrium')
-        profile = answer.equilibria[0]
         players = list(game.players)
         if len(players) != 2:
             raise AssertionError('Gambit did not create a two-player game')
