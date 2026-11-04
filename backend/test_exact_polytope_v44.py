@@ -119,3 +119,31 @@ def test_inconsistent_redundant_equation_is_not_accepted_as_vertex():
     # Deliberately inconsistent: simplex sum=1 conflicts with equality sum=0.
     with pytest.raises(AssertionError,match='no vertices'):
         enumerate_polytope_vertices(p,{'tested':0,'limit':10})
+
+
+def test_random_five_by_five_exact_support_basis_path_against_nash_oracle():
+    from test_exact_nash_set_v43 import is_nash
+    rng=np.random.default_rng(44040)
+    for _ in range(8):
+        a=rng.integers(-5,6,size=(5,5)).tolist()
+        b=rng.integers(-5,6,size=(5,5)).tolist()
+        result=solve_exact_nash_set(a,b,max_actions=5,max_pairs=961,include_vertices=True)
+        assert result['equilibrium_set_complete']
+        assert result['support_pairs_checked']==961
+        assert result['exact_work_operations']<2000000
+        for family in result['equilibrium_families']:
+            x=[F(0)]*5;y=[F(0)]*5
+            for i,w in zip(family['support']['row'],family['row_strategy_polytope']['witness_probabilities_exact']):
+                x[i]=F(w)
+            for j,w in zip(family['support']['col'],family['col_strategy_polytope']['witness_probabilities_exact']):
+                y[j]=F(w)
+            assert is_nash(a,b,x,y)
+            for poly in ('row_strategy_polytope','col_strategy_polytope'):
+                obj=family[poly]
+                for v in obj['closure_vertices_exact']:
+                    vv=list(map(F,v))
+                    assert sum(vv)==1 and min(vv)>=0
+                    assert all(sum(F(c)*p for c,p in zip(item['coefficients_exact'],vv))==0
+                               for item in obj['equalities_dot_coefficients_eq_zero'])
+                    assert all(sum(F(c)*p for c,p in zip(item['coefficients_exact'],vv))>=0
+                               for item in obj['inequalities_dot_coefficients_ge_zero'])

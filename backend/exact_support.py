@@ -8,6 +8,7 @@ from fractions import Fraction
 from itertools import combinations
 from math import gcd, lcm
 import numpy as np
+from exact_polytope_vertices import enumerate_polytope_vertices, VertexBudgetExceeded
 
 class ExactWorkLimit(ValueError):
     """Declared exact arithmetic work budget exceeded (no partial certificate)."""
@@ -132,6 +133,41 @@ def _feasible_strategy(payoff, best_responses, support, work):
         raise AssertionError('Unexpected invalid exact probability witness')
     return witness
 
+def _feasible_strategy_by_vertices(payoff, best_responses, support, work):
+    """Exact bounded polytope-vertex feasibility and positive-support witness.
+
+    A weak feasible simplex is convex hull of its vertices. A strictly positive
+    feasible strategy exists iff each coordinate is positive at some vertex.
+    Averaging all vertices then constructs a strict exact witness.
+    """
+    base = best_responses[0]
+    supported = set(best_responses)
+    equalities = []
+    inequalities = []
+    for i in range(len(payoff)):
+        if i == base:
+            continue
+        row = {'coefficients_exact':[str(payoff[base][j]-payoff[i][j])
+                                    for j in support]}
+        (equalities if i in supported else inequalities).append(row)
+    polytope = {'variable_actions':list(support),
+                'equalities_dot_coefficients_eq_zero': equalities,
+                'inequalities_dot_coefficients_ge_zero': inequalities}
+    budget = {'tested':work['steps'],'limit':work['limit']}
+    try:
+        geometry = enumerate_polytope_vertices(polytope, budget, allow_empty=True)
+    except VertexBudgetExceeded as exc:
+        raise ExactWorkLimit('Exact support work budget exceeded') from exc
+    work['steps'] = budget['tested']
+    if geometry is None:
+        return None
+    vertices = [tuple(Fraction(z) for z in row)
+                for row in geometry['closure_vertices_exact']]
+    witness = [sum(row[j] for row in vertices) / len(vertices)
+               for j in range(len(support))]
+    return witness if all(z > 0 for z in witness) else None
+
+
 def _verify_exact_equilibrium(a,b,x,y):
     """Direct independent rational Nash-deviation certificate."""
     if sum(x) != 1 or sum(y) != 1 or not all(t>=0 for t in (*x,*y)):
@@ -170,10 +206,12 @@ def solve_exact_support(a, b, *, max_pairs=225, max_operations=100000, max_actio
         for I in combinations(range(m),ki):
             for kj in range(1,n+1):
                 for J in combinations(range(n),kj):
-                    y=_feasible_strategy(af,I,J,work)
+                    y=(_feasible_strategy_by_vertices(af,I,J,work) if max_actions==5
+                       else _feasible_strategy(af,I,J,work))
                     if y is None:
                         continue
-                    x=_feasible_strategy(bt,J,I,work)
+                    x=(_feasible_strategy_by_vertices(bt,J,I,work) if max_actions==5
+                       else _feasible_strategy(bt,J,I,work))
                     if x is None:
                         continue
                     fullx=[Fraction(0)]*m

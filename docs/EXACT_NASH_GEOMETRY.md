@@ -134,3 +134,30 @@ partial claim of mathematical completeness. The v44 tests independently
 compare random linear-objective maxima against SciPy/HiGHS optimizers,
 exercise degenerate 5×5 simplex families, and validate strict-boundary
 semantics.
+
+## Faster exact feasibility for opt-in 5×5 games
+
+General-support Fourier–Motzkin projection can generate a combinatorial
+number of intermediate inequalities and exhaust its work allowance on
+ordinary 5×5 matrices. The opt-in 5×5 mode instead uses **exact bounded
+vertex-basis feasibility** on each player's weak best-response polytope.
+
+For a nonempty bounded simplex polytope, every point is a convex
+combination of vertices. A strictly positive strategy on a prescribed
+support exists iff, for **every** support coordinate, at least one feasible
+vertex assigns that coordinate positive mass. The arithmetic average
+of all enumerated vertices then has strictly positive mass on every
+coordinate if and only if the support is feasible. All coefficients,
+basis solutions and resulting witnesses are rational. No numerical
+tolerance is used for this classification.
+
+If a weak polytope is infeasible or lacks positive mass for a required
+support action, that support is rejected. Basis enumeration consumes the
+same global `max_operations` budget and fails closed if exceeded.
+This improves the opt-in 5×5 path without replacing the well-tested
+default 4×4 Fourier–Motzkin implementation.
+
+The independent v44 suite includes seeded nondegenerate 5×5 games,
+a direct rational Nash-regret oracle for every returned witness,
+and exact vertex inequality checks. The algorithms remain exponential
+in general and no 6×6 completeness claim is made.

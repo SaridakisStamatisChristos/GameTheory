@@ -55,7 +55,7 @@ def _solve_square(matrix, rhs):
     return tuple(row[-1] for row in a)
 
 
-def enumerate_polytope_vertices(polytope, budget):
+def enumerate_polytope_vertices(polytope, budget, *, allow_empty=False):
     """Return exact vertices of closure and its affine dimension.
 
     The input is a validated, **nonempty strict-support** Nash polytope
@@ -98,6 +98,8 @@ def enumerate_polytope_vertices(polytope, budget):
             continue
         vertices.add(solution)
     if not vertices:
+        if allow_empty:
+            return None
         raise AssertionError('Nonempty bounded rational polytope returned no vertices')
     ordered=sorted(vertices)
     dimension = _rank([tuple(a-b for a,b in zip(v,ordered[0])) for v in ordered[1:]])
