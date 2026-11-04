@@ -303,3 +303,28 @@ def equilibria_exact_nash_set(req: ExactNashSetRequest):
                                     max_vertex_candidates=req.max_vertex_candidates)
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc
+
+from typing import Literal
+from general_nash import solve_general_nash
+
+class GeneralNashRequest(Game):
+    mode: Literal['auto','approximate','exact'] = 'auto'
+    iterations: int = Field(default=1000,ge=100,le=200000)
+    restarts: int = Field(default=2,ge=1,le=64)
+    seed: int = Field(default=0,ge=0,le=2147483647)
+    max_pure_cells: int = Field(default=100000,ge=1,le=1000000)
+    max_exact_pairs: int = Field(default=96,ge=1,le=4096)
+    max_exact_operations: int = Field(default=20000,ge=1,le=2000000)
+    max_exact_support: int = Field(default=3,ge=1,le=20)
+
+@app.post('/api/equilibria/general')
+def equilibria_general(req: GeneralNashRequest):
+    a,b=validate(req)
+    try:
+        return solve_general_nash(a,b,mode=req.mode,iterations=req.iterations,
+            restarts=req.restarts,seed=req.seed,max_pure_cells=req.max_pure_cells,
+            max_exact_pairs=req.max_exact_pairs,
+            max_exact_operations=req.max_exact_operations,
+            max_exact_support=req.max_exact_support)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from exc
