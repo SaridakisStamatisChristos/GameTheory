@@ -260,3 +260,19 @@ def equilibria_independent_lemke_howson(req: LemkeHowsonRequest):
         return solve_independent_lh(a, b, max_labels=req.max_labels)
     except (ValueError, ArithmeticError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+from exact_support import solve_exact_support
+
+class ExactSupportRequest(Game):
+    max_pairs: int = Field(default=225, ge=1, le=225)
+    max_operations: int = Field(default=100000, ge=1, le=500000)
+
+@app.post('/api/equilibria/exact-support')
+def equilibria_exact_support(req: ExactSupportRequest):
+    a,b=validate(req)
+    if max(a.shape)>4:
+        raise HTTPException(422,'Exact support feasibility currently limited to 4x4 games')
+    try:
+        return solve_exact_support(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from exc

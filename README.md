@@ -28,7 +28,7 @@ The project is designed for **personal research, education, and experimentation*
 | Research area | Available capabilities |
 |---|---|
 | **Normal-form games** | Editable two-player payoff matrices; pure Nash equilibria; strict pure-strategy dominance; analytic 2×2 equilibria |
-| **Mixed Nash equilibria** | Support enumeration, support-pair LP, hybrid solving, and two independent Lemke–Howson implementations |
+| **Mixed Nash equilibria** | Exact feasible-support classification for games up to 4×4; numerical support-LP, hybrid solving, and independent Lemke–Howson implementations |
 | **Approximate equilibria** | Restarted fictitious-play search with independently evaluated unilateral-regret (`ε`) diagnostics |
 | **Zero-sum games** | Linear-programming minimax strategies with duality-gap checks |
 | **Correlated equilibrium** | Obedience-constrained LP and checks of incentive violations in original payoff units |
@@ -121,6 +121,7 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 | `POST /api/analyze` | Pure Nash, strict pure dominance, interior 2×2 mixed equilibrium |
 | `POST /api/equilibria/analytic-2x2` | Exact-rational complete 2×2 Nash-set geometry (points, segments, rectangles) and representative profiles |
 | `POST /api/equilibria/support-lp` | Support-pair LP search with explicit unresolved/completeness diagnostics |
+| `POST /api/equilibria/exact-support` | Exact 1×1–4×4 feasible-support classification with rational Nash witnesses |
 | `POST /api/equilibria/hybrid` | Fast support search combined with optional LP exploration |
 | `POST /api/equilibria/lemke-howson` | Lemke–Howson equilibrium method |
 | `POST /api/equilibria/independent-lemke-howson` | Independent Lemke–Howson implementation |
@@ -139,7 +140,7 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 
 **2×2 completeness:** The `equilibrium_components` response field represents the entire 2×2 Nash set as a union of closed probability rectangles, including degenerate line and surface equilibria. Its `*_bounds_exact` fields are rational strings. The legacy `equilibria` list is still representative only (`complete: false`); `geometry_complete: true` applies solely to the new geometry. Exactness is relative to the decimal strings of validated float64 payoffs, not arbitrary-precision original JSON literals.
 
-**Important distinctions:** A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
+**Important distinctions:** The exact-support endpoint classifies all feasible support pairs on small games, but returns only one equilibrium per support rather than a full description of continuous families. A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
 
 ## Verification and benchmarks
 

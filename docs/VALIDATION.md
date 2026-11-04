@@ -28,7 +28,8 @@ The CI workflow runs these checks on pushes and pull requests. The earlier v40 a
 
 - **Pure and mixed Nash.** Returned profiles are checked against best responses where the solver provides such certification. General finite bimatrix equilibrium *enumeration* is not proven complete, especially under degeneracy or severe conditioning.
 - **2×2 analysis.** The analytic endpoint now supplies `equilibrium_components`, an exact-rational finite union of points, segments, and rectangles that covers the complete Nash set even for degenerate 2×2 games. Its legacy `equilibria` list contains representative points only. Exactness applies to the decimal strings of validated float64 input payoffs, not the original arbitrary-precision JSON text or all downstream floating-point payoff diagnostics.
-- **Support-LP and hybrid methods.** Exploring all support pairs under a budget is not proof that all feasible supports or equilibria were resolved. Numerical LP feasibility and global completeness are distinct.
+- **Exact support feasibility (up to 4×4).** The new `/api/equilibria/exact-support` endpoint enumerates every nonempty row/column support pair and uses exact rational Fourier–Motzkin feasibility with **strictly positive** support probabilities, followed by a direct exact Nash-deviation certificate. A successful response guarantees one exact Nash witness for **every feasible support pair** of the validated decimal float64 game. It does **not** describe all equilibria within each support (which may form a continuum). The solver is exponential and fails explicitly with HTTP 422 if its support-pair or elimination-work budget is exhausted. Results include authoritative rational probability strings; floating projections may underflow and are flagged.
+- **Support-LP and hybrid methods.** The existing numerical solvers are unchanged. Visiting all support pairs numerically does not prove they were all resolved; numerical LP feasibility and exact support completeness are distinct.
 - **Correlated equilibrium.** Output is a numerical candidate checked against original-payoff unilateral obedience deviations, plus per-player-normalized residuals. Its welfare objective uses the sum of **individually normalized** player utilities, not necessarily raw utilitarian welfare.
 - **Zero-sum minimax.** Payoffs are centered/scaled before LP optimization and the reported certificate includes independent primal/dual diagnostics; numerical tolerances still apply.
 - **Approximate Nash.** Fictitious-play search is heuristic in general-sum games. Reported epsilon is a maximum unilateral-deviation gain for the *returned* strategy profile, not a universal convergence guarantee.
@@ -49,7 +50,8 @@ The service is intended for trusted local research. Typical configured limits in
 | Concurrent expensive solver requests | 2 |
 | CFR / CFR+ work | 2,000,000 nodes × iterations |
 | Approximate Nash work | 500,000 iterations × restarts |
-| Support pair API budget | 5,000 pairs |
+| Numerical support-LP API budget | 5,000 pairs |
+| Exact support API | Up to 4×4, 225 pairs and default 100,000 elimination-work units |
 | Candidate fast-support work | 10,000 |
 | Local experiment store | 1,000 records and approximately 10 MB |
 
@@ -59,4 +61,4 @@ These protections are local-service safeguards, not hardened multi-tenant author
 
 Timing results in `backend/benchmark_*.json` are reproducible experiments, not hardware-independent performance guarantees. Benchmark comparison requires matching workload, hardware, solver semantics, warmup, repetition and error metrics.
 
-Current missing evidence includes full browser/API end-to-end tests, formal proofs of global equilibrium completeness, broad independent large-game differential benchmarks, and production deployment assessment. Complete statement/branch coverage alone does not provide those guarantees.
+Current missing evidence includes full browser/API end-to-end tests, a constructive description of the full Nash equilibrium continuum for **3×3 and larger degenerate games**, broad independent large-game differential benchmarks, and production deployment assessment. Exact support feasibility is a narrower mathematical claim than full equilibrium-set enumeration. Complete statement/branch coverage alone does not provide those guarantees.
