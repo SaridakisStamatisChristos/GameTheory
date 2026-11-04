@@ -147,6 +147,21 @@ def correlated(game: Game):
     a,b=validate(game)
     return correlated_equilibrium(a,b)
 
+from exact_correlated import solve_exact_correlated_equilibrium
+
+class ExactCorrelatedRequest(Game):
+    objective: Literal['welfare','feasible'] = 'welfare'
+    max_operations: int = Field(default=200000, ge=1, le=2000000)
+
+@app.post('/api/correlated-equilibrium/exact')
+def correlated_exact(req: ExactCorrelatedRequest):
+    a,b=validate(req)
+    try:
+        return solve_exact_correlated_equilibrium(
+            a,b,objective=req.objective,max_operations=req.max_operations)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from exc
+
 @app.post('/api/bayesian/evaluate')
 def bayesian(game: BayesianGame):
     return bayesian_evaluate(game)
