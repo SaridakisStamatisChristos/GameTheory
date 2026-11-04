@@ -5,6 +5,7 @@ comparisons of validated binary64 inputs. General-sum mixed candidates are
 numerical; exact equilibrium-set completeness requires full bounded support
 search and exact rational verification, never an approximate heuristic.
 """
+from fractions import Fraction
 import numpy as np
 from scipy.optimize import linprog
 from approximate import approximate_nash
@@ -144,8 +145,8 @@ def solve_general_nash(a,b,*,mode='auto',iterations=1000,restarts=2,seed=0,
         exact=search_exact_nash_cells(reduced_a,reduced_b,max_pairs=max_exact_pairs,
                         max_operations=max_exact_operations,max_support=max_exact_support)
         for family in exact['families'][:1]:
-            x=[float(p) for p in family['row_probabilities_exact']]
-            y=[float(p) for p in family['col_probabilities_exact']]
+            x=[float(Fraction(p)) for p in family['row_probabilities_exact']]
+            y=[float(Fraction(p)) for p in family['col_probabilities_exact']]
             add(x,y,'rational_support_witness','exact_rational_witness',
                 {'row_probabilities_exact':family['row_probabilities_exact'],
                  'col_probabilities_exact':family['col_probabilities_exact']})
