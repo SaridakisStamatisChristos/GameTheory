@@ -44,6 +44,10 @@ jobs:
         working-directory: backend
         run: |
           python -c 'import json; from benchmark_independent_nashpy_v49 import run; print(json.dumps(run(repetitions=2),indent=2))'
+      - name: Exact zero-sum minimax reference benchmark
+        working-directory: backend
+        run: |
+          python -c 'import json; from benchmark_exact_minimax_v51 import run; print(json.dumps(run(repetitions=2),indent=2))'
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4

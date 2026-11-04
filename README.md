@@ -254,3 +254,21 @@ multipliers, ordered by the normalization and recommendation-obedience rows.
 Exact primal and dual feasibility and equality of objectives certify optimality
 for the declared rational input model. Failure or rational-work exhaustion
 never produces an optimality certificate.
+
+### Exact zero-sum minimax equilibrium (v51)
+
+`POST /api/zero-sum/exact` computes a **certified rational minimax
+equilibrium** using bounded exact primal/dual LPs, independently checked
+against the original payoff matrix. Request example:
+
+```json
+{"payoffs": [[1, -1], [-1, 1]], "max_operations": 200000}
+```
+
+Strategies, game value, and security bounds are returned as **exact
+rational strings** (matching pennies: 1/2, 1/2 for each player; value 0).
+The exact solver limits games to 100 joint action profiles and respects
+the existing 20-action-per-player API safeguard. It returns **one**
+zero-sum equilibrium, not the complete equilibrium set. Exceeding the
+counted rational-pivot-update budget fails closed with HTTP 422.
+See `docs/EXACT_ZERO_SUM_MINIMAX.md` for proof, scope and limitations.
