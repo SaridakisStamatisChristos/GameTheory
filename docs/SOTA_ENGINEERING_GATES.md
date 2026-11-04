@@ -172,3 +172,21 @@ SciPy/HiGHS value comparisons, plus adversarial fault injection.
 Gambit `gambit-lp` exact-rational is documented prior art and an
 outstanding fair runtime comparator; OpenSpiel comparisons also remain
 not executed. **No global SOTA claim follows.**
+
+## v52: executed independent Gambit comparison
+
+`benchmark_gambit_v52.py` requires pinned PyGambit 17.0.0b2, executes
+Gambit's exact rational LP on identical integer normal-form payoffs,
+and verifies GameTheory and Gambit equilibrium strategies independently
+using exact rational saddle-point inequalities. Each fixture must agree
+exactly in game value, not necessarily in the selected equilibrium
+strategy when games are degenerate. A mismatched/absent comparator fails
+CI; no local fallback is silently substituted.
+
+The separate CI job records pinned dependencies, fixture hash, both
+full timing samples and medians, exact validation outcomes, and uploads
+a JSON artifact. The benchmark deliberately makes **no SOTA speedup**
+claims. Next gates: independent Gambit general-sum cases, OpenSpiel's
+zero-sum and extensive-form comparison on matched models, and larger
+statistical performance samples including measured resource usage.
+See `docs/GAMBIT_COMPARISON_V52.md`.

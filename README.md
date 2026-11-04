@@ -272,3 +272,14 @@ the existing 20-action-per-player API safeguard. It returns **one**
 zero-sum equilibrium, not the complete equilibrium set. Exceeding the
 counted rational-pivot-update budget fails closed with HTTP 422.
 See `docs/EXACT_ZERO_SUM_MINIMAX.md` for proof, scope and limitations.
+
+### Independent exact solver validation (v52)
+
+A separate CI job installs **PyGambit 17.0.0b2** and compares
+`POST /api/zero-sum/exact`'s underlying rational minimax solver to
+Gambit's exact rational LP on identically represented integer payoffs imported through the standard NFG format.
+It reconstructs independent exact saddle-point certificates, checks
+exact game-value agreement, and archives the complete paired sample
+record. Refer to `docs/GAMBIT_COMPARISON_V52.md` and the
+`external-gambit` workflow artifact. This is a correctness/compatibility
+benchmark—not evidence of cross-engine SOTA runtime.

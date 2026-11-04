@@ -59,6 +59,37 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
 
+  external-gambit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install frozen core dependencies and exact Gambit reference
+        run: |
+          python -m pip install -r backend/requirements.txt -c backend/constraints-audit-v38.txt
+          python -m pip install --only-binary=:all: pygambit==17.0.0b2
+          python -m pip check
+          python -m pip show pygambit
+      - name: Test comparator with actual third-party Gambit engine
+        working-directory: backend
+        run: python -m pytest -q -W error test_benchmark_gambit_v52.py benchmark_gambit_external_validation_v52.py
+      - name: Run pinned cross-engine exact-rational campaign
+        working-directory: backend
+        run: python benchmark_gambit_v52.py --repetitions 3 --seed 52052 --output benchmark_gambit_v52_results.json
+      - name: Archive independently validated benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-gambit-v52-evidence
+          path: backend/benchmark_gambit_v52_results.json
+          retention-days: 30
+          if-no-files-found: warn
+
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
