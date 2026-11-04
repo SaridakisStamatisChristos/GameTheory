@@ -206,3 +206,17 @@ OpenSpiel is not installed into the core environment. The actual
 external engine acceptance test is separately mandatory and is
 excluded only from the application-statement coverage denominator,
 not from CI acceptance. See `docs/OPENSPIEL_COMPARISON_V53.md`.
+
+## v54: Gambit exact general-sum extreme equilibria versus complete strict-support cells
+
+The `external-gambit` job additionally runs a **rational** Gambit
+`enummixed_solve` reference on a deterministic suite of integer
+bimatrix games, including ties and continuum families. Every Gambit
+extreme point passes an independent rational Nash certificate and
+belongs to exactly one complete GameTheory strict-support H-cell.
+An independent direct pure-Nash scan cross-checks pure cells in both
+engines. Counts of Gambit extreme points and GameTheory polytope
+families cannot be compared as equivalent objects in degenerate
+games. This is a bounded external consistency gate, not general-set
+completeness equivalence or SOTA superiority. See
+`docs/GAMBIT_GENERAL_SUM_V54.md`.

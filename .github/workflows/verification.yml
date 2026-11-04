@@ -88,6 +88,19 @@ jobs:
           name: external-gambit-v52-evidence
           path: backend/benchmark_gambit_v52_results.json
           retention-days: 30
+      - name: Validate independent exact general-sum Nash reference
+        working-directory: backend
+        run: python -m pytest -q -W error test_gambit_general_contract_v54.py benchmark_gambit_general_external_v54.py
+      - name: Execute Gambit extreme-equilibria vs exact H-polytopes
+        working-directory: backend
+        run: python benchmark_gambit_general_v54.py --repetitions 3 --seed 54054 --output benchmark_gambit_general_v54_results.json
+      - name: Archive exact general-sum Nash reference evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-gambit-general-v54-evidence
+          path: backend/benchmark_gambit_general_v54_results.json
+          retention-days: 30
           if-no-files-found: warn
 
   external-openspiel:
