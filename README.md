@@ -277,7 +277,7 @@ See `docs/EXACT_ZERO_SUM_MINIMAX.md` for proof, scope and limitations.
 
 A separate CI job installs **PyGambit 17.0.0b2** and compares
 `POST /api/zero-sum/exact`'s underlying rational minimax solver to
-Gambit's exact rational LP on identically represented integer payoffs.
+Gambit's exact rational LP on identically represented integer payoffs imported through the standard NFG format.
 It reconstructs independent exact saddle-point certificates, checks
 exact game-value agreement, and archives the complete paired sample
 record. Refer to `docs/GAMBIT_COMPARISON_V52.md` and the

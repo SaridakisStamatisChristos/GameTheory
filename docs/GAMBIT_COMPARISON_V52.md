@@ -12,7 +12,7 @@ not a second algorithm written using GameTheory's own rational simplex.
 All fixtures are exactly representable **integer** payoff matrices,
 so GameTheory's float64 -> Fraction(str(value)) transformation and Gambit's
 rational payoffs describe **the same game**. The comparator explicitly checks
-Gambit's `Game.from_arrays(a,-a)` round trip before comparing outcomes.
+Gambit's standard `.nfg` payoff-format import round trip before comparing outcomes.
 
 For **both** engine outputs, a separately authored verifier calculates from
 the source integer payoffs:
@@ -64,3 +64,17 @@ Locally, with the pinned packages available:
 Official sources:
 https://gambitproject.readthedocs.io/en/v17.0.0b2/api/pygambit.nash.lp_solve.html
 https://gambitproject.readthedocs.io/en/v17.0.0b2/api/pygambit.gambit.Game.from_arrays.html
+
+## Gambit 17 compatibility adaptation
+
+The installable 17.0.0 beta 2 wheel uses player/strategy labels (rather
+than the removed public Player/Strategy objects), and the release's
+`Game.from_arrays` entry point is unavailable. The benchmark therefore
+writes the stable **NFG 1 R payoff format** in memory, with row player
+actions changing fastest in each payoff pair. It imports that format via
+`pygambit.read_nfg(BytesIO(...))` and recovers probabilities using
+`profile[player_label][strategy_label]` and
+`game.get_strategies(player_label)`.
+`Game.to_arrays()` verifies that no transposition or payoff conversion
+occurred before the solver is run. A parser failure or unexpected
+strategy ordering is a CI failure, never a fallback to our solver.

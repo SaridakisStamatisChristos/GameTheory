@@ -6,6 +6,7 @@ This benchmark is a reproducible correctness check, not a SOTA speed claim.
 import argparse
 from fractions import Fraction
 import hashlib
+from io import BytesIO
 from importlib.metadata import version
 import json
 import platform
@@ -64,6 +65,18 @@ def fixture_digest(games):
                                      separators=(',', ':')).encode()).hexdigest()
 
 
+def nfg_bytes(a):
+    """Standard Gambit NFG payoff format: first player's action varies fastest."""
+    a = np.asarray(a)
+    if a.ndim != 2 or a.size == 0 or not np.issubdtype(a.dtype, np.integer):
+        raise ValueError('NFG comparator requires a nonempty integer matrix')
+    m, n = a.shape
+    entries = ' '.join(f'{int(a[i, j])} {-int(a[i, j])}'
+                       for j in range(n) for i in range(m))
+    return (f'NFG 1 R "GameTheory v52" {{ "Row" "Column" }} '
+            f'{{ {m} {n} }}\\n\\n{entries}\\n').replace('\\n', '\n').encode('ascii')
+
+
 def compare_case(gbt, name, a, repetitions):
     if not 1 <= repetitions <= 20:
         raise ValueError('repetitions must be 1..20')
@@ -84,7 +97,7 @@ def compare_case(gbt, name, a, repetitions):
             raise AssertionError('GameTheory value disagrees with independent certificate')
 
         start = perf_counter()
-        game = gbt.Game.from_arrays(a, -a, title=name)
+        game = gbt.read_nfg(BytesIO(nfg_bytes(a)))
         game_payoffs = game.to_arrays()
         if (len(game_payoffs) != 2 or
                 any(Fraction(str(game_payoffs[0][i, j])) != int(a[i, j])
@@ -95,10 +108,13 @@ def compare_case(gbt, name, a, repetitions):
         if not answer.equilibria:
             raise AssertionError('Gambit exact LP returned no equilibrium')
         profile = answer.equilibria[0]
-        x_gambit = [Fraction(str(profile[strategy]))
-                    for strategy in game.players[0].strategies]
-        y_gambit = [Fraction(str(profile[strategy]))
-                    for strategy in game.players[1].strategies]
+        players = list(game.players)
+        if len(players) != 2:
+            raise AssertionError('Gambit did not create a two-player game')
+        x_gambit = [Fraction(str(profile[players[0]][strategy]))
+                    for strategy in game.get_strategies(players[0])]
+        y_gambit = [Fraction(str(profile[players[1]][strategy]))
+                    for strategy in game.get_strategies(players[1])]
         v_gambit = exact_certificate(a, x_gambit, y_gambit)
         gambit_seconds.append(perf_counter() - start)
         if v_gambit != v_ours:
@@ -138,7 +154,7 @@ def run(repetitions=3, seed=52052):
         'gambit_solver': 'pygambit.nash.lp_solve(rational=True,use_strategic=True)',
         'inputs': 'integer payoffs exactly represented in both systems; all values <= 1e6',
         'comparison_metric': 'exact game value and independent exact saddle-point certificate',
-        'timing_scope': 'public solve, model construction and returned strategy extraction/audit',
+        'timing_scope': 'public solve, NFG import and returned strategy extraction/audit',
         'limitations': ('Different implementations and preprocessing overheads; '
                         'small convenience sample with no memory/bit-growth statistics. '
                         'No global speedup or SOTA conclusion; OpenSpiel not executed.'),

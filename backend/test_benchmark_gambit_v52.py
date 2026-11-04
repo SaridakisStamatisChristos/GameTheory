@@ -2,7 +2,7 @@
 from fractions import Fraction
 import numpy as np
 import pytest
-from benchmark_gambit_v52 import fixtures, fixture_digest, exact_certificate, run
+from benchmark_gambit_v52 import fixtures, fixture_digest, exact_certificate, nfg_bytes, run
 
 
 def test_fixture_suite_stable_and_exact_input_contract():
@@ -48,3 +48,11 @@ def test_real_gambit_reference_all_fixtures():
     assert len(result['cases']) == len(fixtures())
     assert all(c['both_exact_certificates_passed'] for c in result['cases'])
     assert all(len(c['gambit_all_seconds']) == 2 for c in result['cases'])
+
+
+def test_nfg_column_major_payoff_serialization():
+    raw = nfg_bytes(np.asarray([[1, 2], [3, 4]], dtype=np.int64)).decode('ascii')
+    assert raw.startswith('NFG 1 R "GameTheory v52"')
+    assert raw.split('}', 2)[-1].strip() == '1 -1 3 -3 2 -2 4 -4'
+    with pytest.raises(ValueError, match='integer matrix'):
+        nfg_bytes(np.asarray([[0.5]]))
