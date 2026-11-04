@@ -135,8 +135,10 @@ The budget does **not** bound coefficient bit growth or wall time.
 
 `joint_distribution_exact`, `expected_payoffs_exact`, and
 `objective_value_exact` are rational strings. Output correctness is checked
-independently of the LP's constraints with Fraction arithmetic; no dual LP
-optimality certificate is independently supplied. The returned distribution
+independently of the LP's constraints with Fraction arithmetic; a separately solved
+exact rational dual LP supplies nonnegative multipliers; direct independent
+rational checking of dual feasibility and matching primal/dual objectives
+certifies the reported objective optimum. The returned distribution
 is **one** correlated equilibrium, not a complete description of the CE
 polytope or Nash equilibrium set.
 

@@ -59,6 +59,22 @@ def solve_exact_correlated_equilibrium(a, b, *, objective='welfare', max_operati
                  for j in range(n) for k in range(n) if j != k]
     if any(g > 0 for g in (*row_gains, *col_gains)):
         raise AssertionError('Exact LP failed obedience verification')
+    if objective == 'welfare':
+        # Dual of max c*x with A*x<=b, x>=0: min b*y, A.T*y>=c, y>=0.
+        # Solve it separately, then check weak-duality equality in exact arithmetic.
+        dual = _RationalSimplex(
+            [[-constraints[i][j] for i in range(len(rhs))] for j in range(dim)],
+            [-v for v in objective_vector], [-v for v in rhs], work).solve()
+        if dual is None:
+            raise AssertionError('Exact correlated-equilibrium dual LP unexpectedly infeasible')
+    else:
+        dual = [Fraction(0)]*len(rhs)
+    if (len(dual) != len(rhs) or any(v < 0 for v in dual) or
+            any(sum(constraints[i][j]*dual[i] for i in range(len(rhs))) < objective_vector[j]
+                for j in range(dim)) or
+            sum(dual[i]*rhs[i] for i in range(len(rhs))) !=
+            sum(flat[j]*objective_vector[j] for j in range(dim))):
+        raise AssertionError('Exact correlated-equilibrium dual optimality certificate failed')
     values = [sum(q[i][j]*payoff[i][j] for i in range(m) for j in range(n))
               for payoff in (af, bf)]
     return {
@@ -70,7 +86,9 @@ def solve_exact_correlated_equilibrium(a, b, *, objective='welfare', max_operati
         'objective_value_exact': str(sum(values)) if objective == 'welfare' else '0',
         'exact_operations': work['steps'],
         'certificate': 'independent exact rational probability and unconditional obedience checks',
-        'optimality_evidence': 'rational simplex result; independent dual optimality certificate not supplied',
+        'dual_multipliers_exact': [str(v) for v in dual],
+        'dual_constraint_order': 'normalization upper, normalization lower, row deviations (i,k) with i!=k, then column deviations (j,k) with j!=k',
+        'optimality_evidence': 'exact rational primal and dual feasibility with matching objective values',
         'input_model': 'decimal strings of validated float64 payoffs',
         'complete_equilibrium_set': False,
     }

@@ -248,3 +248,9 @@ profiles are accepted; budget exhaustion is reported, not certified.
 Exact witnesses are returned as rational strings on the validated float64
 input model. This is **one** CE witness, not enumeration of all CE or Nash
 equilibria. See `docs/SOTA_ENGINEERING_GATES.md` for evidence limitations.
+
+For the welfare objective the response also provides exact rational dual LP
+multipliers, ordered by the normalization and recommendation-obedience rows.
+Exact primal and dual feasibility and equality of objectives certify optimality
+for the declared rational input model. Failure or rational-work exhaustion
+never produces an optimality certificate.

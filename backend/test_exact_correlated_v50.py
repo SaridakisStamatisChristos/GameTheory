@@ -145,3 +145,65 @@ def test_http_exact_correlated_contract_and_fail_closed():
             **base, 'objective': 'not_an_objective'})
         assert bad_objective.status_code == 422
         assert client.post('/api/correlated-equilibrium', json=base).status_code == 200
+
+
+def test_independent_exact_dual_certificate_on_representative_games():
+    rng = np.random.default_rng(50088)
+    for shape in ((1, 1), (2, 2), (2, 3), (3, 3), (4, 4)):
+        m, n = shape
+        for _ in range(5):
+            a = rng.integers(-6, 7, size=shape)
+            b = rng.integers(-6, 7, size=shape)
+            for objective in ('welfare', 'feasible'):
+                answer = solve(a, b, objective=objective, max_operations=1000000)
+                q = [[F(v) for v in row] for row in answer['joint_distribution_exact']]
+                y = [F(v) for v in answer['dual_multipliers_exact']]
+                rows = [[F(1)]*(m*n), [-F(1)]*(m*n)]
+                rhs = [F(1), -F(1)]
+                for i in range(m):
+                    for k in range(m):
+                        if i != k:
+                            row = [F(0)]*(m*n)
+                            for j in range(n):
+                                row[i*n+j] = F(int(a[k, j])-int(a[i, j]))
+                            rows.append(row)
+                            rhs.append(F(0))
+                for j in range(n):
+                    for k in range(n):
+                        if j != k:
+                            row = [F(0)]*(m*n)
+                            for i in range(m):
+                                row[i*n+j] = F(int(b[i, k])-int(b[i, j]))
+                            rows.append(row)
+                            rhs.append(F(0))
+                c = [F(int(a[i,j])+int(b[i,j])) if objective=='welfare' else F(0)
+                     for i in range(m) for j in range(n)]
+                assert len(y) == len(rows) and all(v >= 0 for v in y)
+                assert all(sum(rows[i][j]*y[i] for i in range(len(rows))) >= c[j]
+                           for j in range(m*n))
+                assert sum(rhs[i]*y[i] for i in range(len(rows))) == sum(
+                    q[i][j]*c[i*n+j] for i in range(m) for j in range(n))
+                assert 'matching objective values' in answer['optimality_evidence']
+
+
+def test_adversarial_fault_injection_rejects_invalid_dual(monkeypatch):
+    base = exact_correlated._RationalSimplex
+    class BrokenDual:
+        calls = 0
+        injected = None
+        def __init__(self, *_args):
+            pass
+        def solve(self):
+            BrokenDual.calls += 1
+            return [F(1), F(0), F(0), F(0)] if BrokenDual.calls % 2 else BrokenDual.injected
+    try:
+        for dual, message in ((None, 'dual LP'),
+                              ([F(-1)]*6, 'dual optimality'),
+                              ([F(0)]*6, 'dual optimality')):
+            BrokenDual.calls = 0
+            BrokenDual.injected = dual
+            monkeypatch.setattr(exact_correlated, '_RationalSimplex', BrokenDual)
+            with pytest.raises(AssertionError, match=message):
+                solve([[2, 0], [0, 1]], [[1, 0], [0, 2]])
+    finally:
+        monkeypatch.setattr(exact_correlated, '_RationalSimplex', base)
