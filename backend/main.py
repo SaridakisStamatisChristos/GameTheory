@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from api_guard import LabGuard
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Literal
 import numpy as np
 from scipy.optimize import linprog
 
@@ -319,7 +319,6 @@ def equilibria_exact_nash_set(req: ExactNashSetRequest):
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc
 
-from typing import Literal
 from general_nash import solve_general_nash
 
 class GeneralNashRequest(Game):
