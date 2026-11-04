@@ -1,4 +1,4 @@
-# General Nash Engine v47 — Algorithm and evidence contract
+# General Nash Engine v48 — Algorithm and evidence contract
 
 ## Objective
 
@@ -13,7 +13,8 @@ and optional: `mode` (`auto`, `approximate`, `exact`),
 `iterations`, `restarts`, `seed`, `max_pure_cells`,
 `max_exact_pairs`, `max_exact_operations`, `max_exact_support`,
   `exact_backend` (`simplex` default or `vertices` reference),
-  and `prune_supports` (`true` default, `false` exact baseline).
+  `prune_supports` (`true` default, `false` exact baseline), and
+  `mixed_pruning` (`false` default, `true` opt-in rational LP test).
 
 ## Algorithm dispatch
 
@@ -163,3 +164,46 @@ sizes, comparing feasible support sets and report semantics before
 reporting measured times and exact work counts. Independent regression
 tests compare complete/partial classifications against the unpruned
 rational LP and direct exact Nash deviation verification.
+
+## v48: conditional mixed-strategy weak dominance
+
+Pure dominance cannot exclude every impossible strict support. The opt-in
+`mixed_pruning=true` path tests whether a supported action `i` is
+weakly dominated, **on the specific opponent support `J`**, by a
+probability mixture over **other own pure actions**.
+
+For the row player, the exact LP seeks weights `q_k >= 0`,
+`sum_{k != i} q_k = 1`, such that for all `j in J`:
+
+```text
+g_j = sum_{k != i} q_k * A[k,j] - A[i,j] >= 0
+```
+
+It maximizes the sum of gains `sum_{j in J} g_j`. If the optimal
+value is **strictly positive** in rational arithmetic, at least one
+`g_j>0` and every strictly positive opponent strategy supported on
+`J` yields a strictly greater expected payoff against the mixture.
+Therefore action `i` cannot be a best response and the Nash support
+pair is impossible. The column-player rule applies symmetrically to
+`B.T`.
+
+The LP returns an exact rational mixture and each certificate is
+rechecked using exact rational payoff inequalities. A non-positive
+optimum, infeasible LP, or insufficient work budget **never justifies
+pruning**. Exhausted rational work returns a partial search result
+with `incomplete_reason=operation_budget`; it cannot be mistaken for
+complete equilibrium-set classification.
+
+The `mixed_pruning` option is **off by default** because the LP
+preprocessing may exceed the work saved by eliminating impossible
+support pairs. Its rational simplex pivots share the same
+`max_exact_operations` budget as equilibrium feasibility; its cache
+stores conditional action/support results. `mixed_dominance_lp_attempts`
+counts dominance LPs and `mixed_dominance_pruned_pairs` counts supports
+excluded specifically by a mixed certificate.
+`dominance_pruned_pairs` includes both pure and mixed exclusions.
+
+`pure_search_exhausted` is now only true when *all* reduced pure
+strategy cells have actually been examined (including the one-cell
+case). `pure_cells_checked` discloses the count. Previously the field
+could be true despite stopping at the first found equilibrium.

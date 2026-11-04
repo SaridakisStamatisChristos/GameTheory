@@ -54,7 +54,8 @@ def test_general_engine_handles_large_dimensions_without_core_size_gates():
         r=solve_general_nash(a,b,mode='auto',max_pure_cells=5000)
         assert r['original_shape']==[m,n]
         assert r['reduced_shape']==[m,n]
-        assert r['pure_search_exhausted']
+        assert not r['pure_search_exhausted']
+        assert r['pure_cells_checked']==1
         assert r['status']=='certified_candidate'
         assert r['best_candidate']['evidence']=='exact_pure_equilibrium'
         assert r['best_candidate']['certificate']['valid']

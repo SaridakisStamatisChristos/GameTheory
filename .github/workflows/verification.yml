@@ -36,6 +36,10 @@ jobs:
         working-directory: backend
         run: |
           python -c 'import json; from benchmark_support_pruning_v47 import run; print(json.dumps(run(repetitions=1), indent=2))'
+      - name: Matched mixed-dominance research benchmark
+        working-directory: backend
+        run: |
+          python -c 'import json; from benchmark_mixed_dominance_v48 import run; print(json.dumps(run(repetitions=2),indent=2))'
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4
