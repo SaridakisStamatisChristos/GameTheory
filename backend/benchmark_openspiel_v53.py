@@ -55,7 +55,7 @@ def independent_numeric_saddle(a, x, y, reference_value, row_value, col_value, *
     if (a.ndim != 2 or a.size == 0 or x.shape != (a.shape[0],) or
             y.shape != (a.shape[1],) or
             not all(np.isfinite(v).all() for v in (a, x, y)) or
-            not np.isfinite([reference_value, row_value, col_value, tolerance]).all()
+            not np.isfinite(np.asarray([float(reference_value), float(row_value), float(col_value), float(tolerance)], dtype=float)).all()
             or tolerance <= 0):
         raise AssertionError('Invalid numerical equilibrium certificate inputs')
     simplex_error = max(abs(float(x.sum()) - 1), abs(float(y.sum()) - 1),
