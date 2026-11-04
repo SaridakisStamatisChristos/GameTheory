@@ -201,3 +201,64 @@ def test_numerical_solver_failure_falls_back_honestly(monkeypatch):
                             mode='auto',iterations=100,restarts=1)
     assert r['best_candidate']['method']=='multi_start_fictitious_play'
     assert not r['equilibrium_set_complete']
+
+def test_independent_scipy_lp_support_oracle_3x3():
+    import itertools
+    from test_exact_support_v42 import reference_support_feasible
+    rng=np.random.default_rng(4547)
+    for _ in range(8):
+        a=rng.integers(-3,4,size=(3,3))
+        b=rng.integers(-3,4,size=(3,3))
+        r=search_exact_nash_cells(a,b,max_pairs=49,max_support=3,
+                                  max_operations=200000)
+        assert r['complete_equilibrium_set']
+        observed={(tuple(f['support']['row']),tuple(f['support']['col']))
+                  for f in r['families']}
+        expected=set()
+        for k in range(1,4):
+            for I in itertools.combinations(range(3),k):
+                for l in range(1,4):
+                    for J in itertools.combinations(range(3),l):
+                        if reference_support_feasible(a,b,I,J):
+                            expected.add((I,J))
+        assert observed==expected,(a.tolist(),b.tolist(),observed^expected)
+
+
+def test_invalid_first_lp_certificate_does_not_block_better_fallback(monkeypatch):
+    import general_nash as gn
+    # Fabricate a non-equilibrium minimax output to check that the
+    # independent certificate cannot be bypassed by a successful LP flag.
+    monkeypatch.setattr(gn,'_zero_sum_candidate',
+                        lambda *args:(np.array([1.,0.]),np.array([1.,0.]),
+                                      {'normalized_minimax_duality_gap':0.}))
+    a=[[1,-1],[-1,1]]
+    b=[[-1,1],[1,-1]]
+    r=gn.solve_general_nash(a,b,mode='auto')
+    assert len(r['candidates'])>=2
+    assert r['candidates'][0]['certificate']['valid'] is False
+    assert r['candidate_certified_within_tolerance']
+    assert r['best_candidate']['certificate']['valid']
+
+
+def test_indeterminate_lp_and_pivot_allow_bounded_approximate_fallback(monkeypatch):
+    import general_nash as gn
+    monkeypatch.setattr(gn,'_zero_sum_candidate',
+                        lambda *args:(np.array([1.,0.]),np.array([1.,0.]),{}))
+    monkeypatch.setattr(gn,'solve_independent_lh',
+                        lambda *args,**kw:{'equilibria':[]})
+    r=gn.solve_general_nash([[1,-1],[-1,1]],[[-1,1],[1,-1]],
+                            iterations=100,restarts=1)
+    assert len(r['candidates'])==2
+    assert r['candidates'][1]['method']=='multi_start_fictitious_play'
+    assert not r['equilibrium_set_complete']
+
+
+def test_simple_constant_sum_degenerate_case_and_lp_failures(monkeypatch):
+    import general_nash as gn
+    a=np.zeros((2,2));b=np.zeros((2,2))
+    x=gn._zero_sum_candidate(a,b)
+    assert x is not None and x[2]['normalized_minimax_duality_gap']<1e-9
+    class Failed:
+        success=False
+    monkeypatch.setattr(gn,'linprog',lambda *args,**kw:Failed())
+    assert gn._zero_sum_candidate(a,b) is None

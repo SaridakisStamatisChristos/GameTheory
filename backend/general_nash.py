@@ -154,13 +154,13 @@ def solve_general_nash(a,b,*,mode='auto',iterations=1000,restarts=2,seed=0,
         zs=_zero_sum_candidate(reduced_a,reduced_b)
         if zs is not None:
             add(zs[0],zs[1],'constant_sum_minimax_lp','numerically_checked',zs[2])
-        if not candidates and len(rows)>1 and len(cols)>1 and len(rows)+len(cols)<=10:
+        if not any(c['certificate']['valid'] for c in candidates) and len(rows)>1 and len(cols)>1 and len(rows)+len(cols)<=10:
             lh=solve_independent_lh(reduced_a,reduced_b,max_labels=min(4,len(rows)+len(cols)),
                                     max_pivots=250)
             for equilibrium in lh['equilibria'][:1]:
                 add(equilibrium['row_probabilities'],equilibrium['col_probabilities'],
                     'independent_lemke_howson','numerically_checked')
-    if not candidates and mode in ('auto','approximate'):
+    if not any(c['certificate']['valid'] for c in candidates) and mode in ('auto','approximate'):
         outcome=approximate_nash(reduced_a,reduced_b,iterations=iterations,
                                  restarts=restarts,seed=seed)
         profile=outcome['profile']
