@@ -294,3 +294,13 @@ acceptance is bounded by explicitly recorded original-payoff
 tolerances. Evidence is archived for reproducibility. See
 `docs/OPENSPIEL_COMPARISON_V53.md`. This is a correctness
 comparison, **not** a general-SOTA or cross-engine speedup claim.
+
+### Exact general-sum Nash comparison (v54)
+
+The pinned Gambit research job also computes **rational general-sum
+extreme Nash equilibria**. An independent exact checker verifies
+original-payoff incentive conditions and unique membership in one
+GameTheory strict-support rational equilibrium family. Degenerate
+games are handled as continuum families, **not** counted as individual
+equilibrium points. Benchmarks and non-claims are documented in
+`docs/GAMBIT_GENERAL_SUM_V54.md`.
