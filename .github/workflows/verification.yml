@@ -48,6 +48,17 @@ jobs:
         working-directory: backend
         run: |
           python -c 'import json; from benchmark_exact_minimax_v51 import run; print(json.dumps(run(repetitions=2),indent=2))'
+      - name: Matched rational feasibility fast-path benchmark
+        working-directory: backend
+        run: python benchmark_exact_probe_v55.py --repetitions 3 --seed 55055 --output benchmark_exact_probe_v55_results.json
+      - name: Archive v55 matched performance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-probe-v55-evidence
+          path: backend/benchmark_exact_probe_v55_results.json
+          retention-days: 30
+          if-no-files-found: warn
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4

@@ -220,3 +220,18 @@ families cannot be compared as equivalent objects in degenerate
 games. This is a bounded external consistency gate, not general-set
 completeness equivalence or SOTA superiority. See
 `docs/GAMBIT_GENERAL_SUM_V54.md`.
+
+## v55: certified rational simplex feasibility shortcut
+
+The `feasible_strict_strategy` function now tries an exact uniform
+strict-support witness *before* constructing the LP; on singleton
+opponent supports, its failure proves infeasibility outright.
+Nonuniform candidates continue to the unchanged rational simplex,
+and the existing independently checked Nash certificates remain
+mandatory. Each coefficient inspection is debited to the rational
+work budget. The baseline stays accessible via
+`feasibility_fast_path=False`, and both arms are benchmarked on
+the identical support order, work budget and game suite. Negative
+runtime cases are retained, not filtered. See
+`docs/RATIONAL_FEASIBILITY_V55.md`. A match in classification
+does not prove an asymptotic or broad SOTA speedup.

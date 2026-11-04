@@ -304,3 +304,14 @@ GameTheory strict-support rational equilibrium family. Degenerate
 games are handled as continuum families, **not** counted as individual
 equilibrium points. Benchmarks and non-claims are documented in
 `docs/GAMBIT_GENERAL_SUM_V54.md`.
+
+### Certified exact rational feasibility acceleration (v55)
+
+Uniform exact-rational support witnesses are checked without a
+simplex pivot; singleton opponent supports also admit a complete
+exact infeasibility test. Every bypass is charged to the work budget,
+and nonuniform candidates retain the original simplex and
+best-response verification. `feasibility_fast_path=False` exposes
+the unchanged baseline for matched comparisons. The CI benchmark
+archives paired timing distributions and regressions; see
+`docs/RATIONAL_FEASIBILITY_V55.md`.
