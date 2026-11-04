@@ -83,7 +83,7 @@ strategy ordering is a CI failure, never a fallback to our solver.
 
 Core regression tests can validate fixture determinism and independent
 certificate rejection without installing PyGambit. The **actual external
-engine test** lives in `backend/validate_gambit_external_v52.py` and
+engine test** lives in `backend/benchmark_gambit_external_validation_v52.py` and
 is collected explicitly by the mandatory `external-gambit` CI job
 alongside the core comparator unit tests. This avoids an implicit
 optional-dependency failure in the normal strict-warning backend suite
