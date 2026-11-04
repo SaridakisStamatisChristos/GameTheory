@@ -141,8 +141,8 @@ def _verify_exact_equilibrium(a,b,x,y):
     return (sum(x[i]*row_util[i] for i in range(len(x))) == max(row_util)
             and sum(y[j]*col_util[j] for j in range(len(y))) == max(col_util))
 
-def solve_exact_support(a, b, *, max_pairs=225, max_operations=100000):
-    """Exact feasible-support classification for at most 4x4 games.
+def solve_exact_support(a, b, *, max_pairs=225, max_operations=100000, max_actions=4):
+    """Exact feasible-support classification for at most 4x4 by default, opt-in 5x5.
 
     Enumerates (2**m-1)(2**n-1) support pairs. Raises on exhausted budgets
     rather than returning partial feasibility as complete.
@@ -151,10 +151,12 @@ def solve_exact_support(a, b, *, max_pairs=225, max_operations=100000):
     if a.ndim != 2 or a.size == 0 or a.shape != b.shape or not np.isfinite(a).all() or not np.isfinite(b).all():
         raise ValueError('Expected matching nonempty finite payoff matrices')
     m,n=a.shape
-    if max(m,n)>4 or min(m,n)<1:
-        raise ValueError('Exact support feasibility currently supports at most 4x4 games')
-    if not (type(max_pairs) is int and 1<=max_pairs<=225 and type(max_operations) is int
-            and 1<=max_operations<=500000):
+    if type(max_actions) is not int or max_actions not in (4,5):
+        raise ValueError('max_actions must be 4 or 5')
+    if max(m,n)>max_actions or min(m,n)<1:
+        raise ValueError(f'Exact support feasibility limited to {max_actions}x{max_actions} games')
+    if not (type(max_pairs) is int and 1<=max_pairs<=(2**max_actions-1)**2 and type(max_operations) is int
+            and 1<=max_operations<=(500000 if max_actions==4 else 2000000)):
         raise ValueError('Invalid exact support work budget')
     pairs=(2**m-1)*(2**n-1)
     if pairs>max_pairs:

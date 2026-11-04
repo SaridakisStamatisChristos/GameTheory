@@ -264,31 +264,42 @@ def equilibria_independent_lemke_howson(req: LemkeHowsonRequest):
 from exact_support import solve_exact_support
 
 class ExactSupportRequest(Game):
-    max_pairs: int = Field(default=225, ge=1, le=225)
-    max_operations: int = Field(default=100000, ge=1, le=500000)
+    max_pairs: int = Field(default=225, ge=1, le=961)
+    max_operations: int = Field(default=100000, ge=1, le=2000000)
+    max_actions: int = Field(default=4, ge=4, le=5)
 
 @app.post('/api/equilibria/exact-support')
 def equilibria_exact_support(req: ExactSupportRequest):
     a,b=validate(req)
-    if max(a.shape)>4:
-        raise HTTPException(422,'Exact support feasibility currently limited to 4x4 games')
+    if max(a.shape)>req.max_actions:
+        raise HTTPException(422,'Exact support feasibility exceeds requested action dimension')
+    if req.max_actions==4 and (req.max_pairs>225 or req.max_operations>500000):
+        raise HTTPException(422,'Default 4x4 budget ceilings exceeded')
     try:
-        return solve_exact_support(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations)
+        return solve_exact_support(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations,
+                                   max_actions=req.max_actions)
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc
 
 from exact_nash_set import solve_exact_nash_set
 
 class ExactNashSetRequest(Game):
-    max_pairs: int = Field(default=225, ge=1, le=225)
-    max_operations: int = Field(default=100000, ge=1, le=500000)
+    max_pairs: int = Field(default=225, ge=1, le=961)
+    max_operations: int = Field(default=100000, ge=1, le=2000000)
+    max_actions: int = Field(default=4, ge=4, le=5)
+    include_vertices: bool = False
+    max_vertex_candidates: int = Field(default=50000, ge=1, le=200000)
 
 @app.post('/api/equilibria/exact-nash-set')
 def equilibria_exact_nash_set(req: ExactNashSetRequest):
     a,b=validate(req)
-    if max(a.shape)>4:
-        raise HTTPException(422,'Exact Nash geometry currently limited to 4x4 games')
+    if max(a.shape)>req.max_actions:
+        raise HTTPException(422,'Exact Nash geometry exceeds requested action dimension')
+    if req.max_actions==4 and (req.max_pairs>225 or req.max_operations>500000):
+        raise HTTPException(422,'Default 4x4 budget ceilings exceeded')
     try:
-        return solve_exact_nash_set(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations)
+        return solve_exact_nash_set(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations,
+                                    max_actions=req.max_actions,include_vertices=req.include_vertices,
+                                    max_vertex_candidates=req.max_vertex_candidates)
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc

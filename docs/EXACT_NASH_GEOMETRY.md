@@ -6,7 +6,8 @@ For a finite two-player normal-form game with rational payoff matrices
 \(A\in\mathbb{Q}^{m\times n}\), \(B\in\mathbb{Q}^{m\times n}\), the
 `/api/equilibria/exact-nash-set` endpoint returns a **complete, exact
 constraint representation** of the Nash set for \(1\le m,n\le4\), provided
-the bounded computation finishes. It does **not** list infinitely many
+the bounded computation finishes. The default limit is 4×4 and an explicit
+`max_actions=5`, `max_pairs=961` budget enables 5×5 games. It does **not** list infinitely many
 equilibrium points.
 
 The payoff rationals are \(`Fraction(str(float(value)))`\) of the validated
@@ -80,11 +81,18 @@ many equilibria.
 
 ## Limitations and verification
 
-- The default is at most **225 support pairs** and **100,000 counted
-  elimination operations** (configurable within published bounds).
+- By default, at most **225 support pairs** and **100,000 counted
+  elimination operations** are processed (maximum 500,000 in default mode).
+  Opt-in 5×5 permits up to **961 support pairs** and **2,000,000** counted
+  elimination operations. Neither is a polynomial-time guarantee.
   Exact rational coefficient growth and memory use may still be expensive.
-- The endpoint does **not** compute extreme points, dimensions, adjacency,
-  equilibrium selection, or the total number of continuum points.
+- With `include_vertices=true`, the endpoint computes **all exact vertices**
+  and **affine dimensions** of each factor-polytope *closure*. A vertex can lie
+  on an excluded strict-support boundary, so it need not belong to that cell.
+  The `product_affine_dimension` is the sum of row/column factor dimensions;
+  `product_closure_vertex_count` is their vertex-count product.
+  This is not a global adjacency or connected-component decomposition.
+  `max_vertex_candidates` defaults to 50,000 and is capped at 200,000.
 - The algorithm is exact under its stated input model; the mathematical
   proof establishes the description, while implementation correctness
   remains subject to testing, independent audit and possible defects.
@@ -92,3 +100,37 @@ many equilibria.
   membership for exhaustive small games, seeded 3×3 / 4×4 games,
   degenerate continua, strict-support boundaries, and HTTP failures.
   Existing LP and CFR solvers remain separate.
+
+## v44 exact closure geometry — derivation
+
+For each nonempty support cell `P(I,J) × Q(I,J)`, the exact-support
+solver supplies a witness whose active probabilities are **all strictly
+positive**. Let `C` be the weak-constraint polytope obtained from one
+factor by replacing all `p_i > 0` with `p_i >= 0` while preserving the
+best-response equalities, inequalities, and simplex equation.
+
+Then the closure of that factor is **exactly** `C`: every strict-support
+strategy lies in `C`, and for any `z in C`, interpolating with the strict
+witness `w` gives `(1-t)z + t w` with every supported coordinate
+positive for `t>0`, converging to `z` as `t -> 0`.
+
+Because `C` is bounded in the simplex and rational, it is the convex
+hull of finitely many rational vertices. The implementation computes a
+basis of independent equality constraints, considers subsets of
+inequalities active at an extreme point, solves each full-rank square
+system with `Fraction` Gauss–Jordan elimination, validates *all* exact
+equalities/inequalities, and deduplicates the resulting vertices.
+
+The rank of the difference vectors relative to one vertex equals the
+affine dimension of `C`; the dimension of the Cartesian-product cell is
+the sum of the two factor dimensions. Vertices of the **closure** need
+not satisfy strict positivity for that cell (but still lie in some Nash
+support cell of the same game).
+
+The search is combinatorial, not scalable in general. The cumulative
+candidate-basis limit prevents incomplete vertex lists from being
+presented as complete. An exceeded budget returns an error, not a
+partial claim of mathematical completeness. The v44 tests independently
+compare random linear-objective maxima against SciPy/HiGHS optimizers,
+exercise degenerate 5×5 simplex families, and validate strict-boundary
+semantics.
