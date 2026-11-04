@@ -32,7 +32,7 @@ def test_bad_probability_is_rejected_before_any_best_response_claim(monkeypatch)
     monkeypatch.setattr(_RationalSimplex,'solve',lambda self:[F(0),F(1)])
     with pytest.raises(AssertionError,match='Invalid rational'):
         feasible_strict_strategy([[F(0)]],(0,),(0,),
-                                 {'steps':0,'limit':1000})
+                                 {'steps':0,'limit':1000}, fast_path=False)
 
 
 def test_false_best_response_is_rejected_by_independent_verifier(monkeypatch):

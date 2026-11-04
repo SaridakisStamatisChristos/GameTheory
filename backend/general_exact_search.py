@@ -16,7 +16,7 @@ from mixed_dominance_pruning import ConditionalMixedDominancePruner
 
 def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                             max_support=3, feasibility_backend='simplex', prune_supports=True,
-                            mixed_pruning=False):
+                            mixed_pruning=False, feasibility_fast_path=True):
     a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
     if (a.ndim != 2 or a.size == 0 or b.shape != a.shape or
             not np.isfinite(a).all() or not np.isfinite(b).all()):
@@ -31,6 +31,8 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
         raise ValueError('prune_supports must be boolean')
     if type(mixed_pruning) is not bool:
         raise ValueError('mixed_pruning must be boolean')
+    if type(feasibility_fast_path) is not bool:
+        raise ValueError('feasibility_fast_path must be boolean')
     choose_feasibility = (feasible_strict_strategy if feasibility_backend == 'simplex'
                           else _feasible_strategy_by_vertices)
     m, n = a.shape
@@ -84,8 +86,13 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                         continue
                     lp_attempts += 1
                     try:
-                        y = choose_feasibility(af, I, J, work)
-                        x = choose_feasibility(bt, J, I, work) if y is not None else None
+                        if feasibility_backend == 'simplex':
+                            y = choose_feasibility(af, I, J, work, fast_path=feasibility_fast_path)
+                            x = (choose_feasibility(bt, J, I, work, fast_path=feasibility_fast_path)
+                                 if y is not None else None)
+                        else:
+                            y = choose_feasibility(af, I, J, work)
+                            x = choose_feasibility(bt, J, I, work) if y is not None else None
                     except ExactWorkLimit:
                         stopped = 'operation_budget'
                         break
@@ -110,6 +117,11 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
     complete = stopped is None and checked == total
     return {
         'feasibility_backend': feasibility_backend,
+        'feasibility_fast_path': feasibility_fast_path if feasibility_backend == 'simplex' else False,
+        'feasibility_probe_operations': work.get('probe_operations', 0),
+        'uniform_witness_hits': work.get('uniform_witness_hits', 0),
+        'singleton_infeasible_hits': work.get('singleton_infeasible_hits', 0),
+        'simplex_lp_calls': work.get('simplex_lp_calls', 0),
         'support_pairs_total': total,
         'support_pairs_checked': checked,
         'support_pruning_enabled': prune_supports,

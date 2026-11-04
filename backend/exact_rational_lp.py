@@ -2,7 +2,8 @@
 
 Maximize the common lower bound on supported probabilities, with best-response
 inequalities and equalities. No numerical tolerances are used. The operation
-counter bounds tableau updates, not the bit-complexity or wall-clock time.
+counter bounds tableau updates and fast-probe coefficient inspections,
+not the bit-complexity or wall-clock time.
 """
 from fractions import Fraction as F
 from exact_support import ExactWorkLimit
@@ -93,14 +94,49 @@ class _RationalSimplex:
         return x
 
 
-def feasible_strict_strategy(payoff, best_responses, support, work):
+def feasible_strict_strategy(payoff, best_responses, support, work, *, fast_path=True):
     """Find an exact positive support mixture or report infeasibility.
+
+    A uniform exact rational witness is checked *before* the simplex.
+    For singleton supports it is also a complete infeasibility test:
+    the only legal supported strategy is (1). The baseline LP remains
+    available with fast_path=False for differential verification.
 
     Payoff rows are pure actions, columns are opponent actions. Strategies
     are positive only on support; all best_responses must be tied at the
     highest payoff, including comparisons to unsupported pure actions.
     """
     k = len(support)
+    if type(fast_path) is not bool:
+        raise ValueError('fast_path must be boolean')
+    if fast_path:
+        # This exact row-sum comparison is equivalent to checking an
+        # expected payoff at the uniform mixture: the common 1/k factor
+        # cancels. Work is charged for every inspected matrix coefficient.
+        # Crucially, it is charged even on unsuccessful probes, preserving
+        # fail-closed operation budgets and avoiding free computation.
+        probe_cost = len(payoff)*k
+        work['steps'] += probe_cost
+        work['probe_operations'] = work.get('probe_operations', 0) + probe_cost
+        if work['steps'] > work['limit']:
+            raise ExactWorkLimit('Exact feasibility probe operation budget exceeded')
+        base = best_responses[0]
+        expected_total = sum(payoff[base][j] for j in support)
+        prescribed = set(best_responses)
+        uniform_valid = True
+        for i, row in enumerate(payoff):
+            total = sum(row[j] for j in support)
+            if total > expected_total or (i in prescribed and total != expected_total):
+                uniform_valid = False
+                break
+        if uniform_valid:
+            work['uniform_witness_hits'] = work.get('uniform_witness_hits', 0) + 1
+            return [F(1, k)]*k
+        if k == 1:
+            # Proof: no other strictly positive probability vector exists.
+            work['singleton_infeasible_hits'] = work.get('singleton_infeasible_hits', 0) + 1
+            return None
+    work['simplex_lp_calls'] = work.get('simplex_lp_calls', 0) + 1
     constraints, rhs = [], []
 
     def add(row,limit):
