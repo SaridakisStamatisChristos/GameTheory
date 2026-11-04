@@ -21,7 +21,14 @@ broader algorithmic coverage, and operational maturity.
    Exhaustive 2×2 and seeded degenerate 3×3/4×4 oracles must agree
    with unpruned search, and independent SciPy/HiGHS oracle tests must
    match conditional dominance classifications on bounded integer games.
-2. **Independent implementation reference.** Compare representative
+2. **Independent implementation reference.** v49 adds a reproducible
+   **Nashpy 0.0.43** support-enumeration comparison, with direct numerical
+   unilateral-deviation certification on each reference candidate.
+   Its `benchmark_independent_nashpy_v49.py` script checks 14 named
+   and seeded 2×2/3×3 cases and reports point-vs-family output
+   differences; exact enumeration is exhausted for these cases. This is
+   a tested comparator, *not* evidence of superior runtime or broad SOTA.
+   Next, compare representative
    nondegenerate equilibria with Gambit (`pygambit` or
    `gambit-enummixed`) using the **same rational payoffs**. Compare
    zero-sum and extensive-form algorithms with OpenSpiel only where
@@ -37,7 +44,12 @@ broader algorithmic coverage, and operational maturity.
    The script `backend/benchmark_mixed_dominance_v48.py` checks these
    equivalences before reporting times. One CI sample is a **smoke
    benchmark**, not a statistical ranking.
-4. **Game-family coverage.** Report success and regret distributions on
+4. **Game-family coverage.** The v49 comparator includes matching
+   pennies, battle of the sexes, prisoner's dilemma, rock-paper-scissors,
+   3×3 coordination, all-zero degeneracy, and seeded random games.
+   It does not replace a broad distributional benchmark with
+   statistically meaningful uncertainty.
+    Report success and regret distributions on
    matching pennies, coordination, rock-paper-scissors, battle-of-the-
    sexes, degenerate games, random square/rectangular games, and
    strategically dominated games. Record sizes, seeds, tolerance,
@@ -78,3 +90,26 @@ Never promote a lower state as if it proved the next one.
 These are **references**, not performance results. No Gambit/OpenSpiel
 comparative speedup, SOTA status, production deployment, or formal
 verification claim is made on the strength of this document.
+
+## v49 comparable evidence: Nashpy only
+
+Nashpy's normal-form `support_enumeration` returns **numerical point
+profiles**. GameTheory's exact search returns **strict-support H-cells**;
+in degenerate games a cell may contain infinitely many profiles.
+Therefore raw result counts are **not** directly comparable.
+
+For each Nashpy point we independently check simplex normalization,
+nonnegative probabilities, finite values, and original-payoff
+unilateral regret. Only validated Nashpy points are considered when
+checking that the exact solver found a containing support family.
+The benchmark reports any invalid numerical profiles and warnings,
+rather than treating them as exact witnesses.
+
+The fixed-size comparison uses a **full exact support search** to
+make support-coverage comparisons meaningful. Timing output is
+descriptive only, includes different methods and output types, and
+is not used to assert a cross-tool speedup.
+
+External Gambit and OpenSpiel runs remain **not executed** in this
+campaign. Their APIs and environments require separate pinned
+cross-engine benchmarking; no results are invented.

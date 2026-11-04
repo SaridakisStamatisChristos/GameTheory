@@ -165,7 +165,7 @@ python benchmark_algorithms.py --seed 1729 --repeats 5 --iterations 1000 --outpu
 
 Benchmark timings depend on the machine and configuration. Treat committed benchmark JSON files as **historical experimental artifacts**, not universal speed or state-of-the-art claims.
 
-For mathematical assumptions, numerical caveats, resource limits and test-scope details, see **[Validation and limitations](docs/VALIDATION.md)**, the [exact Nash-set proof and representation](docs/EXACT_NASH_GEOMETRY.md), the [general engine contract](docs/GENERAL_NASH_ENGINE.md), and the [SOTA evidence gates](docs/SOTA_ENGINEERING_GATES.md).
+For mathematical assumptions, numerical caveats, resource limits and test-scope details, see **[Validation and limitations](docs/VALIDATION.md)**, the [exact Nash-set proof and representation](docs/EXACT_NASH_GEOMETRY.md), the [general engine contract](docs/GENERAL_NASH_ENGINE.md), the [SOTA evidence gates](docs/SOTA_ENGINEERING_GATES.md), and the [reproducible Nashpy comparator](backend/benchmark_independent_nashpy_v49.py).
 
 ## Project layout
 
