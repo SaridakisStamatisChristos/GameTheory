@@ -108,6 +108,21 @@ def zero_sum(data:ZeroSum):
             'normalized_duality_gap':max(0.,upper-lower),
             'certificate_units':'normalized payoff span and original payoff units'}
 
+from exact_minimax import solve_exact_zero_sum
+
+class ExactZeroSumRequest(ZeroSum):
+    max_operations: int = Field(default=200000, ge=1, le=2000000)
+
+@app.post('/api/zero-sum/exact')
+def zero_sum_exact(data: ExactZeroSumRequest):
+    # Preserve the local 20-action-per-side service limit of /api/zero-sum.
+    if len(data.payoffs) > 20 or any(len(row) > 20 for row in data.payoffs):
+        raise HTTPException(422, 'Exact minimax service matrix limit is 20 actions per player')
+    try:
+        return solve_exact_zero_sum(data.payoffs, max_operations=data.max_operations)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
 from advanced import support_equilibria, replicator
 
 @app.post('/api/equilibria')

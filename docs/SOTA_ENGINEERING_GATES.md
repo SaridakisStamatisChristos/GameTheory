@@ -150,3 +150,25 @@ rejected. This is a meaningful coverage extension, **not** a claim of
 cross-engine SOTA. Follow-up evidence gates: independently check LP dual
 optimality, reproduce Gambit/OpenSpiel comparisons on matching models,
 and examine bit-complexity/wall-clock behavior under adversarial rational data.
+
+## v51: bounded exact zero-sum minimax with primal-dual certificate
+
+The new `POST /api/zero-sum/exact` solves the classic strictly-positive
+payoff translation dual LPs in rational arithmetic and directly verifies
+original-unit maximin/minimax security values and dual objective equality.
+It uses 100 total action profiles maximum and a bounded rational tableau
+update counter; no bound on coefficient bit growth or elapsed time is implied.
+
+The numeric `POST /api/zero-sum` endpoint remains untouched. The new
+module supports exact one-point equilibrium certification for zero-sum
+games without exponential *support-family enumeration*. It is not a
+replacement for general-sum Nash enumeration, and one certified saddle
+point does not imply a complete set of all equilibria.
+
+`test_exact_minimax_v51.py` provides exhaustive small 2×2 3-valued
+fixtures, seeded rectangular/square fixtures and independent direct
+SciPy/HiGHS value comparisons, plus adversarial fault injection.
+`benchmark_exact_minimax_v51.py` is a descriptive smoke comparator.
+Gambit `gambit-lp` exact-rational is documented prior art and an
+outstanding fair runtime comparator; OpenSpiel comparisons also remain
+not executed. **No global SOTA claim follows.**
