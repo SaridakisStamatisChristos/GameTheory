@@ -40,16 +40,6 @@ def test_reject_invalid_benchmark_repetition_without_importing_gambit():
             run(repetitions=repetitions)
 
 
-def test_real_gambit_reference_all_fixtures():
-    result = run(repetitions=2)
-    assert result['pygambit_version'] == '17.0.0b2'
-    assert result['evidence'] == 'executed_external_engine'
-    assert result['fixtures_sha256'] == fixture_digest(fixtures())
-    assert len(result['cases']) == len(fixtures())
-    assert all(c['both_exact_certificates_passed'] for c in result['cases'])
-    assert all(len(c['gambit_all_seconds']) == 2 for c in result['cases'])
-
-
 def test_nfg_column_major_payoff_serialization():
     raw = nfg_bytes(np.asarray([[1, 2], [3, 4]], dtype=np.int64)).decode('ascii')
     assert raw.startswith('NFG 1 R "GameTheory v52"')

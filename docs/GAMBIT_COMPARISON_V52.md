@@ -78,3 +78,13 @@ actions changing fastest in each payoff pair. It imports that format via
 `Game.to_arrays()` verifies that no transposition or payoff conversion
 occurred before the solver is run. A parser failure or unexpected
 strategy ordering is a CI failure, never a fallback to our solver.
+
+## Core CI isolation
+
+Core regression tests can validate fixture determinism and independent
+certificate rejection without installing PyGambit. The **actual external
+engine test** lives in `backend/validate_gambit_external_v52.py` and
+is collected explicitly by the mandatory `external-gambit` CI job
+alongside the core comparator unit tests. This avoids an implicit
+optional-dependency failure in the normal strict-warning backend suite
+without skipping or weakening any external-engine acceptance gate.

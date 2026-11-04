@@ -77,7 +77,7 @@ jobs:
           python -m pip show pygambit
       - name: Test comparator with actual third-party Gambit engine
         working-directory: backend
-        run: python -m pytest -q -W error test_benchmark_gambit_v52.py
+        run: python -m pytest -q -W error test_benchmark_gambit_v52.py validate_gambit_external_v52.py
       - name: Run pinned cross-engine exact-rational campaign
         working-directory: backend
         run: python benchmark_gambit_v52.py --repetitions 3 --seed 52052 --output benchmark_gambit_v52_results.json
