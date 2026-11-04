@@ -90,7 +90,7 @@ def _zero_sum_candidate(a,b):
 
 def solve_general_nash(a,b,*,mode='auto',iterations=1000,restarts=2,seed=0,
                        max_exact_pairs=96,max_exact_operations=20000,
-                       max_exact_support=3, max_pure_cells=100000):
+                       max_exact_support=3, max_pure_cells=100000, exact_backend='simplex'):
     """Size-independent algorithm portfolio; API may enforce separate limits.
 
     mode='auto': pure, constant-sum, bounded LH, then approximate.
@@ -100,6 +100,8 @@ def solve_general_nash(a,b,*,mode='auto',iterations=1000,restarts=2,seed=0,
     a,b=_validate(a,b)
     if mode not in ('auto','approximate','exact'):
         raise ValueError('Invalid general solver mode')
+    if exact_backend not in ('simplex','vertices'):
+        raise ValueError('Invalid exact feasibility backend')
     if (type(max_pure_cells) is not int or not 1<=max_pure_cells<=1000000 or
             type(iterations) is not int or not 100<=iterations<=200000 or
             type(restarts) is not int or not 1<=restarts<=64 or
@@ -143,7 +145,8 @@ def solve_general_nash(a,b,*,mode='auto',iterations=1000,restarts=2,seed=0,
     exact=None
     if mode=='exact':
         exact=search_exact_nash_cells(reduced_a,reduced_b,max_pairs=max_exact_pairs,
-                        max_operations=max_exact_operations,max_support=max_exact_support)
+                        max_operations=max_exact_operations,max_support=max_exact_support,
+                        feasibility_backend=exact_backend)
         for family in exact['families'][:1]:
             x=[float(Fraction(p)) for p in family['row_probabilities_exact']]
             y=[float(Fraction(p)) for p in family['col_probabilities_exact']]

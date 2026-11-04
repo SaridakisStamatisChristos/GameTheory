@@ -2,17 +2,18 @@
 
 Searches supports in increasing cardinality, builds exact-rational
 best-response H-cells, and never labels a truncated search as complete.
-Uses the existing rational vertex feasibility engine without a size ceiling.
+Defaults to a rational two-phase simplex; the vertex engine is retained as an oracle.
 """
 from fractions import Fraction
 from itertools import combinations
 import numpy as np
 from exact_support import _feasible_strategy_by_vertices, _verify_exact_equilibrium, ExactWorkLimit
+from exact_rational_lp import feasible_strict_strategy
 from exact_nash_set import _player_polytope
 
 
 def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
-                            max_support=3):
+                            max_support=3, feasibility_backend='simplex'):
     a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
     if (a.ndim != 2 or a.size == 0 or b.shape != a.shape or
             not np.isfinite(a).all() or not np.isfinite(b).all()):
@@ -21,6 +22,10 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
             type(max_operations) is not int or not 1 <= max_operations <= 2000000 or
             type(max_support) is not int or not 1 <= max_support <= 20):
         raise ValueError('Invalid exact-search work budget')
+    if feasibility_backend not in ('simplex','vertices'):
+        raise ValueError('Unknown exact feasibility backend')
+    choose_feasibility = (feasible_strict_strategy if feasibility_backend == 'simplex'
+                          else _feasible_strategy_by_vertices)
     m, n = a.shape
     total = (2**m-1)*(2**n-1)
     af = [[Fraction(str(t)) for t in row] for row in a]
@@ -45,8 +50,8 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                         stopped = 'pair_budget'
                         break
                     try:
-                        y = _feasible_strategy_by_vertices(af, I, J, work)
-                        x = _feasible_strategy_by_vertices(bt, J, I, work) if y is not None else None
+                        y = choose_feasibility(af, I, J, work)
+                        x = choose_feasibility(bt, J, I, work) if y is not None else None
                     except ExactWorkLimit:
                         stopped = 'operation_budget'
                         break
@@ -70,6 +75,7 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                     })
     complete = stopped is None and checked == total
     return {
+        'feasibility_backend': feasibility_backend,
         'support_pairs_total': total,
         'support_pairs_checked': checked,
         'exact_operations': work['steps'],

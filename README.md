@@ -123,7 +123,7 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 | `POST /api/equilibria/support-lp` | Support-pair LP search with explicit unresolved/completeness diagnostics |
 | `POST /api/equilibria/exact-support` | Exact feasible-support classification (4×4 default; opt-in 5×5) |
 | `POST /api/equilibria/exact-nash-set` | Exact Nash-set families and optional closure vertices/dimensions (4×4 default; opt-in 5×5) |
-| `POST /api/equilibria/general` | v45 adaptive solver with dominance reduction, exact/LP/approximate portfolios and truthful completeness states |
+| `POST /api/equilibria/general` | Adaptive solver with dominance reduction, exact rational-simplex feasibility (`exact_backend="vertices"` available for comparisons), and explicit completeness states |
 | `POST /api/equilibria/hybrid` | Fast support search combined with optional LP exploration |
 | `POST /api/equilibria/lemke-howson` | Lemke–Howson equilibrium method |
 | `POST /api/equilibria/independent-lemke-howson` | Independent Lemke–Howson implementation |
@@ -142,7 +142,7 @@ FastAPI provides request schemas and live examples at [`/docs`](http://127.0.0.1
 
 **2×2 completeness:** The `equilibrium_components` response field represents the entire 2×2 Nash set as a union of closed probability rectangles, including degenerate line and surface equilibria. Its `*_bounds_exact` fields are rational strings. The legacy `equilibria` list is still representative only (`complete: false`); `geometry_complete: true` applies solely to the new geometry. Exactness is relative to the decimal strings of validated float64 payoffs, not arbitrary-precision original JSON literals.
 
-**Important distinctions:** The v45 general endpoint's Python core is dimension-independent; the local API retains its 20×20 matrix size safety cap. Its default automatic mode returns a verified candidate when possible, **not** proof of a complete equilibrium set. Explicit `mode="exact"` searches rational support families under budgets and claims completeness only when **every** support is exhausted. The exact-support endpoint still returns one rational witness per feasible support. The separate exact-nash-set endpoint characterizes all equilibrium families as finite rational constraint systems, including continuous families; it does not enumerate every continuum point. Optional `include_vertices=true` computes exact vertices and affine dimensions **of each strict-support cell's closure**, and `max_actions=5` with `max_pairs=961` explicitly enables bounded 5×5 games. These are not global connected-component counts. A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
+**Important distinctions:** The v46 general endpoint's Python core is dimension-independent and uses exact rational simplex for support feasibility by default; the local API retains its 20×20 matrix size safety cap. Its default automatic mode returns a verified candidate when possible, **not** proof of a complete equilibrium set. Explicit `mode="exact"` searches rational support families under budgets and claims completeness only when **every** support is exhausted. The exact-support endpoint still returns one rational witness per feasible support. The separate exact-nash-set endpoint characterizes all equilibrium families as finite rational constraint systems, including continuous families; it does not enumerate every continuum point. Optional `include_vertices=true` computes exact vertices and affine dimensions **of each strict-support cell's closure**, and `max_actions=5` with `max_pairs=961` explicitly enables bounded 5×5 games. These are not global connected-component counts. A low reported `ε` is evidence about a *returned profile*, not proof that a heuristic will converge on every game. Similarly, visiting all enumerated support pairs is not proof that every equilibrium has been found. CFR and CFR+ assume a valid finite two-player zero-sum model with the required recall properties.
 
 ## Verification and benchmarks
 
@@ -165,7 +165,7 @@ python benchmark_algorithms.py --seed 1729 --repeats 5 --iterations 1000 --outpu
 
 Benchmark timings depend on the machine and configuration. Treat committed benchmark JSON files as **historical experimental artifacts**, not universal speed or state-of-the-art claims.
 
-For mathematical assumptions, numerical caveats, resource limits and test-scope details, see **[Validation and limitations](docs/VALIDATION.md)** the [exact Nash-set proof and representation](docs/EXACT_NASH_GEOMETRY.md), and the [v45 general engine contract](docs/GENERAL_NASH_ENGINE.md).
+For mathematical assumptions, numerical caveats, resource limits and test-scope details, see **[Validation and limitations](docs/VALIDATION.md)**, the [exact Nash-set proof and representation](docs/EXACT_NASH_GEOMETRY.md), and the [v45 general engine contract](docs/GENERAL_NASH_ENGINE.md).
 
 ## Project layout
 

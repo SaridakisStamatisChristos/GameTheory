@@ -11,7 +11,8 @@ budgets and practical memory limits apply.
 `POST /api/equilibria/general` accepts all existing Game matrix fields
 and optional: `mode` (`auto`, `approximate`, `exact`),
 `iterations`, `restarts`, `seed`, `max_pure_cells`,
-`max_exact_pairs`, `max_exact_operations`, and `max_exact_support`.
+`max_exact_pairs`, `max_exact_operations`, `max_exact_support`,
+  and `exact_backend` (`simplex` default or `vertices` reference).
 
 ## Algorithm dispatch
 
@@ -33,7 +34,13 @@ and optional: `mode` (`auto`, `approximate`, `exact`),
 * **Approximate:** Run deterministic-seed multistart fictitious play
   and report the resulting unilateral-deviation certificate. Its
   success does *not* establish global convergence or uniqueness.
-* **Exact:** For supports `(I,J)`, use exact rational vertex-basis
+* **Exact:** The default feasibility backend is an exact rational two-phase
+  simplex LP that maximizes the minimum supported probability. Strict
+  support exists precisely when the exact optimum is positive. A bounded
+  vertex-enumeration oracle remains selectable via `exact_backend=vertices`
+  for independent comparisons. Both backends verify feasible strategies
+  against rational best-response inequalities before producing cells.
+  For supports `(I,J)`, use exact rational vertex-basis
   feasibility in increasing support-cardinality order to test whether
   each player has a *strictly positive* mixture making the opponent's
   supported actions best responses. The output contains an exact
@@ -73,9 +80,12 @@ No solver failure or exhausted budget is silently marked complete.
 * Default exact scan: 96 support pairs, 20,000 counted arithmetic
   basis operations, support sizes up to 3. API hard maxima: 4,096
   pairs, 2,000,000 operations and support size 20.
-* The exact implementation currently enumerates rational polytope
-  vertices. Its worst-case cost is combinatorial. These counters do
-  not prove a hard bound on integer bit complexity or wallclock time.
+* Default exact feasibility now uses rational two-phase simplex (Bland-style
+  pivot tie-breaking) rather than enumerating vertices. Exact simplex can
+  still take exponential time in the worst case. The operation counters
+  bound tableau pivot-update work, **not** coefficient bit complexity,
+  memory, or wallclock time. The vertex backend remains available for
+  differential testing, not as a guaranteed scalable fallback.
 * The general auto-mode uses existing numerical solvers; it does not
   promise a polynomial-time exact Nash solution for general games.
 * The complete-set certificate only applies to the whole reduced
