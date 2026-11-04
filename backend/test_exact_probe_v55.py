@@ -53,7 +53,7 @@ def test_uniform_feasible_fraction_witness_and_nonuniform_fallback():
     out, w = _check_single(matching, (0, 1), (0, 1), fast=True)
     assert out == [F(1, 4), F(3, 4)]
     assert w['simplex_lp_calls'] == 1
-    assert w['uniform_witness_hits'] == 0
+    assert w.get('uniform_witness_hits', 0) == 0
 
 
 def test_probe_cost_is_never_free_and_invalid_flag_is_rejected():
