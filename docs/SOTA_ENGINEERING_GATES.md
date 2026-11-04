@@ -175,7 +175,7 @@ not executed. **No global SOTA claim follows.**
 
 ## v52: executed independent Gambit comparison
 
-`benchmark_gambit_v52.py` requires pinned PyGambit 16.7.0, executes
+`benchmark_gambit_v52.py` requires pinned PyGambit 17.0.0b2, executes
 Gambit's exact rational LP on identical integer normal-form payoffs,
 and verifies GameTheory and Gambit equilibrium strategies independently
 using exact rational saddle-point inequalities. Each fixture must agree

@@ -275,7 +275,7 @@ See `docs/EXACT_ZERO_SUM_MINIMAX.md` for proof, scope and limitations.
 
 ### Independent exact solver validation (v52)
 
-A separate CI job installs **PyGambit 16.7.0** and compares
+A separate CI job installs **PyGambit 17.0.0b2** and compares
 `POST /api/zero-sum/exact`'s underlying rational minimax solver to
 Gambit's exact rational LP on identically represented integer payoffs.
 It reconstructs independent exact saddle-point certificates, checks

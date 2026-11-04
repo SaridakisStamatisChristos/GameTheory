@@ -5,7 +5,7 @@ separately maintained exact-rational baseline before any broad SOTA claim.
 
 ## Verification contract
 
-The comparator uses Gambit **16.7.0** (PyGambit
+The comparator uses Gambit **17.0.0b2** (PyGambit
 `pygambit.nash.lp_solve(game, rational=True, use_strategic=True)`),
 not a second algorithm written using GameTheory's own rational simplex.
 
@@ -32,8 +32,8 @@ and wallclock scope are reported in the artifact.
 
 ## Reproduction and status
 
-The separate `external-gambit` GitHub Actions job installs pinned
-`pygambit==16.7.0`, runs unit/real-engine tests, performs 3 repeated
+The separate `external-gambit` GitHub Actions job installs the explicitly pinned **prerelease**
+`pygambit==17.0.0b2`, runs unit/real-engine tests, performs 3 repeated
 measurements on each case, and uploads
 `backend/benchmark_gambit_v52_results.json`. A missing engine, a changed
 input, a failed certificate, any disagreed value, or a failed run is an
@@ -42,7 +42,7 @@ jobs retain their previous constrained environment.
 
 Locally, with the pinned packages available:
 
-    python -m pip install pygambit==16.7.0
+    python -m pip install pygambit==17.0.0b2
     cd backend
     python -m pytest -q -W error test_benchmark_gambit_v52.py
     python benchmark_gambit_v52.py --repetitions 3
@@ -62,5 +62,5 @@ Locally, with the pinned packages available:
   but **not a global SOTA demonstration**.
 
 Official sources:
-https://gambitproject.readthedocs.io/en/v16.7.0/api/pygambit.nash.lp_solve.html
-https://gambitproject.readthedocs.io/en/v16.7.0/api/pygambit.gambit.Game.from_arrays.html
+https://gambitproject.readthedocs.io/en/v17.0.0b2/api/pygambit.nash.lp_solve.html
+https://gambitproject.readthedocs.io/en/v17.0.0b2/api/pygambit.gambit.Game.from_arrays.html

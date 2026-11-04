@@ -42,7 +42,7 @@ def test_reject_invalid_benchmark_repetition_without_importing_gambit():
 
 def test_real_gambit_reference_all_fixtures():
     result = run(repetitions=2)
-    assert result['pygambit_version'] == '16.7.0'
+    assert result['pygambit_version'] == '17.0.0b2'
     assert result['evidence'] == 'executed_external_engine'
     assert result['fixtures_sha256'] == fixture_digest(fixtures())
     assert len(result['cases']) == len(fixtures())

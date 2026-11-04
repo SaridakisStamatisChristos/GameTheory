@@ -1,6 +1,6 @@
 """Independent exact-rational Gambit LP comparison for integer zero-sum matrix games.
 
-Requires pinned pygambit==16.7.0, installed ONLY in its dedicated CI job.
+Requires pinned pygambit==17.0.0b2, installed ONLY in its dedicated CI job.
 This benchmark is a reproducible correctness check, not a SOTA speed claim.
 """
 import argparse
