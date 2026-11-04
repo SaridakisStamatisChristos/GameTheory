@@ -211,7 +211,7 @@ Future work focuses on **algorithm quality before infrastructure**: harder diffe
 
 ## Licensing
 
-This repository currently has **no `LICENSE` file**. Public availability of source code does not, by itself, grant permission to reuse or redistribute it. Contact the repository owner for licensing arrangements.
+**Proprietary — all rights reserved.** © 2026 Stamatis-Christos Saridakis. Public repository visibility does **not** grant a general license to use, modify, distribute, sublicense, or sell the original software. See [LICENSE](LICENSE) for the notice and contact the repository owner to request commercial, research, or evaluation rights. Third-party dependencies retain their own licenses.
 
 ---
 
