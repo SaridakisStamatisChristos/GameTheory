@@ -276,3 +276,19 @@ def equilibria_exact_support(req: ExactSupportRequest):
         return solve_exact_support(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations)
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc
+
+from exact_nash_set import solve_exact_nash_set
+
+class ExactNashSetRequest(Game):
+    max_pairs: int = Field(default=225, ge=1, le=225)
+    max_operations: int = Field(default=100000, ge=1, le=500000)
+
+@app.post('/api/equilibria/exact-nash-set')
+def equilibria_exact_nash_set(req: ExactNashSetRequest):
+    a,b=validate(req)
+    if max(a.shape)>4:
+        raise HTTPException(422,'Exact Nash geometry currently limited to 4x4 games')
+    try:
+        return solve_exact_nash_set(a,b,max_pairs=req.max_pairs,max_operations=req.max_operations)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from exc
