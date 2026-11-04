@@ -113,3 +113,40 @@ is not used to assert a cross-tool speedup.
 External Gambit and OpenSpiel runs remain **not executed** in this
 campaign. Their APIs and environments require separate pinned
 cross-engine benchmarking; no results are invented.
+
+## v50: exact correlated equilibrium (bounded rational LP)
+
+The new `POST /api/correlated-equilibrium/exact` endpoint complements the existing
+numerical correlated-equilibrium endpoint. It solves the finite two-player
+recommendation-obedience LP with the **existing rational simplex**, using the
+decimal-string interpretation of validated float64 payoffs. It returns one
+**exact rational** joint distribution with direct probability and all
+unconditional recommendation-obedience inequalities rechecked in rational
+arithmetic (including zero-probability recommendations).
+
+Options: `objective=welfare|feasible` and `max_operations=1..2000000`.
+The `welfare` objective maximizes the **raw sum of the two players' expected
+payoffs**, unlike the existing *numerical* endpoint's per-player-normalized
+objective. The `feasible` mode selects an arbitrary feasible CE. The
+exact service caps inputs at **36 joint action profiles**; the general API
+retains its separate 20×20 input-validation ceiling. Exceeding the bounded
+pivot-update-work budget returns HTTP 422, not a falsely successful certificate.
+The budget does **not** bound coefficient bit growth or wall time.
+
+`joint_distribution_exact`, `expected_payoffs_exact`, and
+`objective_value_exact` are rational strings. Output correctness is checked
+independently of the LP's constraints with Fraction arithmetic; a separately solved
+exact rational dual LP supplies nonnegative multipliers; direct independent
+rational checking of dual feasibility and matching primal/dual objectives
+certifies the reported objective optimum. The returned distribution
+is **one** correlated equilibrium, not a complete description of the CE
+polytope or Nash equilibrium set.
+
+`test_exact_correlated_v50.py` compares seeded 2×2, rectangular and 4×4
+integer games with independently formulated SciPy/HiGHS welfare LPs, checks
+all obedience inequalities directly, covers pathological inputs and budget
+failures, and faults the LP outputs to verify that invalid certificates are
+rejected. This is a meaningful coverage extension, **not** a claim of
+cross-engine SOTA. Follow-up evidence gates: independently check LP dual
+optimality, reproduce Gambit/OpenSpiel comparisons on matching models,
+and examine bit-complexity/wall-clock behavior under adversarial rational data.

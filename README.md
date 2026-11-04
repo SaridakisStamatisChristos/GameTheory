@@ -225,3 +225,32 @@ Future work focuses on **algorithm quality before infrastructure**: harder diffe
 **Game Theory Lab** · Built for studying strategies, not just displaying answers.
 
 </div>
+
+### Exact correlated equilibria (v50)
+
+`POST /api/correlated-equilibrium/exact` produces a bounded, exactly
+verified **correlated-equilibrium joint distribution** for a two-player finite
+game, using rational obedience constraints. Example:
+
+```json
+{
+  "row_payoffs": [[1, -1], [-1, 1]],
+  "col_payoffs": [[-1, 1], [1, -1]],
+  "objective": "welfare",
+  "max_operations": 200000
+}
+```
+
+For matching pennies the exact joint distribution is four `"1/4"` values.
+The welfare objective is the raw payoff sum, not the per-player-normalized
+objective of the existing numerical CE endpoint. At most 36 joint action
+profiles are accepted; budget exhaustion is reported, not certified.
+Exact witnesses are returned as rational strings on the validated float64
+input model. This is **one** CE witness, not enumeration of all CE or Nash
+equilibria. See `docs/SOTA_ENGINEERING_GATES.md` for evidence limitations.
+
+For the welfare objective the response also provides exact rational dual LP
+multipliers, ordered by the normalization and recommendation-obedience rows.
+Exact primal and dual feasibility and equality of objectives certify optimality
+for the declared rational input model. Failure or rational-work exhaustion
+never produces an optimality certificate.
