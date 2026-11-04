@@ -9,7 +9,7 @@ Explore equilibria, incentives, learning dynamics, and imperfect-information gam
 [![Verification](https://github.com/SaridakisStamatisChristos/GameTheory/actions/workflows/verification.yml/badge.svg)](https://github.com/SaridakisStamatisChristos/GameTheory/actions/workflows/verification.yml)
 ![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
 ![Frontend](https://img.shields.io/badge/React-Vite-646CFF?logo=react&logoColor=white)
-![Release](https://img.shields.io/badge/research%20release-v38-336B65)
+![Scope](https://img.shields.io/badge/scope-research%20laboratory-336B65)
 
 [Quick start](#quick-start) · [What you can explore](#what-you-can-explore) · [API](#api-at-a-glance) · [Verification](#verification-and-benchmarks) · [Limitations](#research-integrity-and-limitations)
 
@@ -160,7 +160,7 @@ python benchmark_algorithms.py --seed 1729 --repeats 5 --iterations 1000 --outpu
 
 Benchmark timings depend on the machine and configuration. Treat committed benchmark JSON files as **historical experimental artifacts**, not universal speed or state-of-the-art claims.
 
-For the change-by-change verification and outstanding obligations, see **[PHASE38.md](PHASE38.md)**. Earlier `PHASE*.md` files preserve the project's development history.
+For mathematical assumptions, numerical caveats, resource limits and test-scope details, see **[Validation and limitations](docs/VALIDATION.md)**.
 
 ## Project layout
 
@@ -184,7 +184,7 @@ GameTheory/
 │   └── vite.config.js           # Local API proxy
 ├── .github/workflows/
 │   └── verification.yml         # Verification workflow
-└── PHASE38.md                   # Release evidence and known limitations
+└── docs/VALIDATION.md           # Numerical contracts and verification scope
 ```
 
 ## Local-first operation
@@ -203,7 +203,7 @@ Game Theory Lab is a **research workbench, not an all-games equilibrium oracle**
 - CFR/CFR+ models require **two-player, zero-sum, perfect-recall** games. Certificate availability and cost depend on game representation and size.
 - Passing backend tests and the CI frontend build do **not** establish browser-level end-to-end behavior, arbitrary large-game correctness, formal verification, or comparative performance superiority.
 
-See [PHASE38.md](PHASE38.md) for resource and numerical contracts, and [PHASE40.md](PHASE40.md) for the test-hardening campaign and coverage scope.
+See [Validation and limitations](docs/VALIDATION.md) for the implemented resource limits, mathematical assumptions, test boundaries, and validation commands.
 
 ## Roadmap
 

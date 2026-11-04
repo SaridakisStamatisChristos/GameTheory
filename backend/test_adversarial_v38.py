@@ -1,9 +1,7 @@
-"""Adversarial regression tests against Game Theory Lab v37.
+"""Regression tests for numerical invariants and API error contracts.
 
-These tests encode mathematical/API properties that the original build fails.
-Run from the extracted backend directory:
-    PYTHONPATH=. pytest -q /mnt/data/game_theory_v37_review/test_adversarial_v37.py
-Not included in the original 117-test suite.
+Each case exercises a mathematical property or an input boundary independently
+of the normal success-case fixtures. Run with `python -m pytest -q`.
 """
 import numpy as np
 from fastapi.testclient import TestClient
