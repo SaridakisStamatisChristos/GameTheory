@@ -70,9 +70,9 @@ def complete_nash_geometry(aa, bb):
                 continue
             if ym == "interior" and not (yspan[1] > ZERO and yspan[0] < ONE):
                 continue
-            candidate = (xspan, yspan)
-            if candidate not in rectangles:
-                rectangles.append(candidate)
+            # Relative interiors of distinct support modes are disjoint;
+            # their nonempty closures cannot be identical.
+            rectangles.append((xspan, yspan))
     maximal = [r for r in rectangles if not any(
         r != other and _contains(other, r) for other in rectangles)]
     maximal.sort(key=lambda r: tuple(v for interval in r for v in interval))
