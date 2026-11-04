@@ -32,6 +32,10 @@ jobs:
         working-directory: backend
         run: |
           python -m pytest -q -W error --cov=. --cov-config=.coveragerc --cov-branch --cov-report=term-missing --cov-report=json:coverage-audit.json --cov-report=xml:coverage-audit.xml --cov-fail-under=99
+      - name: Bounded support-pruning differential benchmark
+        working-directory: backend
+        run: |
+          python -c 'import json; from benchmark_support_pruning_v47 import run; print(json.dumps(run(repetitions=1), indent=2))'
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4

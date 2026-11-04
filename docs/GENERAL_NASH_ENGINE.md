@@ -1,4 +1,4 @@
-# General Nash Engine v45 — Algorithm and evidence contract
+# General Nash Engine v47 — Algorithm and evidence contract
 
 ## Objective
 
@@ -12,7 +12,8 @@ budgets and practical memory limits apply.
 and optional: `mode` (`auto`, `approximate`, `exact`),
 `iterations`, `restarts`, `seed`, `max_pure_cells`,
 `max_exact_pairs`, `max_exact_operations`, `max_exact_support`,
-  and `exact_backend` (`simplex` default or `vertices` reference).
+  `exact_backend` (`simplex` default or `vertices` reference),
+  and `prune_supports` (`true` default, `false` exact baseline).
 
 ## Algorithm dispatch
 
@@ -34,7 +35,10 @@ and optional: `mode` (`auto`, `approximate`, `exact`),
 * **Approximate:** Run deterministic-seed multistart fictitious play
   and report the resulting unilateral-deviation certificate. Its
   success does *not* establish global convergence or uniqueness.
-* **Exact:** The default feasibility backend is an exact rational two-phase
+* **Exact:** The solver performs exact-sign, support-conditional dominance
+  pruning before launching an LP. It retains the exact mathematical
+  completeness condition and allows `prune_supports=false` for an
+  unpruned baseline. The default feasibility backend is an exact rational two-phase
   simplex LP that maximizes the minimum supported probability. Strict
   support exists precisely when the exact optimum is positive. A bounded
   vertex-enumeration oracle remains selectable via `exact_backend=vertices`
@@ -105,3 +109,57 @@ handling and full statement/branch coverage; use
 checks, regressions on degenerate/rectangular inputs, and
 budget-exhaustion semantics. Do not interpret high coverage as a proof
 of every numerical corner case.
+
+## v47: provably safe conditional support pruning
+
+For a candidate support pair `(I,J)`, every equilibrium strategy
+`y` with support `J` has **strictly positive** probabilities
+`y_j>0` for every `j in J`. If some supported row action `i in I`
+has an alternative pure action `k` with
+`A[k,j] >= A[i,j]` for every `j in J` and strict inequality for at
+least one `j in J`, then
+
+```text
+sum_{j in J} (A[k,j] - A[i,j]) * y[j] > 0
+```
+
+for *every* admissible `y`. Thus `i` cannot be a best response,
+so the entire strict-support cell is empty. Apply the symmetric
+comparison for supported column `j in J` against an alternative
+column `k` on every `i in I`.
+
+This is a necessary-condition filter, not an approximate equilibrium
+test. If no exclusion witness exists, the exact LP still decides
+feasibility. A strict advantage **only outside** the opponent support
+does not justify pruning, nor does weak equality on the entire support.
+
+The implementation precomputes comparison-sign bitmasks and caches
+support-conditioned dominated-action maps. Finite validated float64
+value comparisons preserve the ordering of their exact decimal-string
+rational interpretations. A successful classification by this rule
+counts as a checked infeasible support, with up to 12 illustrative
+exclusion certificates returned as `pruning_witnesses_sample`.
+
+Completeness bookkeeping: `support_pairs_checked` counts both
+LP-classified supports and dominance-pruned supports.
+`dominance_pruned_pairs` counts the latter, and `lp_pairs_attempted`
+counts the former's attempted exact LP calls (including a call that
+exhausts the operation budget). The existing support-pair ceiling
+still applies to every classified support. Only classifying every
+support pair establishes `complete_equilibrium_set=true`.
+
+Precomputing mask comparisons costs approximately
+`O(m*m*n + n*n*m)` payoff comparisons, and caching may use memory
+proportional to distinct encountered opponent support masks.
+This preprocessing is **not** part of the
+`max_exact_operations` rational-simplex budget. The rule may add
+overhead when little can be pruned; it does not improve worst-case
+complexity or claim polynomial-time complete Nash enumeration.
+
+The paired, reproducible `backend/benchmark_support_pruning_v47.py`
+runs identical support prefixes with `prune_supports=true/false`
+on globally dominated, cyclic, and seeded random games of varying
+sizes, comparing feasible support sets and report semantics before
+reporting measured times and exact work counts. Independent regression
+tests compare complete/partial classifications against the unpruned
+rational LP and direct exact Nash deviation verification.

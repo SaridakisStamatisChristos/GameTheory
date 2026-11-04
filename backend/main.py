@@ -317,6 +317,7 @@ class GeneralNashRequest(Game):
     max_exact_operations: int = Field(default=20000,ge=1,le=2000000)
     max_exact_support: int = Field(default=3,ge=1,le=20)
     exact_backend: Literal['simplex','vertices'] = 'simplex'
+    prune_supports: bool = True
 
 @app.post('/api/equilibria/general')
 def equilibria_general(req: GeneralNashRequest):
@@ -326,6 +327,7 @@ def equilibria_general(req: GeneralNashRequest):
             restarts=req.restarts,seed=req.seed,max_pure_cells=req.max_pure_cells,
             max_exact_pairs=req.max_exact_pairs,
             max_exact_operations=req.max_exact_operations,
-            max_exact_support=req.max_exact_support,exact_backend=req.exact_backend)
+            max_exact_support=req.max_exact_support,exact_backend=req.exact_backend,
+            prune_supports=req.prune_supports)
     except ValueError as exc:
         raise HTTPException(422,str(exc)) from exc
