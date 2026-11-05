@@ -34,7 +34,7 @@ def _validate_model(rewards, transitions, discount, tolerance, max_iterations):
             or not 1e-10 <= tolerance <= 1):
         raise ValueError('Tolerance must be finite and between 1e-10 and 1')
     if (type(max_iterations) is not int or not 1 <= max_iterations <= 500 or
-            states * max_iterations > 4000):
+            states * max_iterations > 2400):
         raise ValueError('Invalid iteration and state work budget')
     # Re-normalizing tolerated rounding errors preserves a stochastic operator.
     sums = transitions.sum(axis=-1, keepdims=True)
