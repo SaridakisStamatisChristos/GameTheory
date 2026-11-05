@@ -315,3 +315,10 @@ best-response verification. `feasibility_fast_path=False` exposes
 the unchanged baseline for matched comparisons. The CI benchmark
 archives paired timing distributions and regressions; see
 `docs/RATIONAL_FEASIBILITY_V55.md`.
+
+### v56 — Exact sign-screen feasibility improvement
+
+Exact support search now optionally rejects mathematically impossible
+strict-positive support ties/deviations without invoking the simplex.
+A baseline toggle, exhaustive differential tests, and resource/paired
+benchmark evidence are in `docs/EXACT_SIGN_SCREEN_V56.md`.

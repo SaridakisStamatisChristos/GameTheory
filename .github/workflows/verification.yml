@@ -70,6 +70,17 @@ jobs:
           path: backend/benchmark_exact_scaling_v55_results.json
           retention-days: 30
           if-no-files-found: warn
+      - name: Exact sign-screen performance and bit-growth campaign v56
+        working-directory: backend
+        run: python benchmark_sign_screen_v56.py --repetitions 3 --seed 56056 --output benchmark_sign_screen_v56_results.json
+      - name: Archive exact sign-screen v56 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-sign-screen-v56-evidence
+          path: backend/benchmark_sign_screen_v56_results.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4

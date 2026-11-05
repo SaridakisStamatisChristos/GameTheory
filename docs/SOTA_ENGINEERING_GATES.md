@@ -235,3 +235,13 @@ the identical support order, work budget and game suite. Negative
 runtime cases are retained, not filtered. See
 `docs/RATIONAL_FEASIBILITY_V55.md`. A match in classification
 does not prove an asymptotic or broad SOTA speedup.
+
+## v56 — Exact sign-screen exclusion before simplex
+
+A sound one-sided sign certificate excludes impossible strict-positive
+supports before rational simplex. The new switchable screen is covered
+by exhaustive small-game comparison to the baseline and 15 paired CI
+benchmark cases with support-set equality and non-completeness
+disclosure. Opt-in tableau Fraction bit lengths and separate
+`tracemalloc` Python heap peaks are recorded, not confused with
+true bit complexity or RSS. See `docs/EXACT_SIGN_SCREEN_V56.md`.

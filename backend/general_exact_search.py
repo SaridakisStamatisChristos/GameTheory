@@ -16,7 +16,8 @@ from mixed_dominance_pruning import ConditionalMixedDominancePruner
 
 def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                             max_support=3, feasibility_backend='simplex', prune_supports=True,
-                            mixed_pruning=False, feasibility_fast_path=True):
+                            mixed_pruning=False, feasibility_fast_path=True,
+                            feasibility_sign_screen=True, track_rational_bits=False):
     a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
     if (a.ndim != 2 or a.size == 0 or b.shape != a.shape or
             not np.isfinite(a).all() or not np.isfinite(b).all()):
@@ -33,6 +34,10 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
         raise ValueError('mixed_pruning must be boolean')
     if type(feasibility_fast_path) is not bool:
         raise ValueError('feasibility_fast_path must be boolean')
+    if type(feasibility_sign_screen) is not bool:
+        raise ValueError('feasibility_sign_screen must be boolean')
+    if type(track_rational_bits) is not bool:
+        raise ValueError('track_rational_bits must be boolean')
     choose_feasibility = (feasible_strict_strategy if feasibility_backend == 'simplex'
                           else _feasible_strategy_by_vertices)
     m, n = a.shape
@@ -42,7 +47,7 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
     bt = [list(row) for row in zip(*bf)]
     pruner = ConditionalDominancePruner(a, b) if prune_supports else None
     mixed_pruner = ConditionalMixedDominancePruner(a, b) if mixed_pruning else None
-    work = {'steps': 0, 'limit': max_operations}
+    work = {'steps': 0, 'limit': max_operations, 'track_rational_bits': track_rational_bits}
     families = []
     checked = 0
     pruned = 0
@@ -87,8 +92,10 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
                     lp_attempts += 1
                     try:
                         if feasibility_backend == 'simplex':
-                            y = choose_feasibility(af, I, J, work, fast_path=feasibility_fast_path)
-                            x = (choose_feasibility(bt, J, I, work, fast_path=feasibility_fast_path)
+                            y = choose_feasibility(af, I, J, work, fast_path=feasibility_fast_path,
+                                                       sign_screen=feasibility_sign_screen)
+                            x = (choose_feasibility(bt, J, I, work, fast_path=feasibility_fast_path,
+                                                        sign_screen=feasibility_sign_screen)
                                  if y is not None else None)
                         else:
                             y = choose_feasibility(af, I, J, work)
@@ -118,6 +125,12 @@ def search_exact_nash_cells(a, b, *, max_pairs=96, max_operations=20000,
     return {
         'feasibility_backend': feasibility_backend,
         'feasibility_fast_path': feasibility_fast_path if feasibility_backend == 'simplex' else False,
+        'feasibility_sign_screen': bool(feasibility_backend == 'simplex' and feasibility_fast_path and feasibility_sign_screen),
+        'sign_screen_operations': work.get('sign_screen_operations', 0),
+        'sign_screen_rejections': work.get('sign_screen_rejections', 0),
+        'track_rational_bits': track_rational_bits,
+        'max_tableau_numerator_bits': work.get('max_tableau_numerator_bits') if track_rational_bits else None,
+        'max_tableau_denominator_bits': work.get('max_tableau_denominator_bits') if track_rational_bits else None,
         'feasibility_probe_operations': work.get('probe_operations', 0),
         'uniform_witness_hits': work.get('uniform_witness_hits', 0),
         'singleton_infeasible_hits': work.get('singleton_infeasible_hits', 0),
