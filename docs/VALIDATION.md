@@ -99,3 +99,20 @@ to a mixed Nash equilibrium, and general multiplayer mixed Nash
 enumeration remains unimplemented. An exact work budget of 1..2m
 charged tableau updates applies, not a bounded coefficient bit size.
 See `MULTIPLAYER_EXACT_V58.md`.
+
+## v59 — Multiplayer mixed Nash support roots, exact verification
+
+The `/api/multiplayer/mixed` solver handles bounded 3–5 player
+general-sum normal-form games by numerically solving multilinear
+supported-action indifference equations with SciPy/Hybr and seeded
+multistart searches. Every returned rationalized strategy has
+exact simplex normalization and exact independent unilateral
+incentive verification against the input rational payoff model;
+a zero exact rational regret is an exact Nash certificate, while
+small nonzero regret is an epsilon-Nash certificate in raw payoff
+units. The discovered set is **not complete**, even if every
+support pattern was attempted, because numerical root searches
+can miss or merge roots. Candidate, function-evaluation, pattern
+and restart budgets are bounded and explicit. The independent
+10-case CI campaign rechecks original-game exact incentives
+and exposes all truncated searches. See `MULTIPLAYER_MIXED_V59.md`.

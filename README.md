@@ -345,3 +345,15 @@ constraints and exact primal–dual welfare optimality certificates.
 This is *not* general mixed-Nash equilibrium enumeration.
 See `docs/MULTIPLAYER_EXACT_V58.md` for contracts, model boundaries
 and evidence.
+
+### v59 — Multiplayer mixed Nash with exact epsilon certificates
+
+`POST /api/multiplayer/mixed` adds N-player support-indifference
+root search (3–5 players). Every returned mixed strategy is converted
+to a strictly normalized exact rational profile and verified by
+independently recomputing all pure unilateral-deviation incentives
+using exact rational arithmetic. The output distinguishes genuine
+rational Nash (zero regret), verified epsilon-Nash (nonzero regret),
+and failure to discover a candidate; **no numerical search is
+labeled a complete mixed Nash enumeration**. See
+`docs/MULTIPLAYER_MIXED_V59.md`.
