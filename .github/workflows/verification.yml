@@ -92,6 +92,17 @@ jobs:
           path: backend/benchmark_stochastic_v57_results.json
           retention-days: 30
           if-no-files-found: error
+      - name: Exact 3-to-5-player Nash and CE independent benchmark v58
+        working-directory: backend
+        run: python benchmark_multiplayer_v58.py --repetitions 3 --seed 58058 --output benchmark_multiplayer_v58_results.json
+      - name: Archive multiplayer exact v58 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multiplayer-exact-v58-evidence
+          path: backend/benchmark_multiplayer_v58_results.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4
