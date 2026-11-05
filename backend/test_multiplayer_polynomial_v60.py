@@ -366,7 +366,7 @@ def test_zero_norm_quadratic_field_and_early_denominator_case():
     assert _sign(Quadratic(1,-1,1))==0
     # z=1/2 kills denominator of x-equation but numerator is nonzero.
     # The eliminant can have that root; it must be skipped, not unresolved.
-    impossible=make_game([(0,1,-1,0),(1,0,-F(1,2),1),
+    impossible=make_game([(0,1,-1,0),(1,-F(1,2),0,1),
                           (-F(1,2),0,1,0)])
     out=solve_certified_binary_multiplayer(impossible)
     assert out['complete_nash_set']
