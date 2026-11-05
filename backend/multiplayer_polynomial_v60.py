@@ -258,7 +258,8 @@ def _two_mixed(pattern, coefficients, u, profiles):
     if maximum<0 or (maximum==0 and any(v<0 for v in corners.values())):
         return 'empty',None
     if not free:
-        point=_point([fixed.get(p,F(int(pattern[p]))) for p in range(3)],u,profiles)
+        point=_point([fixed[p] if p in fixed else F(int(pattern[p]))
+                      for p in range(3)],u,profiles)
         if point is None:
             raise AssertionError('Failed exact two-mixed point audit')
         return 'point',point
