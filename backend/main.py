@@ -142,6 +142,20 @@ def stochastic_zero_sum_discounted(req: DiscountedStochasticZeroSumRequest):
         raise HTTPException(422, str(exc)) from exc
 
 
+from multiplayer_polynomial_v60 import solve_certified_binary_multiplayer
+
+class CertifiedBinaryMultiplayerNashRequest(BaseModel):
+    payoffs: list = Field(min_length=3, max_length=3)
+    max_cells: int = Field(default=27, ge=1, le=27)
+
+@app.post('/api/multiplayer/mixed/polynomial-exact')
+def multiplayer_mixed_polynomial_exact(req: CertifiedBinaryMultiplayerNashRequest):
+    try:
+        return solve_certified_binary_multiplayer(req.payoffs, max_cells=req.max_cells)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
 from multiplayer_mixed import solve_multiplayer_mixed
 
 class MultiplayerMixedRequest(BaseModel):
