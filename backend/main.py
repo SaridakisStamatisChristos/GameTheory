@@ -123,6 +123,25 @@ def zero_sum_exact(data: ExactZeroSumRequest):
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
 
+from stochastic_zero_sum import solve_discounted_zero_sum_stochastic
+
+class DiscountedStochasticZeroSumRequest(BaseModel):
+    rewards: List[List[List[float]]] = Field(min_length=1, max_length=8)
+    transitions: List[List[List[List[float]]]]
+    discount: float = Field(default=0.9, ge=0, lt=1)
+    tolerance: float = Field(default=1e-6, ge=1e-10, le=1)
+    max_iterations: int = Field(default=200, ge=1, le=500)
+
+@app.post('/api/stochastic/zero-sum/discounted')
+def stochastic_zero_sum_discounted(req: DiscountedStochasticZeroSumRequest):
+    try:
+        return solve_discounted_zero_sum_stochastic(
+            req.rewards, req.transitions, discount=req.discount,
+            tolerance=req.tolerance, max_iterations=req.max_iterations)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
 from advanced import support_equilibria, replicator
 
 @app.post('/api/equilibria')

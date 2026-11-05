@@ -68,3 +68,20 @@ These protections are local-service safeguards, not hardened multi-tenant author
 Timing results in `backend/benchmark_*.json` are reproducible experiments, not hardware-independent performance guarantees. Benchmark comparison requires matching workload, hardware, solver semantics, warmup, repetition and error metrics.
 
 Current missing evidence includes full browser/API end-to-end tests, polynomial-time guaranteed exact methods for general bimatrix games (not expected in general complexity models), efficient exact support-space pruning and independent large-game rational LP verification, global topology/connected-component extraction (as distinct from the per-cell geometry), independent large-game differential benchmarks, and production deployment assessment. Optional vertex computation reports vertices of **closed** factor polytopes, not necessarily points within each original strict-support cell. Full Nash-set completeness still means exact H-representation, not explicit enumeration of infinitely many points. Code coverage alone does not prove algorithmic correctness.
+
+## v57 — Discounted zero-sum stochastic/Markov games
+
+The new `/api/stochastic/zero-sum/discounted` API accepts finite
+simultaneous-action Markov games with stochastic transitions and a
+discount factor strictly less than one. The algorithm is Shapley
+value iteration, with per-state primal/dual numerical zero-sum
+matrix LPs and original-unit saddle security checks. The reported
+numerical residual divided by `1-discount` bounds remaining value
+error *under its floating-point LP model*; its doubled value bounds
+stationary-policy unilateral regret. This is not formal interval
+arithmetic. Iteration work exhaustion returns `partial_bound`
+rather than falsely claiming convergence. The new API cap is
+8 states × up to 6×6 actions, max 500 updates and a joint
+state×iteration budget of 2,400. Tests compare one-state values
+with known matrix games and action-independent transitions with
+independent linear system oracles. See `STOCHASTIC_ZERO_SUM_V57.md`.

@@ -245,3 +245,15 @@ benchmark cases with support-set equality and non-completeness
 disclosure. Opt-in tableau Fraction bit lengths and separate
 `tracemalloc` Python heap peaks are recorded, not confused with
 true bit complexity or RSS. See `docs/EXACT_SIGN_SCREEN_V56.md`.
+
+## v57 — Stochastic zero-sum Markov game coverage
+
+Adds a bounded Shapley value iteration engine with numerical
+Bellman residual/error and stationary-policy regret bounds.
+Independent Markov linear-system oracles and known one-state
+matrix-game values are mandatory in CI; partial iteration
+exhaustion must be disclosed. The external Gambit/OpenSpiel
+zero-sum matrix checks remain active, but do not constitute an
+independent stochastic-game solver comparison.
+No general-sum, multiplayer, perfect-interval certificate, or
+global SOTA claim. See `docs/STOCHASTIC_ZERO_SUM_V57.md`.
