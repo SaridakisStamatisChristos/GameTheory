@@ -142,6 +142,30 @@ def stochastic_zero_sum_discounted(req: DiscountedStochasticZeroSumRequest):
         raise HTTPException(422, str(exc)) from exc
 
 
+from multiplayer_mixed import solve_multiplayer_mixed
+
+class MultiplayerMixedRequest(BaseModel):
+    payoffs: list = Field(min_length=3, max_length=5)
+    tolerance: float = Field(default=1e-8, ge=1e-12, le=0.1)
+    seed: int = Field(default=59059, ge=0, le=2147483647)
+    max_support_patterns: int = Field(default=96, ge=1, le=1024)
+    starts_per_pattern: int = Field(default=4, ge=1, le=12)
+    max_evaluations: int = Field(default=10000, ge=1, le=100000)
+    max_candidates: int = Field(default=16, ge=1, le=128)
+
+@app.post('/api/multiplayer/mixed')
+def multiplayer_mixed(req: MultiplayerMixedRequest):
+    try:
+        return solve_multiplayer_mixed(
+            req.payoffs, tolerance=req.tolerance, seed=req.seed,
+            max_support_patterns=req.max_support_patterns,
+            starts_per_pattern=req.starts_per_pattern,
+            max_evaluations=req.max_evaluations,
+            max_candidates=req.max_candidates)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
 from multiplayer_exact import solve_exact_multiplayer
 
 class MultiplayerExactRequest(BaseModel):

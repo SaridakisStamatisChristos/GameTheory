@@ -103,6 +103,17 @@ jobs:
           path: backend/benchmark_multiplayer_v58_results.json
           retention-days: 30
           if-no-files-found: error
+      - name: Rationally verified multiplayer mixed Nash support-root campaign v59
+        working-directory: backend
+        run: python benchmark_multiplayer_mixed_v59.py --repetitions 3 --seed 59059 --output benchmark_multiplayer_mixed_v59_results.json
+      - name: Archive multiplayer mixed Nash v59 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multiplayer-mixed-v59-evidence
+          path: backend/benchmark_multiplayer_mixed_v59_results.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4

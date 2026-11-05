@@ -269,3 +269,16 @@ oracles compare matched 3–5-player LPs. These do not constitute
 a general mixed Nash solver or an independently verified Gambit/
 OpenSpiel multiplayer-equilibrium comparison. Full benchmark
 limitations and proof obligations: `docs/MULTIPLAYER_EXACT_V58.md`.
+
+## v59 — Multiplayer general-sum mixed Nash (verified candidates)
+
+Adds bounded support-indifference polynomial root search for finite
+3–5 player general-sum games. All returned candidates are exact
+rational-profile epsilon-Nash verified against original input
+payoffs; some known 3-player games produce exact zero-regret
+rational Nash witnesses. No completeness claim is permitted for
+multi-start numerical roots even when every support pattern is
+examined. Independent rational incentive checks, deterministic
+fixture benchmarks, 99% combined code coverage, and existing
+Gambit/OpenSpiel external checks remain release gates.
+See `docs/MULTIPLAYER_MIXED_V59.md`.
