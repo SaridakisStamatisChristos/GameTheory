@@ -2,8 +2,9 @@
 
 Maximize the common lower bound on supported probabilities, with best-response
 inequalities and equalities. No numerical tolerances are used. The operation
-counter bounds tableau updates and fast-probe coefficient inspections,
-not the bit-complexity or wall-clock time.
+counter bounds tableau updates and exact coefficient inspections,
+not the bit-complexity or wall-clock time. Optional tableau bit-length
+tracking is opt-in and does not change the feasibility procedure.
 """
 from fractions import Fraction as F
 from exact_support import ExactWorkLimit
@@ -26,6 +27,19 @@ class _RationalSimplex:
         for j in range(self.n):
             self.D[self.m][j] = -F(c[j])
         self.D[self.m+1][self.n] = F(1)
+        if self.work.get('track_rational_bits', False):
+            self._record_tableau_bits()
+
+    def _record_tableau_bits(self):
+        """Opt-in exact numerator/denominator growth diagnostics, not memory use."""
+        numerators = (abs(value.numerator).bit_length()
+                      for row in self.D for value in row)
+        denominators = (value.denominator.bit_length()
+                        for row in self.D for value in row)
+        self.work['max_tableau_numerator_bits'] = max(
+            self.work.get('max_tableau_numerator_bits', 0), max(numerators))
+        self.work['max_tableau_denominator_bits'] = max(
+            self.work.get('max_tableau_denominator_bits', 0), max(denominators))
 
     def _pivot(self, r, s):
         m, n, D = self.m, self.n, self.D
@@ -48,6 +62,8 @@ class _RationalSimplex:
                 D[i][s] *= -inv
         D[r][s] = inv
         self.B[r], self.N[s] = self.N[s], self.B[r]
+        if self.work.get('track_rational_bits', False):
+            self._record_tableau_bits()
 
     def _phase(self, phase):
         m, n, D = self.m, self.n, self.D
@@ -94,13 +110,16 @@ class _RationalSimplex:
         return x
 
 
-def feasible_strict_strategy(payoff, best_responses, support, work, *, fast_path=True):
+def feasible_strict_strategy(payoff, best_responses, support, work, *, fast_path=True, sign_screen=True):
     """Find an exact positive support mixture or report infeasibility.
 
     A uniform exact rational witness is checked *before* the simplex.
     For singleton supports it is also a complete infeasibility test:
-    the only legal supported strategy is (1). The baseline LP remains
-    available with fast_path=False for differential verification.
+    the only legal supported strategy is (1). For larger supports, an
+    optional sign screen proves infeasibility when a required payoff tie
+    or best-response inequality is impossible for *strictly positive*
+    probabilities. Inconclusive supports fall back to the exact LP.
+    fast_path=False preserves the unchanged simplex-only oracle.
 
     Payoff rows are pure actions, columns are opponent actions. Strategies
     are positive only on support; all best_responses must be tied at the
@@ -109,6 +128,8 @@ def feasible_strict_strategy(payoff, best_responses, support, work, *, fast_path
     k = len(support)
     if type(fast_path) is not bool:
         raise ValueError('fast_path must be boolean')
+    if type(sign_screen) is not bool:
+        raise ValueError('sign_screen must be boolean')
     if fast_path:
         # This exact row-sum comparison is equivalent to checking an
         # expected payoff at the uniform mixture: the common 1/k factor
@@ -136,6 +157,29 @@ def feasible_strict_strategy(payoff, best_responses, support, work, *, fast_path
             # Proof: no other strictly positive probability vector exists.
             work['singleton_infeasible_hits'] = work.get('singleton_infeasible_hits', 0) + 1
             return None
+        if sign_screen:
+            # For any strictly positive support mixture p, a nonzero
+            # coefficient vector with one weak sign has a strict signed
+            # dot product. Such a vector cannot satisfy a required tie;
+            # a weakly negative, nonzero base-minus-deviation vector
+            # cannot satisfy its best-response inequality either.
+            # Charge the *entire* exact sign pass even on early rejection.
+            screen_cost = (len(payoff)-1)*k
+            work['steps'] += screen_cost
+            work['sign_screen_operations'] = work.get('sign_screen_operations', 0) + screen_cost
+            if work['steps'] > work['limit']:
+                raise ExactWorkLimit('Exact sign-screen operation budget exceeded')
+            base_payoff = payoff[base]
+            for i, row in enumerate(payoff):
+                if i == base:
+                    continue
+                diffs = [base_payoff[j]-row[j] for j in support]
+                any_positive = any(value > 0 for value in diffs)
+                any_negative = any(value < 0 for value in diffs)
+                if ((i in prescribed and any_positive != any_negative) or
+                        (i not in prescribed and any_negative and not any_positive)):
+                    work['sign_screen_rejections'] = work.get('sign_screen_rejections', 0) + 1
+                    return None
     work['simplex_lp_calls'] = work.get('simplex_lp_calls', 0) + 1
     constraints, rhs = [], []
 

@@ -40,7 +40,8 @@ def test_false_best_response_is_rejected_by_independent_verifier(monkeypatch):
                         lambda self:[F(1,2),F(1,2),F(1,2)])
     with pytest.raises(AssertionError,match='best-response'):
         feasible_strict_strategy([[F(0),F(0)],[F(1),F(1)]],
-                                 (0,),(0,1),{'steps':0,'limit':1000})
+                                 (0,),(0,1),{'steps':0,'limit':1000},
+                                 sign_screen=False)
 
 
 def test_odd_infeasible_negative_rhs_lp():
