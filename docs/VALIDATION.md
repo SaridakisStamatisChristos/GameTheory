@@ -116,3 +116,20 @@ can miss or merge roots. Candidate, function-evaluation, pattern
 and restart budgets are bounded and explicit. The independent
 10-case CI campaign rechecks original-game exact incentives
 and exposes all truncated searches. See `MULTIPLAYER_MIXED_V59.md`.
+
+## v60 — Certified exact algebraic 3-player binary Nash set
+
+`/api/multiplayer/mixed/polynomial-exact` enumerates all
+27 pure/partial/full support cases for **exactly three
+players with exactly two actions each**. Rational single-
+and two-mixed supports can produce certified continuous
+semialgebraic cells. Fully mixed support equations
+reduce generically to a rational quadratic; rational and
+quadratic-irrational roots are represented exactly and
+audited against original game payoffs in the corresponding
+quadratic field. Non-generic fully-mixed systems with
+identically-zero eliminants or cancelled denominator
+roots remain unresolved, correctly forbidding full
+mixed Nash set completeness. Optional max_cells work
+cap is 27, not a time/memory guarantee.
+See `MULTIPLAYER_POLYNOMIAL_V60.md`.

@@ -357,3 +357,16 @@ rational Nash (zero regret), verified epsilon-Nash (nonzero regret),
 and failure to discover a candidate; **no numerical search is
 labeled a complete mixed Nash enumeration**. See
 `docs/MULTIPLAYER_MIXED_V59.md`.
+
+### v60 — Certified 3-player binary Nash polynomial decomposition
+
+`POST /api/multiplayer/mixed/polynomial-exact` classifies all
+**27 support patterns** of a three-player, two-action
+general-sum game using rational affine and bilinear cells,
+plus exact quadratic elimination of isolated fully-mixed
+roots. Rational and irrational equilibria are certified
+against original payoff incentives using exact algebraic
+arithmetic. Complete-set status is issued only if **every**
+support is classified. Singular polynomial varieties and
+unvisited supports are explicitly unresolved. See
+`docs/MULTIPLAYER_POLYNOMIAL_V60.md`.

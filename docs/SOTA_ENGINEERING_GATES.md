@@ -282,3 +282,17 @@ examined. Independent rational incentive checks, deterministic
 fixture benchmarks, 99% combined code coverage, and existing
 Gambit/OpenSpiel external checks remain release gates.
 See `docs/MULTIPLAYER_MIXED_V59.md`.
+
+## v60 — Conditional exact multiplayer polynomial completeness
+
+For the 3-player/2-action subclass, exact algebraic
+elimination and support-cell rational inequalities can
+**certify the entire mixed Nash set** if all 27 supports
+are classified. The proof obligations include strict
+support positivity, exact quadratic-field payoffs and
+bilinear-corner interval feasibility. Degenerate unresolved
+fully-mixed systems fail closed and return partial
+descriptions. A CI 18-game campaign and algebraic
+adversarial fixtures must pass; the generic N-player
+case is *not* covered. See
+`docs/MULTIPLAYER_POLYNOMIAL_V60.md`.
