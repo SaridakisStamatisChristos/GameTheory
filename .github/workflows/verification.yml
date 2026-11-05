@@ -59,6 +59,17 @@ jobs:
           path: backend/benchmark_exact_probe_v55_results.json
           retention-days: 30
           if-no-files-found: warn
+      - name: Paired exact feasibility scaling and differential campaign v55
+        working-directory: backend
+        run: python benchmark_exact_scaling_v55.py --repetitions 3 --seed 55055 --output benchmark_exact_scaling_v55_results.json
+      - name: Archive paired scaling evidence v55
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-scaling-v55-evidence
+          path: backend/benchmark_exact_scaling_v55_results.json
+          retention-days: 30
+          if-no-files-found: warn
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4
