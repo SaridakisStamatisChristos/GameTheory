@@ -114,6 +114,17 @@ jobs:
           path: backend/benchmark_multiplayer_mixed_v59_results.json
           retention-days: 30
           if-no-files-found: error
+      - name: Exact quadratic multiplayer Nash complete-cell campaign v60
+        working-directory: backend
+        run: python benchmark_multiplayer_polynomial_v60.py --repetitions 3 --seed 60060 --output benchmark_multiplayer_polynomial_v60_results.json
+      - name: Archive exact polynomial Nash v60 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multiplayer-polynomial-v60-evidence
+          path: backend/benchmark_multiplayer_polynomial_v60_results.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4
