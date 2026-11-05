@@ -142,6 +142,24 @@ def stochastic_zero_sum_discounted(req: DiscountedStochasticZeroSumRequest):
         raise HTTPException(422, str(exc)) from exc
 
 
+from multiplayer_exact import solve_exact_multiplayer
+
+class MultiplayerExactRequest(BaseModel):
+    payoffs: list = Field(min_length=3, max_length=5)
+    mode: Literal['pure','correlated'] = 'correlated'
+    objective: Literal['welfare','feasible'] = 'welfare'
+    max_operations: int = Field(default=200000, ge=1, le=2000000)
+
+@app.post('/api/multiplayer/exact')
+def multiplayer_exact(req: MultiplayerExactRequest):
+    try:
+        return solve_exact_multiplayer(
+            req.payoffs, mode=req.mode, objective=req.objective,
+            max_operations=req.max_operations)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
 from advanced import support_equilibria, replicator
 
 @app.post('/api/equilibria')

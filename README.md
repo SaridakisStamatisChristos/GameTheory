@@ -334,3 +334,14 @@ a numerical Bellman value-error bound and an explicit
 convergence. It is limited to 8 states and 6×6 actions per state,
 not a multiplayer or general-sum stochastic-game solver.
 See `docs/STOCHASTIC_ZERO_SUM_V57.md`.
+
+### v58 — Multiplayer general-sum exact pure Nash and correlated equilibrium
+
+The new `POST /api/multiplayer/exact` accepts **3–5 player finite
+normal-form games** (at most 36 action profiles). It exhaustively
+enumerates pure Nash equilibria and optionally computes one rational
+correlated equilibrium, with independently checked player incentive
+constraints and exact primal–dual welfare optimality certificates.
+This is *not* general mixed-Nash equilibrium enumeration.
+See `docs/MULTIPLAYER_EXACT_V58.md` for contracts, model boundaries
+and evidence.

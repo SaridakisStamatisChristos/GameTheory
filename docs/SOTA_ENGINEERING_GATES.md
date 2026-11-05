@@ -257,3 +257,15 @@ zero-sum matrix checks remain active, but do not constitute an
 independent stochastic-game solver comparison.
 No general-sum, multiplayer, perfect-interval certificate, or
 global SOTA claim. See `docs/STOCHASTIC_ZERO_SUM_V57.md`.
+
+## v58 — Multiplayer exact pure Nash and correlated equilibrium
+
+Finite games with 3–5 players are now supported on bounded normal
+form tensors. Full pure Nash enumeration is exhaustive; one exact CE
+is produced with independently checked unconditional incentive
+inequalities. The welfare objective has independently checked exact
+rational primal–dual equality. Seeded numerical HiGHS differential
+oracles compare matched 3–5-player LPs. These do not constitute
+a general mixed Nash solver or an independently verified Gambit/
+OpenSpiel multiplayer-equilibrium comparison. Full benchmark
+limitations and proof obligations: `docs/MULTIPLAYER_EXACT_V58.md`.

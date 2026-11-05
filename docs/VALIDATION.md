@@ -85,3 +85,17 @@ rather than falsely claiming convergence. The new API cap is
 state×iteration budget of 2,400. Tests compare one-state values
 with known matrix games and action-independent transitions with
 independent linear system oracles. See `STOCHASTIC_ZERO_SUM_V57.md`.
+
+## v58 — Finite multiplayer general-sum games
+
+`/api/multiplayer/exact` adds 3–5 player finite normal-form games
+with up to 4 actions per player, at most 36 joint profiles.
+All pure Nash equilibria are exhaustively classified with exact
+rational unilateral-deviation checks. An optional exact LP computes
+one correlated equilibrium with independent rational obedience
+verification, and a rational primal–dual optimum when optimizing
+raw sum of payoffs. A correlated equilibrium is **not** equivalent
+to a mixed Nash equilibrium, and general multiplayer mixed Nash
+enumeration remains unimplemented. An exact work budget of 1..2m
+charged tableau updates applies, not a bounded coefficient bit size.
+See `MULTIPLAYER_EXACT_V58.md`.
