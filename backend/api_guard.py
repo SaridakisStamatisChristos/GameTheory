@@ -83,7 +83,7 @@ class LabGuard:
                 supplied=True
                 return {'type':'http.request','body':body,'more_body':False}
             return {'type':'http.disconnect'}
-        heavy=path.startswith(('/api/equilibria','/api/imperfect-information','/api/zero-sum','/api/correlated-equilibrium'))
+        heavy=path.startswith(('/api/equilibria','/api/imperfect-information','/api/zero-sum','/api/correlated-equilibrium','/api/multiplayer','/api/stochastic'))
         if heavy and not self.compute_slots.acquire(blocking=False):
             return await JSONResponse({'detail':'Solver concurrency budget exceeded'},status_code=429)(scope,receive,send)
         try:
