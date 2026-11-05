@@ -322,3 +322,15 @@ Exact support search now optionally rejects mathematically impossible
 strict-positive support ties/deviations without invoking the simplex.
 A baseline toggle, exhaustive differential tests, and resource/paired
 benchmark evidence are in `docs/EXACT_SIGN_SCREEN_V56.md`.
+
+### v57 — Discounted stochastic zero-sum games
+
+The new `POST /api/stochastic/zero-sum/discounted` solves finite
+discounted two-player zero-sum **Markov games with action-dependent
+state transitions**. It returns state values, stationary mixed
+strategies, independently evaluated local minimax security intervals,
+a numerical Bellman value-error bound and an explicit
+`partial_bound` state when the iteration budget prevents
+convergence. It is limited to 8 states and 6×6 actions per state,
+not a multiplayer or general-sum stochastic-game solver.
+See `docs/STOCHASTIC_ZERO_SUM_V57.md`.

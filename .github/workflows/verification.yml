@@ -81,6 +81,17 @@ jobs:
           path: backend/benchmark_sign_screen_v56_results.json
           retention-days: 30
           if-no-files-found: error
+      - name: Bounded discounted stochastic zero-sum value iteration v57
+        working-directory: backend
+        run: python benchmark_stochastic_v57.py --repetitions 3 --seed 57057 --output benchmark_stochastic_v57_results.json
+      - name: Archive v57 stochastic value and residual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stochastic-zero-sum-v57-evidence
+          path: backend/benchmark_stochastic_v57_results.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Publish coverage report
         if: always()
         uses: actions/upload-artifact@v4
