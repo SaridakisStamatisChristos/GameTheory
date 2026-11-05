@@ -287,6 +287,15 @@ def _two_mixed(pattern, coefficients, u, profiles):
 
 
 def _three_mixed(coefficients, u, profiles):
+    # On strictly positive opponent mixtures, each payoff difference is
+    # a strictly positive convex combination of its four pure-opponent
+    # corner differences. One-sided nonzero corner signs make a required
+    # fully-mixed indifference impossible, without any division or roots.
+    for a0,a1,a2,a3 in coefficients:
+        corners=(a0,a0+a1,a0+a2,a0+a1+a2+a3)
+        if ((all(x>=0 for x in corners) and any(x>0 for x in corners)) or
+                (all(x<=0 for x in corners) and any(x<0 for x in corners))):
+            return [],None
     a,b,c=coefficients
     ny=(-a[0],-a[2]);dy=(a[1],a[3])
     nx=(-b[0],-b[2]);dx=(b[1],b[3])

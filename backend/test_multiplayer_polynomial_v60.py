@@ -274,7 +274,7 @@ def test_quadratic_field_exact_sign_and_arithmetic_branches():
     assert _sign(Quadratic(2,-1,2))==1
     assert _sign(Quadratic(-1,1,2))==1
     assert _sign(Quadratic(1,-1,2))==-1
-    assert _sign((q+F(3))-(q*2))==_sign(2-q)
+    assert _sign((q+F(3))-(q*2))==_sign(3-q)
     assert _sign(1/q)>0
     assert _sign(q/q-1)==0
     assert _sign((q*2)-(q+q))==0
@@ -349,3 +349,58 @@ def test_http_polynomial_completeness_and_partial():
         earlier=client.post('/api/multiplayer/exact',json={
             'payoffs':game,'mode':'pure'})
         assert earlier.status_code==200
+
+
+def test_one_sided_fully_mixed_corner_sign_screen_is_exact():
+    # Three-player strictly full support gives each opponent corner
+    # positive weight. One weakly signed nonzero difference cannot tie.
+    weak=make_game([(0,0,0,1),(0,1,-1,0),(0,1,-1,0)])
+    out=solve_certified_binary_multiplayer(weak)
+    assert out['complete_nash_set']
+    assert not any(x['support']==[[0,1]]*3 for x in out['isolated_equilibria'])
+
+
+def test_zero_norm_quadratic_field_and_early_denominator_case():
+    # Defensive algebraic field representation also handles D=1, though
+    # actual solver only creates it for nonsquare discriminants.
+    assert _sign(Quadratic(1,-1,1))==0
+    # z=1/2 kills denominator of x-equation but numerator is nonzero.
+    # The eliminant can have that root; it must be skipped, not unresolved.
+    impossible=make_game([(0,1,-1,0),(1,0,-F(1,2),1),
+                          (-F(1,2),0,1,0)])
+    out=solve_certified_binary_multiplayer(impossible)
+    assert out['complete_nash_set']
+    assert not out['unresolved_support_cells']
+
+
+def test_out_of_support_full_mixed_root_is_discarded():
+    # x=2 for any z, y=z; eliminant may have an interior z root,
+    # but no strict-support Nash point has x=2.
+    u=make_game([(0,1,-1,0),(-2,1,0,0),(-F(1,8),0,0,1)])
+    out=solve_certified_binary_multiplayer(u)
+    assert out['complete_nash_set']
+    assert not any(x['support']==[[0,1]]*3 for x in out['isolated_equilibria'])
+
+
+def test_internal_point_verifiers_defend_against_solver_corruption(monkeypatch):
+    import multiplayer_polynomial_v60 as module
+    from itertools import product as iter_product
+    original=module._point
+    try:
+        _,profiles,u=_game(make_game([(0,0,0,0),(-F(1,2),1,0,0),
+                                      (-F(1,2),1,0,0)]))
+        coeffs=module._difference_coefficients(u,profiles)
+        monkeypatch.setattr(module,'_point',lambda *_args:None)
+        with pytest.raises(AssertionError,match='one-mixed interval'):
+            module._one_mixed(('m','0','1'),coeffs,u,profiles)
+        _,profiles,u=_game(make_game([(-F(1,3),1,0,0),
+                                      (-F(2,3),1,0,0),(1,0,0,0)]))
+        coeffs=module._difference_coefficients(u,profiles)
+        with pytest.raises(AssertionError,match='two-mixed point'):
+            module._two_mixed(('m','m','1'),coeffs,u,profiles)
+        _,profiles,u=_game(canonical_two_roots())
+        coeffs=module._difference_coefficients(u,profiles)
+        with pytest.raises(AssertionError,match='non-Nash point'):
+            module._three_mixed(coeffs,u,profiles)
+    finally:
+        monkeypatch.setattr(module,'_point',original)
